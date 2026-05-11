@@ -4,7 +4,7 @@
   <view class="header">
     <view class="brand-row">
       <button class="plain brand" bindtap="openAbout">
-        <text class="brand-name serif">大校园</text>
+        <text class="brand-name serif">大大校园</text>
         <text class="brand-kicker">大同 · 大公 · 大</text>
       </button>
     </view>

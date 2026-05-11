@@ -1,7 +1,7 @@
 // i18n strings + tiny helper.
 
 export const STR = {
-  appName:        { zh: '大校园',                       en: 'Daxiaoyuan' },
+  appName:        { zh: '大大校园',                       en: 'Daxiaoyuan' },
   tagline:        { zh: '记录国内大学校园开放状况',     en: 'Tracking openness of Chinese university campuses' },
   brandKicker:    { zh: '大同 · 大公 · 大',             en: 'open · public · inclusive' },
   beijing:        { zh: '北京',                         en: 'Beijing' },
@@ -54,7 +54,7 @@ export const STR = {
   yes:            { zh: '能',     en: 'Yes' },
   no:             { zh: '不能',   en: 'No' },
 
-  aboutTitle:     { zh: '关于大校园',                  en: 'About Daxiaoyuan' },
+  aboutTitle:     { zh: '关于大大校园',                  en: 'About Daxiaoyuan' },
   aboutKicker:    { zh: '大同 · 大公 · 有容乃大',      en: 'Open. Public. Inclusive.' },
   aboutLead:      { zh: '大学是公共资源,应当向所有人敞开。', en: 'Universities are public assets. They should be open to everyone.' },
   values:         { zh: '我们相信', en: 'What we believe' },
