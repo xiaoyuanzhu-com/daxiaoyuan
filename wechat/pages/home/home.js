@@ -39,6 +39,20 @@ Page({
 
   onLoad() {
     this.recompute();
+    this.locateUser();
+  },
+
+  // Center map on user's location; falls back silently to the default
+  // city center (set in data) if the user denies or the simulator can't
+  // resolve a fix.
+  locateUser() {
+    wx.getLocation({
+      type: 'gcj02',
+      success: (res) => {
+        this.setData({ cityLat: res.latitude, cityLng: res.longitude });
+      },
+      fail: () => {},
+    });
   },
 
   recompute() {
