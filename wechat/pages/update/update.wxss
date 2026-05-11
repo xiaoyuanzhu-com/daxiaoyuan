@@ -1,0 +1,336 @@
+/* pages/update/update.wxss */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.progress {
+  padding: 16rpx 32rpx 8rpx;
+  display: flex;
+  gap: 12rpx;
+}
+.bar {
+  flex: 1;
+  height: 6rpx;
+  border-radius: 4rpx;
+  background: rgba(26,24,21,0.18);
+  transition: background 0.2s;
+}
+.bar.filled {
+  background: #1A1815;
+}
+
+.body {
+  flex: 1;
+  padding: 48rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+/* school header (steps 1-3) */
+.school-head {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 0 0 16rpx;
+  border-bottom: 1rpx solid rgba(26,24,21,0.10);
+  margin-bottom: 8rpx;
+}
+.school-head-initial {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.school-head-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+.school-head-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1815;
+  letter-spacing: 0.8rpx;
+}
+.school-head-meta {
+  font-size: 22rpx;
+  color: rgba(26,24,21,0.4);
+}
+
+/* form question */
+.kicker {
+  font-size: 22rpx;
+  color: rgba(26,24,21,0.4);
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  margin-top: 32rpx;
+  margin-bottom: 20rpx;
+}
+
+.title {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #1A1815;
+  line-height: 1.25;
+  letter-spacing: 1.2rpx;
+}
+
+.sub {
+  font-size: 26rpx;
+  color: rgba(26,24,21,0.6);
+  margin-top: 12rpx;
+  letter-spacing: 0.6rpx;
+}
+
+/* step 0 — school pick list */
+.school-pick-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-top: 40rpx;
+}
+.school-pick {
+  padding: 24rpx 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+.school-pick-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+.school-pick-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1815;
+  letter-spacing: 0.8rpx;
+}
+.school-pick-district {
+  font-size: 22rpx;
+  color: rgba(26,24,21,0.4);
+  margin-top: 4rpx;
+}
+
+/* step 1 — status options */
+.opt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-top: 48rpx;
+}
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 28rpx 32rpx;
+  border: 3rpx solid rgba(26,24,21,0.10);
+  background: #FFFEFB;
+  border-radius: 20rpx;
+}
+.opt.on {
+  border-color: rgba(0,0,0,0.4);
+}
+.opt-label {
+  flex: 1;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1815;
+  letter-spacing: 1rpx;
+}
+.dot {
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.check {
+  width: 36rpx;
+  height: 36rpx;
+  border-right: 4rpx solid #1A1815;
+  border-bottom: 4rpx solid #1A1815;
+  transform: rotate(45deg);
+  transform-origin: center;
+  position: relative;
+  top: -6rpx;
+  flex-shrink: 0;
+}
+
+/* step 2 — facility options */
+.opt-fac {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 28rpx 32rpx;
+  border: 1rpx solid rgba(26,24,21,0.10);
+  background: #FFFEFB;
+  border-radius: 20rpx;
+}
+.opt-fac-short {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44rpx;
+  height: 44rpx;
+  background: rgba(255,255,255,0.6);
+  border-radius: 10rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+.opt-fac-label {
+  flex: 1;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #1A1815;
+  letter-spacing: 0.8rpx;
+}
+.opt-fac-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 12rpx;
+  font-size: 24rpx;
+  color: rgba(26,24,21,0.6);
+}
+
+/* step 3 — note */
+.note-input {
+  width: 100%;
+  min-height: 280rpx;
+  padding: 28rpx;
+  margin-top: 40rpx;
+  background: #FFFEFB;
+  border: 1rpx solid rgba(26,24,21,0.10);
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  color: #1A1815;
+  line-height: 1.55;
+  letter-spacing: 0.6rpx;
+  box-sizing: border-box;
+}
+.note-input-placeholder {
+  color: rgba(26,24,21,0.4);
+  font-size: 28rpx;
+}
+
+.transparency {
+  margin-top: 32rpx;
+  padding: 28rpx;
+  background: rgba(91,161,60,0.08);
+  border: 1rpx solid rgba(91,161,60,0.25);
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  color: rgba(26,24,21,0.6);
+  line-height: 1.55;
+  letter-spacing: 0.6rpx;
+}
+.transparency-title {
+  color: #1A1815;
+  font-weight: 700;
+}
+
+/* step 4 — thanks */
+.thanks {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 80rpx;
+}
+.thanks-check {
+  width: 168rpx;
+  height: 168rpx;
+  border-radius: 50%;
+  background: #D4E8C8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 48rpx;
+}
+.check-glyph {
+  width: 60rpx;
+  height: 30rpx;
+  border-left: 6rpx solid #2E5A1C;
+  border-bottom: 6rpx solid #2E5A1C;
+  transform: rotate(-45deg);
+  margin-top: -10rpx;
+}
+.thanks-title {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #1A1815;
+  letter-spacing: 2rpx;
+}
+.thanks-sub {
+  font-size: 28rpx;
+  color: rgba(26,24,21,0.6);
+  margin-top: 16rpx;
+  max-width: 560rpx;
+  line-height: 1.5;
+}
+.thanks-rank {
+  margin-top: 64rpx;
+  padding: 24rpx 32rpx;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.thanks-rank-bubble {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: #1A1815;
+  color: #F6F1E8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+.thanks-rank-text {
+  flex: 1;
+  text-align: left;
+  font-size: 24rpx;
+  color: rgba(26,24,21,0.6);
+  line-height: 1.4;
+}
+
+.spacer {
+  flex: 1;
+  min-height: 32rpx;
+}
+
+.big-button {
+  width: 100%;
+  padding: 28rpx;
+  background: #1A1815;
+  color: #F6F1E8;
+  border: none;
+  border-radius: 24rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  letter-spacing: 1.2rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  margin-top: 32rpx;
+}
+.big-button::after { border: none; }
+.big-button.disabled,
+.big-button[disabled] {
+  background: rgba(26,24,21,0.18) !important;
+  color: rgba(26,24,21,0.4) !important;
+}

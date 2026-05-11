@@ -1,0 +1,71 @@
+<!--pages/about/about.wxml-->
+<view class="page c-paper">
+  <view class="hero c-paper-alt">
+    <text class="hero-mark serif">大</text>
+    <text class="hero-kicker">大同 · 大公 · 有容乃大</text>
+    <text class="hero-lead serif">大学是公共资源,应当向所有人敞开。</text>
+  </view>
+
+  <view class="section">
+    <text class="section-label">目前的状况</text>
+
+    <view class="stack-bar">
+      <view wx:if="{{pctOpen > 0}}" class="bar-seg status-open" style="width: {{pctOpen}}%;">
+        <text class="bar-seg-text">{{statsOpen}}</text>
+      </view>
+      <view wx:if="{{pctFriction > 0}}" class="bar-seg status-daytime" style="width: {{pctFriction}}%;">
+        <text class="bar-seg-text">{{statsFriction}}</text>
+      </view>
+      <view wx:if="{{pctClosed > 0}}" class="bar-seg status-closed" style="width: {{pctClosed}}%;">
+        <text class="bar-seg-text">{{statsClosed}}</text>
+      </view>
+    </view>
+
+    <view class="legend-list">
+      <view class="legend-line">
+        <view class="dot smaller dot-open"></view>
+        <text class="legend-label">完全开放</text>
+        <text class="legend-frac tnum">{{statsOpen}}<text class="ink40-inline"> / {{total}}</text></text>
+      </view>
+      <view class="legend-line">
+        <view class="dot smaller dot-daytime"></view>
+        <text class="legend-label">需预约 / 限时</text>
+        <text class="legend-frac tnum">{{statsFriction}}<text class="ink40-inline"> / {{total}}</text></text>
+      </view>
+      <view class="legend-line">
+        <view class="dot smaller dot-closed"></view>
+        <text class="legend-label">关闭 / 仅校友</text>
+        <text class="legend-frac tnum">{{statsClosed}}<text class="ink40-inline"> / {{total}}</text></text>
+      </view>
+    </view>
+
+    <text class="footnote">数据来源:{{total}} 所北京高校,用户共建</text>
+  </view>
+
+  <view class="section">
+    <text class="section-label">我们相信</text>
+    <view class="values-list">
+      <view wx:for="{{values}}" wx:key="num" class="value-row">
+        <text class="value-num tnum">{{item.num}}</text>
+        <view class="value-text">
+          <text class="value-title serif">{{item.title}}</text>
+          <text class="value-body">{{item.body}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="pull-quote serif">
+    「大」取大同、大公、有容乃大之意。
+  </view>
+  <text class="pull-quote-sig">— 名字的由来</text>
+
+  <view class="repo-card" bindtap="copyRepo">
+    <text class="repo-kicker">开源 · 开放数据</text>
+    <text class="repo-body">所有学校数据公开存放在 GitHub,欢迎 PR 与审计。</text>
+    <view class="repo-url-pill">
+      <text class="repo-url">github.com/xiaoyuanzhu-com/daxiaoyuan</text>
+    </view>
+    <text class="repo-tap-hint">点击复制链接</text>
+  </view>
+</view>

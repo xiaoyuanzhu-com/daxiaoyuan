@@ -1,0 +1,74 @@
+<!--pages/detail/detail.wxml-->
+<view wx:if="{{!school}}" class="not-found">
+  <text>没有这所学校</text>
+</view>
+
+<view wx:else class="page c-paper">
+  <!-- Hero -->
+  <view class="hero {{school.statusBgClass}}">
+    <view class="seal serif">{{school.initial}}</view>
+    <view class="hero-district badge small">{{school.district}} · {{school.distance}} 公里</view>
+    <text class="hero-name serif">{{school.name}}</text>
+    <text class="hero-status">{{school.statusLabel}}</text>
+    <view class="hero-meta">
+      <view class="clock"></view>
+      <text>{{school.lastUpdate}}更新 · {{school.confirms}} 人确认</text>
+    </view>
+  </view>
+
+  <!-- Entry -->
+  <view class="section">
+    <text class="section-label">进入方式</text>
+    <view class="entry-list">
+      <view wx:for="{{school.entry}}" wx:key="*this" class="entry-item">
+        <view class="entry-bullet"></view>
+        <text class="entry-text">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Schedule -->
+  <view class="section">
+    <text class="section-label">开放时段</text>
+    <view class="schedule-grid">
+      <view wx:for="{{scheduleRows}}" wx:key="key" class="schedule-cell">
+        <text class="schedule-label">{{item.label}}</text>
+        <text class="schedule-value tnum">{{item.value}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Facilities -->
+  <view class="section">
+    <text class="section-label">设施</text>
+    <view class="fac-list card">
+      <view wx:for="{{school.facilitiesList}}" wx:key="key" class="fac-row {{index === 0 ? '' : 'has-border'}}">
+        <text class="fac-row-short {{item.bgClass}}">{{item.short}}</text>
+        <text class="fac-row-label {{item.muted ? 'muted' : ''}} {{item.strikethrough ? 'strike' : ''}}">{{item.label}}</text>
+        <view class="badge small {{item.bgClass}}">{{item.statusLabel}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Notes -->
+  <view wx:if="{{school.notes.length > 0}}" class="section">
+    <text class="section-label">用户补充</text>
+    <view class="notes">
+      <view wx:for="{{school.notes}}" wx:key="*this" class="note card">
+        <view class="note-head">
+          <text class="note-user">{{item.user}}</text>
+          <text class="note-date">{{item.date}}</text>
+        </view>
+        <text class="note-text">{{item.text}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Sticky CTA -->
+  <view class="cta-wrap">
+    <button class="big-button" bindtap="openUpdate">
+      <text class="cta-plus">+</text>
+      我去过,更新一下
+    </button>
+  </view>
+</view>

@@ -1,0 +1,100 @@
+/* Global tokens and resets. The whole app keys off a warm-paper palette. */
+
+page {
+  background: #E8E2D4;
+  color: #1A1815;
+  font-family: -apple-system, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+
+/* ---------- color tokens (mirrors frontend/theme.js) ---------- */
+.c-paper      { background: #F6F1E8; }
+.c-paper-alt  { background: #EFE9DD; }
+.c-card-bg    { background: #FFFEFB; }
+.c-ink        { color: #1A1815; }
+.c-ink-60     { color: rgba(26,24,21,0.6); }
+.c-ink-40     { color: rgba(26,24,21,0.4); }
+
+/* ---------- status palettes (background + text) ---------- */
+.status-open    { background: #D4E8C8; color: #2E5A1C; }
+.status-daytime { background: #F2E2A8; color: #6B4F00; }
+.status-appt    { background: #F2C99A; color: #7A3A06; }
+.status-alumni  { background: #D9D5CE; color: #3A372F; }
+.status-closed  { background: #E8C4B8; color: #7A2418; }
+
+/* status dots */
+.dot-open    { background: #5BA13C; }
+.dot-daytime { background: #C29410; }
+.dot-appt    { background: #C66A1C; }
+.dot-alumni  { background: #7A7568; }
+.dot-closed  { background: #B43A28; }
+
+/* ---------- typography helpers ---------- */
+.serif {
+  font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+}
+.tnum {
+  font-feature-settings: "tnum";
+}
+
+/* Status badge — used on cards, hero, facility rows */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8rpx 20rpx;
+  font-size: 24rpx;
+  line-height: 1.1;
+  border-radius: 8rpx;
+  font-weight: 600;
+  letter-spacing: 0.6rpx;
+  white-space: nowrap;
+}
+.badge.small {
+  padding: 6rpx 16rpx;
+  font-size: 22rpx;
+}
+
+/* tiny color dot */
+.dot {
+  display: inline-block;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot.smaller {
+  width: 12rpx;
+  height: 12rpx;
+}
+
+/* a generic card */
+.card {
+  background: #FFFEFB;
+  border: 1rpx solid rgba(26,24,21,0.10);
+  border-radius: 24rpx;
+}
+
+/* SECTION LABEL — small caps style */
+.section-label {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: rgba(26,24,21,0.4);
+  letter-spacing: 2rpx;
+  padding: 0 8rpx;
+}
+
+/* tap reset — kills the default mini-program button border */
+button.plain,
+button.plain[plain] {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  line-height: inherit;
+  color: inherit;
+}
+button.plain::after {
+  border: none;
+}

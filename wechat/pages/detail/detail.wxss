@@ -1,0 +1,259 @@
+/* pages/detail/detail.wxss */
+
+.page {
+  min-height: 100vh;
+  padding-bottom: 240rpx;
+}
+
+.not-found {
+  padding: 80rpx 40rpx;
+  text-align: center;
+  color: rgba(26,24,21,0.6);
+  font-size: 28rpx;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  padding: 24rpx 40rpx 56rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.seal {
+  position: absolute;
+  right: -40rpx;
+  top: -40rpx;
+  width: 360rpx;
+  height: 360rpx;
+  border-radius: 50%;
+  border: 3rpx solid currentColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 140rpx;
+  font-weight: 700;
+  opacity: 0.10;
+  pointer-events: none;
+}
+
+.hero-district {
+  display: inline-block;
+  background: rgba(255,255,255,0.5);
+  color: inherit;
+  margin-bottom: 24rpx;
+}
+
+.hero-name {
+  display: block;
+  font-size: 56rpx;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 2rpx;
+}
+
+.hero-status {
+  display: block;
+  margin-top: 28rpx;
+  font-size: 60rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  line-height: 1;
+}
+
+.hero-meta {
+  margin-top: 20rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  font-size: 22rpx;
+  opacity: 0.65;
+}
+
+.clock {
+  width: 22rpx;
+  height: 22rpx;
+  border: 3rpx solid currentColor;
+  border-radius: 50%;
+  position: relative;
+}
+.clock::before, .clock::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+}
+.clock::before {
+  left: 50%;
+  top: 50%;
+  width: 2rpx;
+  height: 6rpx;
+  transform: translate(-50%, -100%);
+}
+.clock::after {
+  left: 50%;
+  top: 50%;
+  width: 4rpx;
+  height: 2rpx;
+}
+
+/* ---------- Sections ---------- */
+.section {
+  padding: 40rpx 32rpx 0;
+}
+.section > .section-label {
+  display: block;
+  padding-bottom: 24rpx;
+}
+
+/* ---------- Entry list ---------- */
+.entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+.entry-item {
+  display: flex;
+  gap: 20rpx;
+  align-items: flex-start;
+}
+.entry-bullet {
+  margin-top: 14rpx;
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: #1A1815;
+  flex-shrink: 0;
+}
+.entry-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #1A1815;
+  line-height: 1.55;
+  letter-spacing: 0.8rpx;
+}
+
+/* ---------- Schedule grid ---------- */
+.schedule-grid {
+  display: flex;
+  background: rgba(26,24,21,0.10);
+  border-radius: 16rpx;
+  overflow: hidden;
+  gap: 2rpx;
+}
+.schedule-cell {
+  flex: 1;
+  background: #FFFEFB;
+  padding: 24rpx 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+.schedule-label {
+  font-size: 20rpx;
+  color: rgba(26,24,21,0.4);
+  font-weight: 600;
+  letter-spacing: 1.6rpx;
+}
+.schedule-value {
+  font-size: 26rpx;
+  color: #1A1815;
+  font-weight: 500;
+}
+
+/* ---------- Facility rows ---------- */
+.fac-list {
+  overflow: hidden;
+}
+.fac-row {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 28rpx;
+  gap: 20rpx;
+}
+.fac-row.has-border {
+  border-top: 1rpx solid rgba(26,24,21,0.10);
+}
+.fac-row-short {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 10rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+.fac-row-label {
+  flex: 1;
+  font-size: 28rpx;
+  color: #1A1815;
+  letter-spacing: 0.6rpx;
+}
+.fac-row-label.muted { color: rgba(26,24,21,0.4); }
+.fac-row-label.strike { text-decoration: line-through; }
+
+/* ---------- Notes ---------- */
+.notes {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+.note {
+  padding: 24rpx 28rpx;
+}
+.note-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+.note-user {
+  font-size: 24rpx;
+  color: #1A1815;
+  font-weight: 600;
+}
+.note-date {
+  font-size: 22rpx;
+  color: rgba(26,24,21,0.4);
+}
+.note-text {
+  display: block;
+  font-size: 26rpx;
+  color: #1A1815;
+  line-height: 1.55;
+  letter-spacing: 0.6rpx;
+}
+
+/* ---------- Sticky CTA ---------- */
+.cta-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 32rpx 32rpx 56rpx;
+  background: linear-gradient(to top, #F6F1E8 60%, rgba(246,241,232,0));
+  pointer-events: none;
+}
+.cta-wrap .big-button {
+  pointer-events: auto;
+}
+
+.big-button {
+  width: 100%;
+  padding: 28rpx;
+  background: #1A1815;
+  color: #F6F1E8;
+  border: none;
+  border-radius: 24rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  letter-spacing: 1.2rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+}
+.big-button::after { border: none; }
+.cta-plus {
+  font-size: 32rpx;
+  font-weight: 700;
+}

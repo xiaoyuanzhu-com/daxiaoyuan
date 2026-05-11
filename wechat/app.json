@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/detail/detail",
+    "pages/update/update",
+    "pages/cities/cities",
+    "pages/about/about"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#F6F1E8",
+    "navigationBarTitleText": "大校园",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#E8E2D4"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,204 @@
+/* pages/about/about.wxss */
+
+.page {
+  min-height: 100vh;
+  padding-bottom: 120rpx;
+}
+
+.ink40-inline { color: rgba(26,24,21,0.4); }
+
+/* hero */
+.hero {
+  padding: 64rpx 48rpx 56rpx;
+  position: relative;
+  overflow: hidden;
+}
+.hero-mark {
+  position: absolute;
+  right: -60rpx;
+  top: -60rpx;
+  font-size: 440rpx;
+  font-weight: 900;
+  line-height: 1;
+  color: #1A1815;
+  opacity: 0.06;
+  pointer-events: none;
+}
+.hero-kicker {
+  display: block;
+  font-size: 22rpx;
+  color: rgba(26,24,21,0.6);
+  letter-spacing: 3rpx;
+  font-weight: 600;
+}
+.hero-lead {
+  display: block;
+  margin-top: 24rpx;
+  font-size: 56rpx;
+  font-weight: 700;
+  color: #1A1815;
+  line-height: 1.25;
+  letter-spacing: 2rpx;
+}
+
+/* section */
+.section {
+  padding: 48rpx 32rpx 16rpx;
+}
+.section > .section-label {
+  display: block;
+  padding-bottom: 28rpx;
+}
+
+/* stacked bar */
+.stack-bar {
+  display: flex;
+  height: 72rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  border: 1rpx solid rgba(26,24,21,0.10);
+  background: #FFFEFB;
+}
+.bar-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1rpx solid rgba(0,0,0,0.04);
+}
+.bar-seg:last-child { border-right: none; }
+.bar-seg-text {
+  font-size: 24rpx;
+  font-weight: 700;
+  font-feature-settings: "tnum";
+}
+
+.legend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+  margin-top: 32rpx;
+}
+.legend-line {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.legend-label {
+  flex: 1;
+  font-size: 26rpx;
+  color: #1A1815;
+  letter-spacing: 0.8rpx;
+}
+.legend-frac {
+  font-size: 26rpx;
+  color: rgba(26,24,21,0.6);
+}
+
+.footnote {
+  display: block;
+  margin-top: 28rpx;
+  font-size: 22rpx;
+  color: rgba(26,24,21,0.4);
+  letter-spacing: 0.6rpx;
+}
+
+/* values */
+.values-list {
+  display: flex;
+  flex-direction: column;
+}
+.value-row {
+  display: flex;
+  gap: 32rpx;
+  padding: 36rpx 8rpx;
+  border-top: 1rpx solid rgba(26,24,21,0.10);
+}
+.values-list .value-row:last-child {
+  border-bottom: 1rpx solid rgba(26,24,21,0.10);
+}
+.value-num {
+  font-size: 22rpx;
+  color: rgba(26,24,21,0.4);
+  font-weight: 600;
+  margin-top: 12rpx;
+  width: 48rpx;
+}
+.value-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+.value-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1A1815;
+  letter-spacing: 2rpx;
+}
+.value-body {
+  font-size: 26rpx;
+  color: rgba(26,24,21,0.6);
+  line-height: 1.55;
+  letter-spacing: 0.6rpx;
+}
+
+/* pull quote */
+.pull-quote {
+  padding: 64rpx 48rpx 0;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #1A1815;
+  line-height: 1.5;
+  letter-spacing: 1.2rpx;
+}
+.pull-quote-sig {
+  display: block;
+  padding: 24rpx 48rpx 64rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: rgba(26,24,21,0.4);
+  letter-spacing: 2rpx;
+}
+
+/* repo card */
+.repo-card {
+  margin: 0 32rpx;
+  background: #1A1815;
+  color: #F6F1E8;
+  border-radius: 28rpx;
+  padding: 40rpx 36rpx;
+}
+.repo-kicker {
+  display: block;
+  font-size: 22rpx;
+  font-weight: 600;
+  letter-spacing: 2.8rpx;
+  opacity: 0.6;
+}
+.repo-body {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-top: 16rpx;
+  line-height: 1.4;
+  letter-spacing: 0.8rpx;
+}
+.repo-url-pill {
+  margin-top: 28rpx;
+  padding: 20rpx 24rpx;
+  background: rgba(255,255,255,0.08);
+  border-radius: 16rpx;
+}
+.repo-url {
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 22rpx;
+  color: rgba(255,255,255,0.7);
+}
+.repo-tap-hint {
+  display: block;
+  margin-top: 16rpx;
+  font-size: 20rpx;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 1.6rpx;
+}

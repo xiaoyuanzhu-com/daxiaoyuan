@@ -1,0 +1,146 @@
+<!--pages/home/home.wxml-->
+<view class="page c-paper">
+  <!-- Header: brand + city + view switcher -->
+  <view class="header">
+    <view class="brand-row">
+      <button class="plain brand" bindtap="openAbout">
+        <text class="brand-name serif">大校园</text>
+        <text class="brand-kicker">大同 · 大公 · 大</text>
+      </button>
+    </view>
+
+    <view class="city-row">
+      <button class="plain city-picker" bindtap="openCities">
+        <text class="city-name">{{cityName}}</text>
+        <view class="caret">
+          <view class="caret-inner"></view>
+        </view>
+        <text class="city-count">{{resultsCount}} / {{schoolsTotal}} 所学校</text>
+      </button>
+
+      <view class="seg">
+        <view class="seg-opt {{view === 'map'  ? 'on' : ''}}" data-view="map"  bindtap="switchView">地图</view>
+        <view class="seg-opt {{view === 'list' ? 'on' : ''}}" data-view="list" bindtap="switchView">列表</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Search + filter -->
+  <view class="search-row">
+    <view class="search-box">
+      <view class="search-icon"></view>
+      <text class="search-placeholder">搜索学校 / 设施</text>
+    </view>
+    <button class="plain filter-btn {{hasFilters ? 'on' : ''}}" bindtap="openFilter">
+      筛选
+      <text wx:if="{{hasFilters}}" class="filter-count">· {{statusFilter.length + facFilter.length}}</text>
+    </button>
+  </view>
+
+  <!-- Map view -->
+  <view wx:if="{{view === 'map'}}" class="map-view">
+    <view class="map-wrap">
+      <map id="campusMap"
+           class="campus-map"
+           latitude="{{cityLat}}"
+           longitude="{{cityLng}}"
+           scale="12"
+           markers="{{mapMarkers}}"
+           show-location="{{true}}"
+           bindmarkertap="openMarker"></map>
+    </view>
+
+    <view class="legend">
+      <view wx:for="{{legend}}" wx:key="key" class="legend-item">
+        <view class="dot smaller {{item.dotClass}}"></view>
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+
+    <view class="nearby">
+      <view class="nearby-head">
+        <text class="section-label">附近学校</text>
+        <text class="ink40">{{schools.length}}</text>
+      </view>
+      <view wx:for="{{nearby}}" wx:key="id" class="card school-card compact" data-id="{{item.id}}" bindtap="openSchool">
+        <view class="school-card-top">
+          <view class="school-card-name-wrap">
+            <text class="school-name">{{item.name}}</text>
+            <text class="school-meta tnum">{{item.district}} · {{item.distance}} 公里 · {{item.confirms}} 人确认</text>
+          </view>
+          <view class="badge small {{item.statusBgClass}}">{{item.statusLabel}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- List view -->
+  <view wx:else class="list-view">
+    <view wx:for="{{groups}}" wx:for-item="g" wx:key="key" class="list-group">
+      <view class="list-group-head">
+        <view class="dot smaller {{g.dotClass}}"></view>
+        <text class="section-label">{{g.label}}</text>
+        <text class="ink40">· {{g.count}}</text>
+      </view>
+      <view wx:for="{{g.items}}" wx:for-item="s" wx:key="id" class="card school-card" data-id="{{s.id}}" bindtap="openSchool">
+        <view class="school-card-top">
+          <view class="school-card-name-wrap">
+            <text class="school-name">{{s.name}}</text>
+            <text class="school-meta tnum">{{s.district}} · {{s.distance}} 公里 · {{s.confirms}} 人确认</text>
+          </view>
+          <view class="badge small {{s.statusBgClass}}">{{s.statusLabel}}</view>
+        </view>
+        <view class="school-card-facs">
+          <view wx:for="{{s.facilitiesList}}" wx:for-item="f" wx:key="key" class="fac-chip {{f.muted ? 'muted' : ''}}">
+            <text class="fac-short {{f.bgClass}}">{{f.short}}</text>
+            <text class="fac-label {{f.strikethrough ? 'strike' : ''}}">{{f.label}}</text>
+            <view class="dot smaller {{f.dotClass}}"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{schools.length === 0}}" class="empty">没有符合条件的学校</view>
+  </view>
+
+  <!-- FAB -->
+  <button class="plain fab" bindtap="openUpdate">
+    <text class="fab-plus">+</text>
+    <text>我去过</text>
+  </button>
+
+  <!-- Filter sheet -->
+  <view wx:if="{{filterOpen}}" class="sheet-mask" bindtap="closeFilter">
+    <view class="sheet" catchtap="noop">
+      <view class="sheet-grab"></view>
+      <view class="sheet-head">
+        <text class="sheet-title">筛选</text>
+        <text class="sheet-reset" bindtap="resetFilter">重置</text>
+      </view>
+
+      <text class="section-label">开放等级</text>
+      <view class="chip-row">
+        <view wx:for="{{statusOptions}}" wx:key="key"
+              class="chip {{statusFilterMap[item.key] ? 'on ' + item.bgClass : ''}}"
+              data-key="{{item.key}}"
+              bindtap="toggleStatus">
+          <view class="dot smaller {{item.dotClass}}"></view>
+          <text>{{item.label}}</text>
+        </view>
+      </view>
+
+      <text class="section-label">设施</text>
+      <view class="chip-row">
+        <view wx:for="{{facOptions}}" wx:key="key"
+              class="chip {{facFilterMap[item.key] ? 'dark' : ''}}"
+              data-key="{{item.key}}"
+              bindtap="toggleFac">
+          <text>{{item.label}}</text>
+        </view>
+      </view>
+
+      <button class="big-button" bindtap="applyFilter">
+        应用 <text class="big-button-sub">· {{resultsCount}} 结果</text>
+      </button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,152 @@
+/* pages/cities/cities.wxss */
+
+.page {
+  min-height: 100vh;
+  padding: 32rpx 32rpx 120rpx;
+}
+
+.section {
+  margin-bottom: 56rpx;
+}
+.section > .section-label {
+  display: block;
+  padding-bottom: 20rpx;
+}
+
+.active-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.city-row {
+  padding: 28rpx 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24rpx;
+}
+.city-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  flex: 1;
+  min-width: 0;
+}
+.city-row-name {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1A1815;
+  letter-spacing: 3rpx;
+}
+.city-row-meta {
+  font-size: 22rpx;
+  color: rgba(26,24,21,0.6);
+}
+
+/* meter — conic-gradient ring with percentage inside */
+.meter {
+  width: 112rpx;
+  height: 112rpx;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.meter-track,
+.meter-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+.meter-track {
+  border: 8rpx solid rgba(26,24,21,0.08);
+}
+.meter-fill {
+  background: conic-gradient(#5BA13C calc(var(--rate) * 360deg), transparent 0);
+  -webkit-mask: radial-gradient(circle, transparent 38rpx, #000 38rpx, #000 56rpx, transparent 56rpx);
+          mask: radial-gradient(circle, transparent 38rpx, #000 38rpx, #000 56rpx, transparent 56rpx);
+}
+.meter-arc { display: none; }
+.meter-text {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #1A1815;
+  position: relative;
+  z-index: 1;
+}
+
+/* coming-soon grid */
+.soon-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+}
+.soon-cell {
+  background: transparent;
+  border: 2rpx dashed rgba(26,24,21,0.18);
+  border-radius: 20rpx;
+  padding: 28rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+.soon-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: rgba(26,24,21,0.6);
+  letter-spacing: 1.6rpx;
+}
+.soon-meta {
+  font-size: 22rpx;
+  color: rgba(26,24,21,0.4);
+}
+
+/* cta card */
+.cta-card {
+  padding: 32rpx;
+  display: flex;
+  gap: 24rpx;
+  align-items: flex-start;
+}
+.cta-icon {
+  flex-shrink: 0;
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: #D4E8C8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cta-plus {
+  width: 32rpx;
+  height: 4rpx;
+  background: #2E5A1C;
+  position: relative;
+}
+.cta-plus::after {
+  content: '';
+  position: absolute;
+  inset: -14rpx 14rpx auto auto;
+  width: 4rpx;
+  height: 32rpx;
+  background: #2E5A1C;
+}
+.cta-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  font-size: 26rpx;
+  line-height: 1.55;
+  letter-spacing: 0.6rpx;
+}
+.cta-strong {
+  color: #1A1815;
+  font-weight: 700;
+}
+.cta-body {
+  color: rgba(26,24,21,0.6);
+}
