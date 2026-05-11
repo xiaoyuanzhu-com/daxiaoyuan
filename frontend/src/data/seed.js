@@ -1,0 +1,173 @@
+// Seed dataset — Beijing campuses. Will be replaced by backend API in a follow-up.
+
+export const SCHOOLS = [
+  {
+    id: 'pku', zh: '北京大学', en: 'Peking University', short: 'PKU',
+    status: 'appt',
+    district: { zh: '海淀区', en: 'Haidian' },
+    distance: 2.4, lat: 39.992, lng: 116.305,
+    entry: {
+      zh: ['通过「参观北大」公众号提前预约', '凭身份证刷闸入校', '每日限额,节假日更紧张'],
+      en: ['Reserve via "参观北大" WeChat account', 'ID card scan at gate', 'Daily quota, tighter on holidays'],
+    },
+    schedule: { weekday: '08:30–17:00', weekend: '08:30–22:00', summer: '08:30–22:00' },
+    facilities: { walk: 'open', library: 'closed', track: 'closed', gym: 'closed', canteen: 'closed' },
+    lastUpdate: '3 天前', lastUpdateEn: '3 days ago',
+    confirms: 47,
+    notes: [
+      { date: '今天',   dateEn: 'Today',      user: '游客 *清', text: '上午 9 点入校,无需排队,西门刷身份证',     textEn: 'Entered 9am, no queue, ID scan at West Gate' },
+      { date: '昨天',   dateEn: 'Yesterday',  user: '游客 *和', text: '操场被围起来,只能在主路散步',               textEn: 'Track is fenced off, only main paths are walkable' },
+      { date: '3 天前', dateEn: '3 days ago', user: '游客 *安', text: '提前一周才约到周末名额',                   textEn: 'Booked a weekend slot one week ahead' },
+    ],
+  },
+  {
+    id: 'thu', zh: '清华大学', en: 'Tsinghua University', short: 'THU',
+    status: 'appt',
+    district: { zh: '海淀区', en: 'Haidian' },
+    distance: 3.1, lat: 40.000, lng: 116.326,
+    entry: {
+      zh: ['「清华大学参观预约」小程序', '工作日仅周末开放参观', '团体需提前 3 天预约'],
+      en: ['Use "清华参观预约" Mini Program', 'Visitor access weekends only', 'Group bookings 3 days ahead'],
+    },
+    schedule: { weekday: '不开放', weekend: '08:00–18:00', summer: '08:00–18:00' },
+    facilities: { walk: 'appt', library: 'closed', track: 'closed', gym: 'closed', canteen: 'closed' },
+    lastUpdate: '1 天前', lastUpdateEn: '1 day ago',
+    confirms: 62,
+    notes: [
+      { date: '今天',    dateEn: 'Today',       user: '游客 *远', text: '周六上午约到名额,二校门人很多',  textEn: 'Saturday morning slot, crowded at 2nd Gate' },
+      { date: '2 天前',  dateEn: '2 days ago',  user: '游客 *白', text: '工作日不开放参观,被劝返',         textEn: 'Turned away on a weekday' },
+    ],
+  },
+  {
+    id: 'ruc', zh: '中国人民大学', en: 'Renmin University', short: 'RUC',
+    status: 'daytime',
+    district: { zh: '海淀区', en: 'Haidian' },
+    distance: 1.8, lat: 39.969, lng: 116.319,
+    entry: {
+      zh: ['刷身份证直接入校', '部分门只对师生开放,走东门', '夜间 22:00 后凭证件'],
+      en: ['ID card scan at gate', 'Some gates staff-only; use East Gate', 'ID required after 22:00'],
+    },
+    schedule: { weekday: '06:00–22:00', weekend: '06:00–22:00', summer: '06:00–22:00' },
+    facilities: { walk: 'open', library: 'closed', track: 'open', gym: 'closed', canteen: 'open' },
+    lastUpdate: '今天', lastUpdateEn: 'Today',
+    confirms: 88,
+    notes: [
+      { date: '今天',    dateEn: 'Today',       user: '游客 *林', text: '操场可进,晚上有不少周边居民跑步', textEn: 'Track is accessible, local runners in evenings' },
+      { date: '4 天前',  dateEn: '4 days ago',  user: '游客 *舟', text: '食堂一楼对外,刷码支付',           textEn: 'Ground floor canteen open, QR pay' },
+    ],
+  },
+  {
+    id: 'bnu', zh: '北京师范大学', en: 'Beijing Normal University', short: 'BNU',
+    status: 'daytime',
+    district: { zh: '海淀区', en: 'Haidian' },
+    distance: 4.2, lat: 39.962, lng: 116.366,
+    entry: {
+      zh: ['工作日凭身份证 / 周末预约', '南门刷脸通道较快'],
+      en: ['Weekdays: ID. Weekends: appointment', 'South Gate face-scan is faster'],
+    },
+    schedule: { weekday: '07:00–22:00', weekend: '08:00–20:00', summer: '07:00–22:00' },
+    facilities: { walk: 'open', library: 'closed', track: 'open', gym: 'appt', canteen: 'closed' },
+    lastUpdate: '5 小时前', lastUpdateEn: '5h ago',
+    confirms: 31,
+  },
+  {
+    id: 'buaa', zh: '北京航空航天大学', en: 'Beihang University', short: 'BUAA',
+    status: 'alumni',
+    district: { zh: '海淀区', en: 'Haidian' },
+    distance: 3.6, lat: 39.982, lng: 116.348,
+    entry: {
+      zh: ['仅师生 / 校友凭证入校', '访客需由校内人员预约登记'],
+      en: ['Staff/students/alumni only', 'Visitors must be sponsored by an insider'],
+    },
+    schedule: { weekday: '不对外', weekend: '不对外', summer: '不对外' },
+    facilities: { walk: 'alumni', library: 'alumni', track: 'alumni', gym: 'alumni', canteen: 'alumni' },
+    lastUpdate: '6 天前', lastUpdateEn: '6 days ago',
+    confirms: 12,
+  },
+  {
+    id: 'minzu', zh: '中央民族大学', en: 'Minzu University', short: 'MUC',
+    status: 'daytime',
+    district: { zh: '海淀区', en: 'Haidian' },
+    distance: 2.0, lat: 39.951, lng: 116.318,
+    entry: {
+      zh: ['身份证刷闸入校', '夜间 23:00 后东门关闭'],
+      en: ['ID card at gate', 'East Gate closes after 23:00'],
+    },
+    schedule: { weekday: '06:00–23:00', weekend: '06:00–23:00', summer: '06:00–23:00' },
+    facilities: { walk: 'open', library: 'closed', track: 'open', gym: 'closed', canteen: 'appt' },
+    lastUpdate: '2 天前', lastUpdateEn: '2 days ago',
+    confirms: 24,
+  },
+  {
+    id: 'bit', zh: '北京理工大学', en: 'Beijing Institute of Technology', short: 'BIT',
+    status: 'appt',
+    district: { zh: '海淀区', en: 'Haidian' },
+    distance: 5.1, lat: 39.962, lng: 116.318,
+    entry: {
+      zh: ['「北理工参观」公众号预约', '周末名额较多'],
+      en: ['Reserve via "北理工参观" WeChat', 'More weekend slots'],
+    },
+    schedule: { weekday: '09:00–17:00', weekend: '08:00–18:00', summer: '08:00–18:00' },
+    facilities: { walk: 'appt', library: 'closed', track: 'closed', gym: 'closed', canteen: 'closed' },
+    lastUpdate: '1 周前', lastUpdateEn: '1 week ago',
+    confirms: 18,
+  },
+  {
+    id: 'bfsu', zh: '北京外国语大学', en: 'Beijing Foreign Studies', short: 'BFSU',
+    status: 'open',
+    district: { zh: '海淀区', en: 'Haidian' },
+    distance: 4.8, lat: 39.952, lng: 116.305,
+    entry: {
+      zh: ['自由出入,无需预约', '夜间通行不受限'],
+      en: ['Free entry, no reservation', 'Open at night'],
+    },
+    schedule: { weekday: '全天', weekend: '全天', summer: '全天' },
+    facilities: { walk: 'open', library: 'appt', track: 'open', gym: 'open', canteen: 'open' },
+    lastUpdate: '今天', lastUpdateEn: 'Today',
+    confirms: 56,
+    notes: [
+      { date: '今天', dateEn: 'Today', user: '游客 *南', text: '周末带孩子来操场跑步,门卫不查证件', textEn: 'Took kids to track on Sunday, guard waved us in' },
+    ],
+  },
+  {
+    id: 'cau', zh: '中国农业大学', en: 'China Agricultural University', short: 'CAU',
+    status: 'open',
+    district: { zh: '海淀区', en: 'Haidian' },
+    distance: 6.3, lat: 40.001, lng: 116.351,
+    entry: {
+      zh: ['自由出入', '东校区操场公开使用'],
+      en: ['Free entry', 'East campus track is open to public'],
+    },
+    schedule: { weekday: '全天', weekend: '全天', summer: '全天' },
+    facilities: { walk: 'open', library: 'appt', track: 'open', gym: 'appt', canteen: 'open' },
+    lastUpdate: '2 天前', lastUpdateEn: '2 days ago',
+    confirms: 22,
+  },
+  {
+    id: 'bupt', zh: '北京邮电大学', en: 'Beijing Univ. of Posts & Telecom', short: 'BUPT',
+    status: 'closed',
+    district: { zh: '海淀区', en: 'Haidian' },
+    distance: 3.9, lat: 39.961, lng: 116.355,
+    entry: {
+      zh: ['暂不对外开放', '春季施工期间所有门只走师生'],
+      en: ['Closed to public', 'Construction this spring — staff/students only'],
+    },
+    schedule: { weekday: '不对外', weekend: '不对外', summer: '不对外' },
+    facilities: { walk: 'closed', library: 'closed', track: 'closed', gym: 'closed', canteen: 'closed' },
+    lastUpdate: '4 天前', lastUpdateEn: '4 days ago',
+    confirms: 9,
+  },
+];
+
+export const CITIES = [
+  { id: 'bj', zh: '北京', en: 'Beijing',   schools: 10, openRate: 0.30, lat: 39.90, lng: 116.41, active: true },
+  { id: 'sh', zh: '上海', en: 'Shanghai',  schools: 12, openRate: 0.45, lat: 31.23, lng: 121.47, active: false },
+  { id: 'gz', zh: '广州', en: 'Guangzhou', schools:  8, openRate: 0.62, lat: 23.13, lng: 113.27, active: false },
+  { id: 'sz', zh: '深圳', en: 'Shenzhen',  schools:  5, openRate: 0.40, lat: 22.54, lng: 114.06, active: false },
+  { id: 'nj', zh: '南京', en: 'Nanjing',   schools:  9, openRate: 0.50, lat: 32.06, lng: 118.79, active: false },
+  { id: 'hz', zh: '杭州', en: 'Hangzhou',  schools:  6, openRate: 0.55, lat: 30.27, lng: 120.15, active: false },
+  { id: 'wh', zh: '武汉', en: 'Wuhan',     schools:  7, openRate: 0.35, lat: 30.59, lng: 114.30, active: false },
+  { id: 'cd', zh: '成都', en: 'Chengdu',   schools:  6, openRate: 0.50, lat: 30.66, lng: 104.06, active: false },
+];
+
+export const findSchool = (id) => SCHOOLS.find((s) => s.id === id);
