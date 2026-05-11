@@ -1,14 +1,7 @@
 <!--pages/home/home.wxml-->
 <view class="page c-paper">
-  <!-- Header: brand + city + view switcher -->
+  <!-- Header: city + view switcher -->
   <view class="header">
-    <view class="brand-row">
-      <button class="plain brand" bindtap="openAbout">
-        <text class="brand-name serif">大大校园</text>
-        <text class="brand-kicker">大同 · 大公 · 大</text>
-      </button>
-    </view>
-
     <view class="city-row">
       <button class="plain city-picker" bindtap="openCities">
         <text class="city-name">{{cityName}}</text>

@@ -141,7 +141,7 @@
 }
 .schedule-cell {
   flex: 1;
-  background: #FFFEFB;
+  background: #FFFFFF;
   padding: 24rpx 20rpx;
   display: flex;
   flex-direction: column;
@@ -230,7 +230,7 @@
   left: 0;
   right: 0;
   padding: 32rpx 32rpx 56rpx;
-  background: linear-gradient(to top, #F6F1E8 60%, rgba(246,241,232,0));
+  background: linear-gradient(to top, #FFFFFF 60%, rgba(255,255,255,0));
   pointer-events: none;
 }
 .cta-wrap .big-button {
@@ -241,7 +241,7 @@
   width: 100%;
   padding: 28rpx;
   background: #1A1815;
-  color: #F6F1E8;
+  color: #FFFFFF;
   border: none;
   border-radius: 24rpx;
   font-size: 30rpx;
