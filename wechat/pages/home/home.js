@@ -65,11 +65,14 @@ Page({
 
     // markers for native <map>. Omitting iconPath uses the default pin —
     // the colored, always-visible callout above it carries the status info.
+    // width/height are required by base lib >= 3.x even with no iconPath.
     const markers = filtered.map((s, i) => ({
       id: i,
       schoolId: s.id,
       latitude: s.lat,
       longitude: s.lng,
+      width: 22,
+      height: 28,
       callout: {
         content: s.name.replace('大学', ''),
         bgColor: STATUS_COLOR[s.statusKey].bg,

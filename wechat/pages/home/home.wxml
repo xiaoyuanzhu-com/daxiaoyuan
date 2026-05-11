@@ -39,7 +39,6 @@
            longitude="{{cityLng}}"
            scale="12"
            markers="{{mapMarkers}}"
-           show-location="{{true}}"
            bindmarkertap="openMarker"></map>
     </view>
 

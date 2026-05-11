@@ -40,7 +40,7 @@
     "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "3.4.0",
+  "libVersion": "3.16.0",
   "appid": "wx8cd2573bd9672b5c",
   "projectname": "daxiaoyuan",
   "miniprogramRoot": "./",
