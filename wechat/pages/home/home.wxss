@@ -3,7 +3,7 @@
 .page {
   min-height: 100vh;
   position: relative;
-  padding-bottom: 200rpx;
+  padding-bottom: calc(220rpx + env(safe-area-inset-bottom));
 }
 
 .ink40 { color: rgba(26,24,21,0.4); font-size: 22rpx; }
@@ -150,7 +150,7 @@
 
 /* ---------- Map view ---------- */
 .map-view {
-  padding: 16rpx 32rpx 200rpx;
+  padding: 16rpx 32rpx 0;
   background: #FFFFFF;
 }
 
@@ -194,7 +194,7 @@
 
 /* ---------- List view ---------- */
 .list-view {
-  padding: 24rpx 32rpx 200rpx;
+  padding: 24rpx 32rpx 0;
   display: flex;
   flex-direction: column;
   gap: 32rpx;
@@ -281,7 +281,7 @@
 .fab {
   position: fixed;
   right: 32rpx;
-  bottom: 60rpx;
+  bottom: calc(140rpx + env(safe-area-inset-bottom));
   z-index: 20;
   background: #1A1815;
   color: #FFFFFF;

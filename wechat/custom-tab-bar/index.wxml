@@ -1,0 +1,19 @@
+<!--custom-tab-bar/index.wxml-->
+<view class="tab-bar">
+  <view
+    wx:for="{{list}}"
+    wx:key="pagePath"
+    class="tab-bar-item"
+    data-index="{{index}}"
+    data-path="{{item.pagePath}}"
+    bindtap="switchTab"
+  >
+    <mp-icon
+      type="{{selected === index ? 'filled' : 'outline'}}"
+      icon="{{item.icon}}"
+      size="{{22}}"
+      color="{{selected === index ? '#1A1815' : 'rgba(26,24,21,0.4)'}}"
+    ></mp-icon>
+    <view class="tab-bar-label {{selected === index ? 'on' : ''}}">{{item.text}}</view>
+  </view>
+</view>

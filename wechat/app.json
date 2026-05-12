@@ -6,6 +6,20 @@
     "pages/cities/cities",
     "pages/about/about"
   ],
+  "useExtendedLib": {
+    "weui": true
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#A3A3A1",
+    "selectedColor": "#1A1815",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/home/home",   "text": "附近" },
+      { "pagePath": "pages/about/about", "text": "关于" }
+    ]
+  },
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FFFFFF",
