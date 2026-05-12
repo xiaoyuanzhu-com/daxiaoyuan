@@ -149,10 +149,6 @@ Page({
     });
   },
 
-  openAbout() {
-    wx.navigateTo({ url: '/pages/about/about' });
-  },
-
   openUpdate() {
     wx.navigateTo({ url: '/pages/update/update' });
   },
