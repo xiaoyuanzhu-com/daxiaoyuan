@@ -1,0 +1,17 @@
+# Build artifacts
+/ddxy
+/bin/
+
+# SQLite files
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Editor
+.vscode/
+.idea/
+
+# Test coverage
+*.out
+coverage.html
