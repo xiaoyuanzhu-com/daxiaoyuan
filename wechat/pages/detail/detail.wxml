@@ -1,18 +1,27 @@
 <!--pages/detail/detail.wxml-->
-<view wx:if="{{!school}}" class="not-found">
+<view wx:if="{{loading}}" class="status-overlay">
+  <text class="status-overlay-text">加载中…</text>
+</view>
+
+<view wx:if="{{error && !loading}}" class="status-overlay">
+  <text class="status-overlay-text">{{error}}</text>
+  <button class="status-overlay-btn" bindtap="retry">重试</button>
+</view>
+
+<view wx:if="{{!loading && !error && !school}}" class="not-found">
   <text>没有这所学校</text>
 </view>
 
-<view wx:else class="page c-paper">
+<view wx:if="{{!loading && !error && school}}" class="page c-paper">
   <!-- Hero -->
   <view class="hero {{school.statusBgClass}}">
     <view class="seal serif">{{school.initial}}</view>
-    <view class="hero-district badge small">{{school.district}} · {{school.distance}} 公里</view>
+    <view wx:if="{{school.address}}" class="hero-district badge small">{{school.address}}</view>
     <text class="hero-name serif">{{school.name}}</text>
     <text class="hero-status">{{school.statusLabel}}</text>
     <view class="hero-meta">
       <view class="clock"></view>
-      <text>{{school.lastUpdate}}更新 · {{school.confirms}} 人确认</text>
+      <text>{{school.updateLabel}}</text>
     </view>
   </view>
 
@@ -21,28 +30,6 @@
     <view class="cta" bindtap="openCampusReservation">
       <text class="cta-label">去预约入校</text>
       <text class="cta-arrow">›</text>
-    </view>
-  </view>
-
-  <!-- Entry -->
-  <view class="section">
-    <text class="section-label">进入方式</text>
-    <view class="entry-list">
-      <view wx:for="{{school.entry}}" wx:key="*this" class="entry-item">
-        <view class="entry-bullet"></view>
-        <text class="entry-text">{{item}}</text>
-      </view>
-    </view>
-  </view>
-
-  <!-- Schedule -->
-  <view class="section">
-    <text class="section-label">开放时段</text>
-    <view class="schedule-grid">
-      <view wx:for="{{scheduleRows}}" wx:key="key" class="schedule-cell">
-        <text class="schedule-label">{{item.label}}</text>
-        <text class="schedule-value tnum">{{item.value}}</text>
-      </view>
     </view>
   </view>
 
@@ -61,20 +48,6 @@
       </view>
     </view>
   </view>
-
-  <!-- Notes -->
-  <view wx:if="{{school.notes.length > 0}}" class="section">
-    <text class="section-label">用户补充</text>
-    <view class="notes">
-      <view wx:for="{{school.notes}}" wx:key="*this" class="note card">
-        <view class="note-head">
-          <text class="note-user">{{item.user}}</text>
-          <text class="note-date">{{item.date}}</text>
-        </view>
-        <text class="note-text">{{item.text}}</text>
-      </view>
-    </view>
-  </view>
 </view>
 
 <!-- Reservation modal -->
@@ -85,8 +58,8 @@
            src="{{modal.qrcodeUrl}}"
            mode="aspectFit"
            show-menu-by-longpress="{{true}}"
-           bindtap="previewQrcode"/>
-    <text class="modal-hint-small">长按识别二维码 · 点击查看大图</text>
+           bindtap="saveQrcode"/>
+    <text class="modal-hint-small">长按识别二维码 · 点击保存到相册</text>
     <text wx:if="{{modal.hint}}" class="modal-hint">{{modal.hint}}</text>
     <view wx:if="{{modal.link}}" class="modal-actions">
       <view class="modal-btn" bindtap="copyLink">复制链接</view>
