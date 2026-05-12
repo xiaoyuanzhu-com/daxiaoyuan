@@ -1,41 +1,52 @@
 <!--pages/cities/cities.wxml-->
 <view class="page c-paper">
-  <view class="section">
-    <text class="section-label">已上线</text>
-    <view class="active-list">
-      <view wx:for="{{active}}" wx:key="id" class="card city-row" data-id="{{item.id}}" bindtap="pickCity">
-        <view class="city-row-info">
-          <text class="city-row-name serif">{{item.name}}</text>
-          <text class="city-row-meta">{{item.schools}} 所学校 · {{item.ratePct}}% 可进入</text>
-        </view>
-        <view class="meter">
-          <view class="meter-track"></view>
-          <view class="meter-fill" style="--rate: {{item.openRate}};">
-            <view class="meter-arc" style="--rate: {{item.openRate}};"></view>
+  <view wx:if="{{loading}}" class="status-overlay">
+    <text class="status-overlay-text">加载中…</text>
+  </view>
+
+  <view wx:if="{{error && !loading}}" class="status-overlay">
+    <text class="status-overlay-text">{{error}}</text>
+    <button class="status-overlay-btn" bindtap="retry">重试</button>
+  </view>
+
+  <block wx:if="{{!loading && !error}}">
+    <view class="section">
+      <text class="section-label">已上线</text>
+      <view class="active-list">
+        <view wx:for="{{active}}" wx:key="id" class="card city-row" data-id="{{item.id}}" bindtap="pickCity">
+          <view class="city-row-info">
+            <text class="city-row-name serif">{{item.name}}</text>
+            <text class="city-row-meta">{{item.schools}} 所学校 · {{item.ratePct}}% 可进入</text>
           </view>
-          <text class="meter-text tnum">{{item.ratePct}}%</text>
+          <view class="meter">
+            <view class="meter-track"></view>
+            <view class="meter-fill" style="--rate: {{item.openRate}};">
+              <view class="meter-arc" style="--rate: {{item.openRate}};"></view>
+            </view>
+            <text class="meter-text tnum">{{item.ratePct}}%</text>
+          </view>
         </view>
       </view>
     </view>
-  </view>
 
-  <view class="section">
-    <text class="section-label">即将上线</text>
-    <view class="soon-grid">
-      <view wx:for="{{soon}}" wx:key="id" class="soon-cell">
-        <text class="soon-name">{{item.name}}</text>
-        <text class="soon-meta">{{item.schools}} 所</text>
+    <view class="section">
+      <text class="section-label">即将上线</text>
+      <view class="soon-grid">
+        <view wx:for="{{soon}}" wx:key="id" class="soon-cell">
+          <text class="soon-name">{{item.name}}</text>
+          <text class="soon-meta">{{item.schools}} 所</text>
+        </view>
       </view>
     </view>
-  </view>
 
-  <view class="cta-card card">
-    <view class="cta-icon">
-      <view class="cta-plus"></view>
+    <view class="cta-card card">
+      <view class="cta-icon">
+        <view class="cta-plus"></view>
+      </view>
+      <view class="cta-text">
+        <text class="cta-strong">想加入你所在的城市?</text>
+        <text class="cta-body">在 GitHub 上提交一份种子数据,我们会尽快上线。</text>
+      </view>
     </view>
-    <view class="cta-text">
-      <text class="cta-strong">想加入你所在的城市?</text>
-      <text class="cta-body">在 GitHub 上提交一份种子数据,我们会尽快上线。</text>
-    </view>
-  </view>
+  </block>
 </view>

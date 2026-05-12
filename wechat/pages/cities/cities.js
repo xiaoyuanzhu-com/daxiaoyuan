@@ -1,23 +1,38 @@
-const { CITIES } = require('../../utils/data.js');
+const { fetchCities } = require('../../utils/api.js');
 
 Page({
   data: {
+    loading: true,
+    error: '',
     active: [],
     soon: [],
   },
 
   onLoad() {
-    const active = CITIES.filter((c) => c.active).map((c) => ({
-      ...c,
-      ratePct: Math.round(c.openRate * 100),
-      ringDash: c.openRate * 138,    // 2 * PI * r where r = 22 → 138.2…
-    }));
-    const soon = CITIES.filter((c) => !c.active);
-    this.setData({ active, soon });
+    this.loadCities();
+  },
+
+  async loadCities() {
+    this.setData({ loading: true, error: '' });
+    try {
+      const cities = await fetchCities();
+      const active = cities.filter((c) => c.active).map((c) => ({
+        ...c,
+        ratePct: Math.round(c.openRate * 100),
+        ringDash: c.openRate * 138,   // 2 * PI * r where r ≈ 22
+      }));
+      const soon = cities.filter((c) => !c.active);
+      this.setData({ active, soon, loading: false });
+    } catch (e) {
+      this.setData({ loading: false, error: e.message || '加载失败' });
+    }
+  },
+
+  retry() {
+    this.loadCities();
   },
 
   pickCity(e) {
-    // The tapped city's id is on the bound view via wx:for; pull the row.
     const id = e.currentTarget.dataset.id;
     const city = this.data.active.find((c) => c.id === id);
     if (!city) {
