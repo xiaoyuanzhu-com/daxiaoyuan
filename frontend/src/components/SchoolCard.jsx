@@ -3,8 +3,12 @@ import { FacilityChip } from './FacilityChip.jsx';
 import { t } from '../data/i18n.js';
 import { C } from '../theme.js';
 
-export function SchoolCard({ school, lang, density = 'medium', onClick }) {
-  const facKeys = Object.keys(school.facilities);
+// school: backend shape (SchoolSummary for list, School for detail).
+// cityName: parent passes the city display name (e.g. '北京').
+// distanceKm: parent passes pre-computed distance from user (or null).
+// density: 'compact' hides the facility chip row.
+export function SchoolCard({ school, cityName, distanceKm, lang, density = 'medium', onClick }) {
+  const hasFacilities = !!school.facilities;
   return (
     <button onClick={onClick} type="button" style={{
       background: C.card, border: `1px solid ${C.line}`,
@@ -19,23 +23,24 @@ export function SchoolCard({ school, lang, density = 'medium', onClick }) {
             fontSize: density === 'compact' ? 15 : 16, fontWeight: 600, color: C.ink,
             letterSpacing: lang === 'zh' ? 0.5 : 0, lineHeight: 1.2,
           }}>
-            {lang === 'zh' ? school.zh : school.en}
+            {school.name}
           </div>
           <div style={{
             fontSize: 11, color: C.ink40, marginTop: 2,
             fontFeatureSettings: '"tnum"',
           }}>
-            {lang === 'zh' ? school.district.zh : school.district.en}
-            {' · '}{school.distance} {t('km', lang)}
-            {' · '}{school.confirms} {t('confirms', lang)}
+            {cityName}
+            {typeof distanceKm === 'number' && (
+              <>{' · '}{distanceKm.toFixed(1)} {t('km', lang)}</>
+            )}
           </div>
         </div>
         <StatusBadge status={school.status} lang={lang} size="sm" />
       </div>
-      {density !== 'compact' && (
+      {density !== 'compact' && hasFacilities && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 2 }}>
-          {facKeys.map((k) => (
-            <FacilityChip key={k} kind={k} status={school.facilities[k]} lang={lang} dense />
+          {Object.keys(school.facilities).map((k) => (
+            <FacilityChip key={k} kind={k} status={school.facilities[k].status} lang={lang} dense />
           ))}
         </div>
       )}
