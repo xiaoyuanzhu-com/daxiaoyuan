@@ -101,7 +101,7 @@ const SCHOOLS = [
 ];
 
 const CITIES = [
-  { id: 'bj', name: '北京', schools: 10, openRate: 0.30, active: true },
+  { id: 'bj', name: '北京', schools: 10, openRate: 0.30, active: true, lat: 39.96, lng: 116.34 },
   { id: 'sh', name: '上海', schools: 12, openRate: 0.45, active: false },
   { id: 'gz', name: '广州', schools:  8, openRate: 0.62, active: false },
   { id: 'sz', name: '深圳', schools:  5, openRate: 0.40, active: false },

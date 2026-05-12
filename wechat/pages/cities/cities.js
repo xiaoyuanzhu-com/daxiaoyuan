@@ -16,8 +16,25 @@ Page({
     this.setData({ active, soon });
   },
 
-  pickCity() {
-    // For now the only live city is Beijing, just go back to home.
+  pickCity(e) {
+    // The tapped city's id is on the bound view via wx:for; pull the row.
+    const id = e.currentTarget.dataset.id;
+    const city = this.data.active.find((c) => c.id === id);
+    if (!city) {
+      wx.navigateBack();
+      return;
+    }
+
+    const ch = this.getOpenerEventChannel && this.getOpenerEventChannel();
+    if (ch && typeof ch.emit === 'function') {
+      ch.emit('selectedCity', {
+        id: city.id,
+        name: city.name,
+        lat: city.lat,
+        lng: city.lng,
+      });
+    }
+
     wx.navigateBack({
       fail: () => { wx.reLaunch({ url: '/pages/home/home' }); },
     });

@@ -129,7 +129,21 @@ Page({
   },
 
   openCities() {
-    wx.navigateTo({ url: '/pages/cities/cities' });
+    wx.navigateTo({
+      url: '/pages/cities/cities',
+      events: {
+        selectedCity: (city) => {
+          this.setData(
+            {
+              cityName: city.name,
+              cityLat: city.lat,
+              cityLng: city.lng,
+            },
+            () => this.recompute(),
+          );
+        },
+      },
+    });
   },
 
   openAbout() {
