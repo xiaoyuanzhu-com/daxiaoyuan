@@ -15,15 +15,7 @@ export const STR = {
   search:         { zh: '搜索学校 / 设施', en: 'Search schools or facilities' },
   noMatch:        { zh: '没有符合条件的学校', en: 'No schools match' },
 
-  entry:          { zh: '进入方式', en: 'How to enter' },
-  schedule:       { zh: '开放时段', en: 'Open hours' },
-  weekday:        { zh: '工作日',   en: 'Weekday' },
-  weekend:        { zh: '周末',     en: 'Weekend' },
-  summer:         { zh: '寒暑假',   en: 'Holidays' },
   facilities:     { zh: '设施',     en: 'Facilities' },
-  notes:          { zh: '用户补充', en: 'Recent reports' },
-  confirms:       { zh: '人确认',   en: 'confirmations' },
-  updatedAt:      { zh: '更新',     en: 'Updated' },
 
   aboutTitle:     { zh: '关于',  en: 'About' },
 
