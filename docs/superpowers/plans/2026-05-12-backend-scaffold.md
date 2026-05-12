@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build the scope A read-only backend per [`docs/superpowers/specs/2026-05-12-backend-design.md`](../specs/2026-05-12-backend-design.md): Go + Gin + SQLite, 4 GET endpoints, seed import tool, 10 北京 schools imported as initial data.
+**Goal:** Build the read-only backend per [`docs/superpowers/specs/2026-05-12-backend-design.md`](../specs/2026-05-12-backend-design.md): Go + Gin + SQLite, 4 GET endpoints, seed import tool, 10 北京 schools imported as initial data.
 
 **Architecture:** Layered Go service — `models` (structs) → `repo` (DB access) → `handlers` (HTTP) → `server` (router + middleware) → `cmd/server` (main). Static cities config in `internal/data/cities.json` loaded at startup. SQLite migrated via embedded goose. Tests use in-memory SQLite + httptest.
 
