@@ -48,7 +48,7 @@ export default function CitiesScreen() {
                     fontSize: 17, fontWeight: 700, color: C.ink,
                     letterSpacing: lang === 'zh' ? 1.5 : 0,
                     fontFamily: serif(lang),
-                  }}>{lang === 'zh' ? c.zh : c.en}</div>
+                  }}>{c.name}</div>
                   <div style={{ fontSize: 11, color: C.ink60, marginTop: 4 }}>
                     {c.schools} {t('schoolsCount', lang)} · {Math.round(c.openRate * 100)}% {t('accessible', lang)}
                   </div>
@@ -70,7 +70,7 @@ export default function CitiesScreen() {
                 <div style={{
                   fontSize: 15, fontWeight: 600, color: C.ink60,
                   letterSpacing: lang === 'zh' ? 1 : 0,
-                }}>{lang === 'zh' ? c.zh : c.en}</div>
+                }}>{c.name}</div>
                 <div style={{ fontSize: 11, color: C.ink40, marginTop: 4 }}>
                   {c.schools} {t('schoolsShort', lang)}
                 </div>

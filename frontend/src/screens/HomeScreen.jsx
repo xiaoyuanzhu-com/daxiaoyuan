@@ -63,6 +63,9 @@ export default function HomeScreen() {
   // task, with a known limitation in the plan.
   const filtered = schoolsWithDistance.filter((s) => {
     if (statusFilter.size && !statusFilter.has(s.status)) return false;
+    // Summary endpoint has no facilities; facility filter would require a heavier
+    // endpoint. For now any active facility filter yields no results (matches wechat).
+    if (facFilter.size) return false;
     return true;
   }).sort((a, b) => {
     const aOrder = STATUS[a.status].order;

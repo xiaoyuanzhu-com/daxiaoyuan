@@ -2,7 +2,7 @@ export const STATUS = {
   open:   { key: 'open',   bg: '#D4E8C8', ink: '#2E5A1C', dot: '#5BA13C', zh: '完全开放', en: 'Fully open',     order: 1 },
   appt:   { key: 'appt',   bg: '#F2C99A', ink: '#7A3A06', dot: '#C66A1C', zh: '预约开放', en: 'By appointment', order: 2 },
   alumni: { key: 'alumni', bg: '#D9D5CE', ink: '#3A372F', dot: '#7A7568', zh: '仅校友',   en: 'Alumni only',    order: 3 },
-  closed: { key: 'closed', bg: '#E8C4B8', ink: '#7A2418', dot: '#B43A28', zh: '关闭',     en: 'Closed',         order: 4 },
+  closed: { key: 'closed', bg: '#E8C4B8', ink: '#7A2418', dot: '#B43A28', zh: '未开放',   en: 'Closed',         order: 4 },
 };
 
 export const FACILITIES = {
