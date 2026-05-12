@@ -8,7 +8,6 @@ const FAC_OPTIONS = Object.keys(FACILITIES).map((k) => ({ key: k, label: FACILIT
 // Color map for native <map> callouts (which take raw hex, not class names).
 const STATUS_COLOR = {
   open:    { bg: '#D4E8C8', ink: '#2E5A1C' },
-  daytime: { bg: '#F2E2A8', ink: '#6B4F00' },
   appt:    { bg: '#F2C99A', ink: '#7A3A06' },
   alumni:  { bg: '#D9D5CE', ink: '#3A372F' },
   closed:  { bg: '#E8C4B8', ink: '#7A2418' },

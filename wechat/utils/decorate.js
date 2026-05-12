@@ -1,11 +1,15 @@
 // Decorate a school for rendering: precomputed badge / facility class names.
+// Input is the API detail shape (GET /api/v1/schools/:id).
 
 const { STATUS, FACILITIES } = require('./status.js');
 
-function decorateSchool(s) {
+const FACILITY_ORDER = ['library', 'track', 'gym', 'canteen'];
+
+function decorateSchool(s, distanceKm) {
   if (!s) return s;
   const st = STATUS[s.status];
-  const facilities = Object.keys(s.facilities).map((k) => {
+
+  const facilities = FACILITY_ORDER.map((k) => {
     const f = s.facilities[k];
     const fst = STATUS[f.status];
     const muted = f.status === 'closed' || f.status === 'alumni';
@@ -23,6 +27,7 @@ function decorateSchool(s) {
       hasReservation: !!f.reservation,
     };
   });
+
   return {
     ...s,
     statusKey: st.key,
@@ -33,7 +38,21 @@ function decorateSchool(s) {
     initial: s.name.charAt(0),
     facilitiesList: facilities,
     hasReservation: !!s.reservation,
+    distanceKm: typeof distanceKm === 'number' ? distanceKm : null,
+    updateLabel: relativeTimeZh(s.lastUpdate),
   };
+}
+
+function relativeTimeZh(iso) {
+  if (!iso) return '';
+  const now = Date.now();
+  const then = new Date(iso).getTime();
+  const diffSec = Math.max(0, Math.floor((now - then) / 1000));
+  const min = 60, hour = 3600, day = 86400, week = day * 7;
+  if (diffSec < hour)  return `${Math.max(1, Math.floor(diffSec / min))} 分钟前更新`;
+  if (diffSec < day)   return `${Math.floor(diffSec / hour)} 小时前更新`;
+  if (diffSec < week)  return `${Math.floor(diffSec / day)} 天前更新`;
+  return `${Math.floor(diffSec / week)} 周前更新`;
 }
 
 module.exports = { decorateSchool };
