@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SchoolCard } from '../components/SchoolCard.jsx';
 import { Segment } from '../components/Segment.jsx';
 import { SectionLabel } from '../components/SectionLabel.jsx';
 import { FacilityIcon } from '../components/FacilityIcon.jsx';
 import { LangToggle } from '../components/AppHeader.jsx';
-import { SCHOOLS } from '../data/seed.js';
+import { fetchSchools } from '../data/api.js';
+import { distanceKm } from '../data/distance.js';
 import { STATUS, STATUS_ORDER, FACILITIES } from '../data/status.js';
 import { t } from '../data/i18n.js';
 import { useLang } from '../context/LangContext.jsx';
+import { useApi } from '../hooks/useApi.js';
 import { C, serif } from '../theme.js';
 
 export default function HomeScreen() {
@@ -20,20 +22,56 @@ export default function HomeScreen() {
   const [statusFilter, setStatusFilter] = useState(() => new Set());
   const [facFilter, setFacFilter] = useState(() => new Set());
 
+  // City — for MVP we only support 'bj'. CitiesScreen navigates back to / on pick.
+  const cityId = 'bj';
+  const cityName = '北京';
+
+  // User location (browser geolocation). Fail silently — distance just won't show.
+  const [coords, setCoords] = useState(null);
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => setCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      () => {},
+      { enableHighAccuracy: false, timeout: 5000 },
+    );
+  }, []);
+
+  // Fetch schools for current city.
+  const { data: schools, loading, error, retry } = useApi(
+    () => fetchSchools(cityId),
+    [cityId],
+  );
+
+  // Pre-compute distance for sorting and display.
+  const schoolsWithDistance = useMemo(() => {
+    if (!schools) return [];
+    return schools.map((s) => ({
+      ...s,
+      distanceKm: coords ? distanceKm(coords.lat, coords.lng, s.lat, s.lng) : null,
+    }));
+  }, [schools, coords]);
+
   const toggle = (set, setter, v) => {
     const next = new Set(set);
     next.has(v) ? next.delete(v) : next.add(v);
     setter(next);
   };
 
-  const filtered = SCHOOLS.filter((s) => {
+  // Filter + sort. Note: list endpoint returns summary (no facilities), so
+  // facility filtering does nothing here. We keep the UI to avoid an extra
+  // task, with a known limitation in the plan.
+  const filtered = schoolsWithDistance.filter((s) => {
     if (statusFilter.size && !statusFilter.has(s.status)) return false;
-    if (facFilter.size) {
-      const ok = [...facFilter].every((f) => s.facilities[f] === 'open' || s.facilities[f] === 'appt');
-      if (!ok) return false;
-    }
     return true;
-  }).sort((a, b) => STATUS[a.status].order - STATUS[b.status].order || a.distance - b.distance);
+  }).sort((a, b) => {
+    const aOrder = STATUS[a.status].order;
+    const bOrder = STATUS[b.status].order;
+    if (aOrder !== bOrder) return aOrder - bOrder;
+    const da = a.distanceKm === null ? Infinity : a.distanceKm;
+    const db = b.distanceKm === null ? Infinity : b.distanceKm;
+    return da - db;
+  });
 
   const hasFilters = statusFilter.size + facFilter.size > 0;
 
@@ -75,7 +113,7 @@ export default function HomeScreen() {
               <path d="M6 9l6 6 6-6" stroke={C.ink60} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <span style={{ fontSize: 11, color: C.ink60, marginLeft: 4 }}>
-              {filtered.length} / {SCHOOLS.length} {t('schoolsCount', lang)}
+              {filtered.length} / {schoolsWithDistance.length} {t('schoolsCount', lang)}
             </span>
           </button>
           <Segment value={view} onChange={setView} lang={lang} options={[
@@ -114,9 +152,33 @@ export default function HomeScreen() {
         </button>
       </div>
 
-      {view === 'map'
-        ? <MapView lang={lang} schools={filtered} onOpen={(id) => navigate(`/s/${id}`)} />
-        : <ListView lang={lang} schools={filtered} onOpen={(id) => navigate(`/s/${id}`)} />}
+      {loading && (
+        <div style={{ padding: '40px 16px', textAlign: 'center', color: C.ink60, fontSize: 14 }}>
+          {lang === 'zh' ? '加载中…' : 'Loading…'}
+        </div>
+      )}
+
+      {error && !loading && (
+        <div style={{ padding: '40px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+          <div style={{ fontSize: 14, color: C.ink60 }}>
+            {error.message || (lang === 'zh' ? '加载失败' : 'Failed to load')}
+          </div>
+          <button onClick={retry} type="button" style={{
+            background: C.ink, color: '#fff', padding: '8px 20px', border: 0,
+            borderRadius: 6, fontSize: 13, cursor: 'pointer', fontFamily: 'inherit',
+          }}>
+            {lang === 'zh' ? '重试' : 'Retry'}
+          </button>
+        </div>
+      )}
+
+      {!loading && !error && (
+        <>
+          {view === 'map'
+            ? <MapView lang={lang} schools={filtered} cityName={cityName} onOpen={(id) => navigate(`/s/${id}`)} />
+            : <ListView lang={lang} schools={filtered} cityName={cityName} onOpen={(id) => navigate(`/s/${id}`)} />}
+        </>
+      )}
 
       {filterOpen && (
         <FilterSheet
@@ -134,7 +196,7 @@ export default function HomeScreen() {
   );
 }
 
-function MapView({ lang, schools, onOpen }) {
+function MapView({ lang, schools, cityName, onOpen }) {
   const W = 343, H = 360;
   const cx = 116.34, cy = 39.96, scale = 1800;
   const proj = (lat, lng) => ({
@@ -184,7 +246,7 @@ function MapView({ lang, schools, onOpen }) {
                   border: `1px solid ${st.dot}`,
                   letterSpacing: lang === 'zh' ? 0.4 : 0,
                   maxWidth: 88, overflow: 'hidden', textOverflow: 'ellipsis',
-                }}>{lang === 'zh' ? s.zh.replace('大学', '') : s.short}</div>
+                }}>{s.name.replace('大学', '')}</div>
                 <div style={{
                   width: 8, height: 8, borderRadius: 999, background: st.dot,
                   border: '2px solid #fff', marginTop: -1,
@@ -223,7 +285,15 @@ function MapView({ lang, schools, onOpen }) {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {schools.slice(0, 4).map((s) => (
-            <SchoolCard key={s.id} school={s} lang={lang} density="compact" onClick={() => onOpen(s.id)} />
+            <SchoolCard
+              key={s.id}
+              school={s}
+              cityName={cityName}
+              distanceKm={s.distanceKm}
+              lang={lang}
+              density="compact"
+              onClick={() => onOpen(s.id)}
+            />
           ))}
         </div>
       </div>
@@ -231,7 +301,7 @@ function MapView({ lang, schools, onOpen }) {
   );
 }
 
-function ListView({ lang, schools, onOpen }) {
+function ListView({ lang, schools, cityName, onOpen }) {
   const groups = {};
   schools.forEach((s) => { (groups[s.status] = groups[s.status] || []).push(s); });
   return (
@@ -247,8 +317,14 @@ function ListView({ lang, schools, onOpen }) {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {groups[key].map((school) => (
-                <SchoolCard key={school.id} school={school} lang={lang}
-                  onClick={() => onOpen(school.id)} />
+                <SchoolCard
+                  key={school.id}
+                  school={school}
+                  cityName={cityName}
+                  distanceKm={school.distanceKm}
+                  lang={lang}
+                  onClick={() => onOpen(school.id)}
+                />
               ))}
             </div>
           </div>
