@@ -148,10 +148,6 @@
   gap: 20rpx;
   margin-bottom: 16rpx;
 }
-.school-card.compact {
-  padding: 24rpx 28rpx;
-  gap: 12rpx;
-}
 .school-card-top {
   display: flex;
   align-items: flex-start;

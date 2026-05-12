@@ -27,7 +27,6 @@ Page({
     legend: STATUS_OPTIONS,
     statusOptions: STATUS_OPTIONS,
     facOptions: FAC_OPTIONS,
-    schoolsTotal: SCHOOLS.length,
     resultsCount: 0,
     hasFilters: false,
     cityName: '北京',
@@ -113,6 +112,7 @@ Page({
     });
   },
 
+  // TODO: replace with real search page navigation (deferred per plan).
   openSearch() {
     wx.showToast({ title: '搜索功能开发中', icon: 'none' });
   },
