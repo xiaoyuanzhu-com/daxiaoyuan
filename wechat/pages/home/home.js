@@ -16,7 +16,6 @@ const STATUS_COLOR = {
 
 Page({
   data: {
-    view: 'map',               // 'map' | 'list'
     filterOpen: false,
     statusFilter: [],          // array of status keys
     facFilter: [],             // array of facility keys
@@ -24,7 +23,6 @@ Page({
     facFilterMap: {},
     schools: [],               // decorated + filtered
     groups: [],                // for list view
-    nearby: [],                // top 4 for map view footer
     mapMarkers: [],
     legend: STATUS_OPTIONS,
     statusOptions: STATUS_OPTIONS,
@@ -107,7 +105,6 @@ Page({
     this.setData({
       schools: filtered,
       groups,
-      nearby: filtered.slice(0, 4),
       mapMarkers: markers,
       resultsCount: filtered.length,
       hasFilters: sf.size + ff.size > 0,
@@ -116,8 +113,8 @@ Page({
     });
   },
 
-  switchView(e) {
-    this.setData({ view: e.currentTarget.dataset.view });
+  openSearch() {
+    wx.showToast({ title: '搜索功能开发中', icon: 'none' });
   },
 
   openSchool(e) {

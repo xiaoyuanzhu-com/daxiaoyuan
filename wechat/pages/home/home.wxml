@@ -1,37 +1,22 @@
 <!--pages/home/home.wxml-->
 <view class="page c-paper">
-  <!-- Header: city + view switcher -->
+  <!-- Header: city picker (left) + search entry (right) -->
   <view class="header">
-    <view class="city-row">
-      <button class="plain city-picker" bindtap="openCities">
-        <text class="city-name">{{cityName}}</text>
-        <view class="caret">
-          <view class="caret-inner"></view>
-        </view>
-        <text class="city-count">{{resultsCount}} / {{schoolsTotal}} 所学校</text>
-      </button>
-
-      <view class="seg">
-        <view class="seg-opt {{view === 'map'  ? 'on' : ''}}" data-view="map"  bindtap="switchView">地图</view>
-        <view class="seg-opt {{view === 'list' ? 'on' : ''}}" data-view="list" bindtap="switchView">列表</view>
+    <button class="plain city-picker" bindtap="openCities">
+      <text class="city-name">{{cityName}}</text>
+      <view class="caret">
+        <view class="caret-inner"></view>
       </view>
-    </view>
-  </view>
-
-  <!-- Search + filter -->
-  <view class="search-row">
-    <view class="search-box">
-      <view class="search-icon"></view>
-      <text class="search-placeholder">搜索学校 / 设施</text>
-    </view>
-    <button class="plain filter-btn {{hasFilters ? 'on' : ''}}" bindtap="openFilter">
-      筛选
-      <text wx:if="{{hasFilters}}" class="filter-count">· {{statusFilter.length + facFilter.length}}</text>
     </button>
+
+    <view class="header-search" bindtap="openSearch">
+      <view class="search-icon"></view>
+      <text class="header-search-placeholder">搜索学校</text>
+    </view>
   </view>
 
-  <!-- Map view -->
-  <view wx:if="{{view === 'map'}}" class="map-view">
+  <!-- Map (always visible) -->
+  <view class="map-section">
     <view class="map-wrap">
       <map id="campusMap"
            class="campus-map"
@@ -49,26 +34,14 @@
         <text>{{item.label}}</text>
       </view>
     </view>
-
-    <view class="nearby">
-      <view class="nearby-head">
-        <text class="section-label">附近学校</text>
-        <text class="ink40">{{schools.length}}</text>
-      </view>
-      <view wx:for="{{nearby}}" wx:key="id" class="card school-card compact" data-id="{{item.id}}" bindtap="openSchool">
-        <view class="school-card-top">
-          <view class="school-card-name-wrap">
-            <text class="school-name">{{item.name}}</text>
-            <text class="school-meta tnum">{{item.district}} · {{item.distance}} 公里 · {{item.confirms}} 人确认</text>
-          </view>
-          <view class="badge small {{item.statusBgClass}}">{{item.statusLabel}}</view>
-        </view>
-      </view>
-    </view>
   </view>
 
-  <!-- List view -->
-  <view wx:else class="list-view">
+  <!-- List (always below map) -->
+  <view class="list-section">
+    <view class="list-section-head">
+      <text class="section-label">学校 · {{resultsCount}}</text>
+    </view>
+
     <view wx:for="{{groups}}" wx:for-item="g" wx:key="key" class="list-group">
       <view class="list-group-head">
         <view class="dot smaller {{g.dotClass}}"></view>
@@ -101,7 +74,7 @@
     <text>我去过</text>
   </button>
 
-  <!-- Filter sheet -->
+  <!-- Filter sheet (kept; trigger added back in Task 3) -->
   <view wx:if="{{filterOpen}}" class="sheet-mask" bindtap="closeFilter">
     <view class="sheet" catchtap="noop">
       <view class="sheet-grab"></view>
