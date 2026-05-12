@@ -1,0 +1,205 @@
+[
+  {
+    "id": "pku",
+    "cityId": "bj",
+    "name": "北京大学",
+    "lat": 39.992,
+    "lng": 116.305,
+    "status": "appt",
+    "reservation": {
+      "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+      "hint": "关注「参观北大」公众号 → 菜单「个人预约」",
+      "link": "https://visit.pku.edu.cn"
+    },
+    "facilities": {
+      "library": { "status": "closed" },
+      "track":   { "status": "closed" },
+      "gym":     { "status": "closed" },
+      "canteen": { "status": "closed" }
+    },
+    "others": [],
+    "lastUpdate": "2026-05-09T00:00:00Z"
+  },
+  {
+    "id": "tsinghua",
+    "cityId": "bj",
+    "name": "清华大学",
+    "lat": 40.000,
+    "lng": 116.326,
+    "status": "appt",
+    "reservation": {
+      "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+      "hint": "识别小程序码进入「清华大学参观预约」"
+    },
+    "facilities": {
+      "library": { "status": "closed" },
+      "track":   { "status": "closed" },
+      "gym":     { "status": "closed" },
+      "canteen": { "status": "closed" }
+    },
+    "others": [],
+    "lastUpdate": "2026-05-11T00:00:00Z"
+  },
+  {
+    "id": "ruc",
+    "cityId": "bj",
+    "name": "中国人民大学",
+    "lat": 39.969,
+    "lng": 116.319,
+    "status": "open",
+    "facilities": {
+      "library": { "status": "closed" },
+      "track":   { "status": "open" },
+      "gym":     { "status": "closed" },
+      "canteen": { "status": "open" }
+    },
+    "others": [],
+    "lastUpdate": "2026-05-12T00:00:00Z"
+  },
+  {
+    "id": "bnu",
+    "cityId": "bj",
+    "name": "北京师范大学",
+    "lat": 39.962,
+    "lng": 116.366,
+    "status": "open",
+    "facilities": {
+      "library": { "status": "closed" },
+      "track":   { "status": "open" },
+      "gym": {
+        "status": "appt",
+        "reservation": {
+          "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+          "hint": "关注「北师大体育场馆」公众号 → 菜单「预约」"
+        }
+      },
+      "canteen": { "status": "closed" }
+    },
+    "others": [],
+    "lastUpdate": "2026-05-12T00:00:00Z"
+  },
+  {
+    "id": "buaa",
+    "cityId": "bj",
+    "name": "北京航空航天大学",
+    "lat": 39.982,
+    "lng": 116.348,
+    "status": "alumni",
+    "facilities": {
+      "library": { "status": "alumni" },
+      "track":   { "status": "alumni" },
+      "gym":     { "status": "alumni" },
+      "canteen": { "status": "alumni" }
+    },
+    "others": [],
+    "lastUpdate": "2026-05-06T00:00:00Z"
+  },
+  {
+    "id": "muc",
+    "cityId": "bj",
+    "name": "中央民族大学",
+    "lat": 39.951,
+    "lng": 116.318,
+    "status": "open",
+    "facilities": {
+      "library": { "status": "closed" },
+      "track":   { "status": "open" },
+      "gym":     { "status": "closed" },
+      "canteen": {
+        "status": "appt",
+        "reservation": {
+          "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+          "hint": "关注「民大餐饮服务」公众号 → 菜单「访客就餐」"
+        }
+      }
+    },
+    "others": [],
+    "lastUpdate": "2026-05-10T00:00:00Z"
+  },
+  {
+    "id": "bit",
+    "cityId": "bj",
+    "name": "北京理工大学",
+    "lat": 39.962,
+    "lng": 116.318,
+    "status": "appt",
+    "reservation": {
+      "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+      "hint": "关注「北理工参观」公众号 → 菜单「预约入校」"
+    },
+    "facilities": {
+      "library": { "status": "closed" },
+      "track":   { "status": "closed" },
+      "gym":     { "status": "closed" },
+      "canteen": { "status": "closed" }
+    },
+    "others": [],
+    "lastUpdate": "2026-05-05T00:00:00Z"
+  },
+  {
+    "id": "bfsu",
+    "cityId": "bj",
+    "name": "北京外国语大学",
+    "lat": 39.952,
+    "lng": 116.305,
+    "status": "open",
+    "facilities": {
+      "library": {
+        "status": "appt",
+        "reservation": {
+          "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+          "hint": "识别小程序码进入「北外图书馆预约」"
+        }
+      },
+      "track":   { "status": "open" },
+      "gym":     { "status": "open" },
+      "canteen": { "status": "open" }
+    },
+    "others": [],
+    "lastUpdate": "2026-05-12T00:00:00Z"
+  },
+  {
+    "id": "cau",
+    "cityId": "bj",
+    "name": "中国农业大学",
+    "lat": 40.001,
+    "lng": 116.351,
+    "status": "open",
+    "facilities": {
+      "library": {
+        "status": "appt",
+        "reservation": {
+          "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+          "hint": "关注「中国农大图书馆」公众号 → 菜单「入馆预约」"
+        }
+      },
+      "track":   { "status": "open" },
+      "gym": {
+        "status": "appt",
+        "reservation": {
+          "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+          "hint": "识别小程序码进入「农大体育场馆预约」"
+        }
+      },
+      "canteen": { "status": "open" }
+    },
+    "others": [],
+    "lastUpdate": "2026-05-10T00:00:00Z"
+  },
+  {
+    "id": "bupt",
+    "cityId": "bj",
+    "name": "北京邮电大学",
+    "lat": 39.961,
+    "lng": 116.355,
+    "status": "closed",
+    "facilities": {
+      "library": { "status": "closed" },
+      "track":   { "status": "closed" },
+      "gym":     { "status": "closed" },
+      "canteen": { "status": "closed" }
+    },
+    "others": [],
+    "lastUpdate": "2026-05-08T00:00:00Z"
+  }
+]
