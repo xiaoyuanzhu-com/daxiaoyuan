@@ -63,39 +63,10 @@ Page({
   // Prevent taps inside the sheet from bubbling to the mask.
   noop() {},
 
-  saveQrcode() {
+  previewQrcode() {
     const url = this.data.modal.qrcodeUrl;
     if (!url) return;
-    wx.showLoading({ title: '保存中', mask: true });
-    wx.downloadFile({
-      url,
-      success: (res) => {
-        if (res.statusCode !== 200) {
-          wx.hideLoading();
-          wx.showToast({ title: '下载失败', icon: 'none' });
-          return;
-        }
-        wx.saveImageToPhotosAlbum({
-          filePath: res.tempFilePath,
-          success: () => {
-            wx.hideLoading();
-            wx.showToast({ title: '已保存到相册', icon: 'success' });
-          },
-          fail: (err) => {
-            wx.hideLoading();
-            const denied = err && err.errMsg && err.errMsg.indexOf('auth deny') !== -1;
-            wx.showToast({
-              title: denied ? '需相册权限' : '保存失败',
-              icon: 'none',
-            });
-          },
-        });
-      },
-      fail: () => {
-        wx.hideLoading();
-        wx.showToast({ title: '下载失败', icon: 'none' });
-      },
-    });
+    wx.previewImage({ urls: [url], current: url });
   },
 
   copyLink() {

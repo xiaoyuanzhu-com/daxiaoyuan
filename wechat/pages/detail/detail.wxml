@@ -84,12 +84,12 @@
     <image class="modal-qrcode"
            src="{{modal.qrcodeUrl}}"
            mode="aspectFit"
-           show-menu-by-longpress="{{true}}"/>
-    <text class="modal-hint-small">长按识别二维码</text>
+           show-menu-by-longpress="{{true}}"
+           bindtap="previewQrcode"/>
+    <text class="modal-hint-small">长按识别二维码 · 点击查看大图</text>
     <text wx:if="{{modal.hint}}" class="modal-hint">{{modal.hint}}</text>
-    <view class="modal-actions">
-      <view class="modal-btn" bindtap="saveQrcode">保存图片</view>
-      <view wx:if="{{modal.link}}" class="modal-btn" bindtap="copyLink">复制链接</view>
+    <view wx:if="{{modal.link}}" class="modal-actions">
+      <view class="modal-btn" bindtap="copyLink">复制链接</view>
     </view>
     <view class="modal-close" bindtap="closeModal">关闭</view>
   </view>

@@ -6,7 +6,7 @@ const STATUS = {
   daytime: { key: 'daytime', label: '限时开放', bgClass: 'status-daytime', dotClass: 'dot-daytime', order: 2 },
   appt:    { key: 'appt',    label: '预约开放', bgClass: 'status-appt',    dotClass: 'dot-appt',    order: 3 },
   alumni:  { key: 'alumni',  label: '仅校友',   bgClass: 'status-alumni',  dotClass: 'dot-alumni',  order: 4 },
-  closed:  { key: 'closed',  label: '关闭',     bgClass: 'status-closed',  dotClass: 'dot-closed',  order: 5 },
+  closed:  { key: 'closed',  label: '未开放',   bgClass: 'status-closed',  dotClass: 'dot-closed',  order: 5 },
 };
 
 const FACILITIES = {

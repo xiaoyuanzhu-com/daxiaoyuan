@@ -22,14 +22,14 @@ page {
 .status-daytime { background: #F2E2A8; color: #6B4F00; }
 .status-appt    { background: #F2C99A; color: #7A3A06; }
 .status-alumni  { background: #D9D5CE; color: #3A372F; }
-.status-closed  { background: #E8C4B8; color: #7A2418; }
+.status-closed  { background: #E8D8AC; color: #6B5418; }
 
 /* status dots */
 .dot-open    { background: #5BA13C; }
 .dot-daytime { background: #C29410; }
 .dot-appt    { background: #C66A1C; }
 .dot-alumni  { background: #7A7568; }
-.dot-closed  { background: #B43A28; }
+.dot-closed  { background: #B07A10; }
 
 /* ---------- typography helpers ---------- */
 .serif {
