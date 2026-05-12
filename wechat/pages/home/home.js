@@ -59,7 +59,7 @@ Page({
       if (sf.size && !sf.has(s.status)) return false;
       if (ff.size) {
         for (const f of ff) {
-          const v = s.facilities[f];
+          const v = s.facilities[f].status;
           if (v !== 'open' && v !== 'appt') return false;
         }
       }

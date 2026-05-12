@@ -6,18 +6,21 @@ function decorateSchool(s) {
   if (!s) return s;
   const st = STATUS[s.status];
   const facilities = Object.keys(s.facilities).map((k) => {
-    const fst = STATUS[s.facilities[k]];
-    const muted = s.facilities[k] === 'closed' || s.facilities[k] === 'alumni';
+    const f = s.facilities[k];
+    const fst = STATUS[f.status];
+    const muted = f.status === 'closed' || f.status === 'alumni';
     return {
       key: k,
       label: FACILITIES[k].label,
       short: FACILITIES[k].short,
-      status: s.facilities[k],
+      status: f.status,
       statusLabel: fst.label,
       bgClass: fst.bgClass,
       dotClass: fst.dotClass,
       muted,
-      strikethrough: s.facilities[k] === 'closed',
+      strikethrough: f.status === 'closed',
+      reservation: f.reservation || null,
+      hasReservation: !!f.reservation,
     };
   });
   return {
@@ -29,6 +32,7 @@ function decorateSchool(s) {
     statusOrder: st.order,
     initial: s.name.charAt(0),
     facilitiesList: facilities,
+    hasReservation: !!s.reservation,
   };
 }
 
