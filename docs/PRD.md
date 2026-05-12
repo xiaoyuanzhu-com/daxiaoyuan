@@ -174,7 +174,7 @@
 - **辅助来源**：抓取学校官网公告、小红书等公开内容做交叉验证
 
 **存储**
-- 学校信息与用户反馈统一存放在中心化后端的 SQLite 数据库中（Go + Gin 服务，部署于 `dxy.xiaoyuanzhu.com`）
+- 学校信息与用户反馈统一存放在中心化后端的 SQLite 数据库中（Go + Gin 服务，部署于 `ddxy.xiaoyuanzhu.com`）
 - Web、微信小程序、未来的 iOS/Android 客户端共用同一套 HTTP API
 
 **透明**

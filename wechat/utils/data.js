@@ -1,5 +1,5 @@
 // Beijing seed dataset — mirrors frontend/src/data/seed.js.
-// Will be replaced by GET dxy.xiaoyuanzhu.com/api/schools in a follow-up.
+// Will be replaced by GET ddxy.xiaoyuanzhu.com/api/schools in a follow-up.
 //
 // Shape contracts:
 //   facilities[key]    = { status: <STATUS>, reservation?: Reservation }
