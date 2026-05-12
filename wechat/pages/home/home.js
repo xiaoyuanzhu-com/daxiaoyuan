@@ -1,81 +1,141 @@
-const { SCHOOLS } = require('../../utils/data.js');
+const { fetchSchools } = require('../../utils/api.js');
+const { distanceKm } = require('../../utils/distance.js');
 const { STATUS, STATUS_ORDER, FACILITIES } = require('../../utils/status.js');
-const { decorateSchool } = require('../../utils/decorate.js');
 
-const STATUS_OPTIONS = STATUS_ORDER.map((k) => ({ key: k, label: STATUS[k].label, dotClass: STATUS[k].dotClass, bgClass: STATUS[k].bgClass }));
-const FAC_OPTIONS = Object.keys(FACILITIES).map((k) => ({ key: k, label: FACILITIES[k].label, short: FACILITIES[k].short }));
+const STATUS_OPTIONS = STATUS_ORDER.map((k) => ({
+  key: k, label: STATUS[k].label, dotClass: STATUS[k].dotClass, bgClass: STATUS[k].bgClass,
+}));
+const FAC_OPTIONS = Object.keys(FACILITIES).map((k) => ({
+  key: k, label: FACILITIES[k].label, short: FACILITIES[k].short,
+}));
 
 // Color map for native <map> callouts (which take raw hex, not class names).
 const STATUS_COLOR = {
-  open:    { bg: '#D4E8C8', ink: '#2E5A1C' },
-  appt:    { bg: '#F2C99A', ink: '#7A3A06' },
-  alumni:  { bg: '#D9D5CE', ink: '#3A372F' },
-  closed:  { bg: '#E8C4B8', ink: '#7A2418' },
+  open:   { bg: '#D4E8C8', ink: '#2E5A1C' },
+  appt:   { bg: '#F2C99A', ink: '#7A3A06' },
+  alumni: { bg: '#D9D5CE', ink: '#3A372F' },
+  closed: { bg: '#E8C4B8', ink: '#7A2418' },
 };
 
 Page({
   data: {
+    loading: true,
+    error: '',
+
     filterOpen: false,
-    statusFilter: [],          // array of status keys
-    facFilter: [],             // array of facility keys
-    statusFilterMap: {},       // {key: true} — for WXML lookups
+    statusFilter: [],
+    facFilter: [],
+    statusFilterMap: {},
     facFilterMap: {},
-    schools: [],               // decorated + filtered
-    groups: [],                // for list view
+
+    schools: [],         // decorated for display
+    groups: [],          // list view groups
     mapMarkers: [],
     legend: STATUS_OPTIONS,
     statusOptions: STATUS_OPTIONS,
     facOptions: FAC_OPTIONS,
     resultsCount: 0,
     hasFilters: false,
+
+    cityId: 'bj',
     cityName: '北京',
     cityLat: 39.96,
     cityLng: 116.34,
+
+    userLat: null,
+    userLng: null,
   },
 
+  // —— Lifecycle ——
+
   onLoad() {
-    this.recompute();
     this.locateUser();
+    this.loadAll();
   },
 
   // Center map on user's location; falls back silently to the default
   // city center (set in data) if the user denies or the simulator can't
-  // resolve a fix.
+  // resolve a fix. Also stores user coords for client-side distance calc.
   locateUser() {
     wx.getLocation({
       type: 'gcj02',
       success: (res) => {
-        this.setData({ cityLat: res.latitude, cityLng: res.longitude });
+        this.setData({
+          cityLat: res.latitude,
+          cityLng: res.longitude,
+          userLat: res.latitude,
+          userLng: res.longitude,
+        }, () => {
+          // Re-decorate if schools already loaded — distance changes.
+          if (this.rawSchools) this.recompute();
+        });
       },
       fail: () => {},
     });
   },
 
+  // Fetches schools for current city + recomputes filtered/decorated state.
+  async loadAll() {
+    this.setData({ loading: true, error: '' });
+    try {
+      const schools = await fetchSchools(this.data.cityId);
+      this.rawSchools = schools;   // keep raw on instance for re-decoration
+      this.recompute();
+      this.setData({ loading: false });
+    } catch (e) {
+      this.setData({ loading: false, error: e.message || '加载失败' });
+    }
+  },
+
+  retry() {
+    this.loadAll();
+  },
+
+  // —— Compute (called whenever filters or raw data change) ——
+
   recompute() {
+    if (!this.rawSchools) return;
     const sf = new Set(this.data.statusFilter);
     const ff = new Set(this.data.facFilter);
-    const filtered = SCHOOLS.filter((s) => {
-      if (sf.size && !sf.has(s.status)) return false;
-      if (ff.size) {
-        for (const f of ff) {
-          const v = s.facilities[f].status;
-          if (v !== 'open' && v !== 'appt') return false;
-        }
-      }
-      return true;
-    }).sort((a, b) => STATUS[a.status].order - STATUS[b.status].order || a.distance - b.distance)
-      .map(decorateSchool);
+    const userLat = this.data.userLat;
+    const userLng = this.data.userLng;
+    const cityName = this.data.cityName;
 
-    // group by status for list view
+    const filtered = this.rawSchools
+      .filter((s) => {
+        if (sf.size && !sf.has(s.status)) return false;
+        // API list endpoint returns summary fields only — no facilities here.
+        // Facility filter is non-functional in this view; UI kept for consistency.
+        if (ff.size) return false;
+        return true;
+      })
+      .map((s) => {
+        const d = (userLat !== null && userLng !== null)
+          ? distanceKm(userLat, userLng, s.lat, s.lng)
+          : null;
+        return { school: s, distance: d };
+      })
+      .sort((a, b) => {
+        const aOrder = STATUS[a.school.status].order;
+        const bOrder = STATUS[b.school.status].order;
+        if (aOrder !== bOrder) return aOrder - bOrder;
+        const da = a.distance === null ? Infinity : a.distance;
+        const db = b.distance === null ? Infinity : b.distance;
+        return da - db;
+      })
+      .map(({ school, distance }) => decorateSchoolSummary(school, distance, cityName));
+
+    // Group by status for list view.
     const byStatus = {};
     for (const s of filtered) (byStatus[s.statusKey] = byStatus[s.statusKey] || []).push(s);
     const groups = STATUS_ORDER
       .filter((k) => byStatus[k])
-      .map((k) => ({ key: k, label: STATUS[k].label, dotClass: STATUS[k].dotClass, count: byStatus[k].length, items: byStatus[k] }));
+      .map((k) => ({
+        key: k, label: STATUS[k].label, dotClass: STATUS[k].dotClass,
+        count: byStatus[k].length, items: byStatus[k],
+      }));
 
-    // markers for native <map>. Omitting iconPath uses the default pin —
-    // the colored, always-visible callout above it carries the status info.
-    // width/height are required by base lib >= 3.x even with no iconPath.
+    // Map markers.
     const markers = filtered.map((s, i) => ({
       id: i,
       schoolId: s.id,
@@ -105,7 +165,8 @@ Page({
     });
   },
 
-  // TODO: replace with real search page navigation (deferred per plan).
+  // —— Event handlers ——
+
   openSearch() {
     wx.showToast({ title: '搜索功能开发中', icon: 'none' });
   },
@@ -126,29 +187,22 @@ Page({
       url: '/pages/cities/cities',
       events: {
         selectedCity: (city) => {
-          // TODO: recompute() is not city-aware yet — SCHOOLS is currently a
-          // single-city dataset. Picking a non-Beijing city will update the
-          // header chip and map center but the school list will stay Beijing.
           this.setData(
             {
+              cityId: city.id,
               cityName: city.name,
               cityLat: city.lat,
               cityLng: city.lng,
             },
-            () => this.recompute(),
+            () => this.loadAll(),
           );
         },
       },
     });
   },
 
-  openFilter() {
-    this.setData({ filterOpen: true });
-  },
-
-  closeFilter() {
-    this.setData({ filterOpen: false });
-  },
+  openFilter() { this.setData({ filterOpen: true }); },
+  closeFilter() { this.setData({ filterOpen: false }); },
 
   toggleStatus(e) {
     const key = e.currentTarget.dataset.key;
@@ -170,10 +224,33 @@ Page({
     this.setData({ statusFilter: [], facFilter: [] }, () => this.recompute());
   },
 
-  applyFilter() {
-    this.setData({ filterOpen: false });
-  },
+  applyFilter() { this.setData({ filterOpen: false }); },
 
-  // swallow taps on the filter sheet body so the backdrop close doesn't fire
   noop() {},
 });
+
+// Summary-shape decorator: API list endpoint returns SchoolSummary (no
+// facilities). Card needs status / cityName subtitle / initial only;
+// the facility chip row in home.wxml gets `facilitiesList: []` and
+// renders nothing (wx:for on empty array is a no-op).
+//
+// `subtitle` is precomputed as "<cityName>" or "<cityName> · X.X 公里",
+// since WXML has no Number.toFixed support.
+function decorateSchoolSummary(s, distance, cityName) {
+  const st = STATUS[s.status];
+  const subtitle = (typeof distance === 'number')
+    ? `${cityName} · ${distance.toFixed(1)} 公里`
+    : cityName;
+  return {
+    ...s,
+    statusKey: st.key,
+    statusLabel: st.label,
+    statusBgClass: st.bgClass,
+    statusDotClass: st.dotClass,
+    statusOrder: st.order,
+    initial: s.name.charAt(0),
+    facilitiesList: [],
+    distanceKm: distance,
+    subtitle,
+  };
+}

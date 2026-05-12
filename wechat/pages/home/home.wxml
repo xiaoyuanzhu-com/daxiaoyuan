@@ -15,8 +15,17 @@
     </view>
   </view>
 
+  <view wx:if="{{loading}}" class="status-overlay">
+    <text class="status-overlay-text">加载中…</text>
+  </view>
+
+  <view wx:if="{{error && !loading}}" class="status-overlay">
+    <text class="status-overlay-text">{{error}}</text>
+    <button class="status-overlay-btn" bindtap="retry">重试</button>
+  </view>
+
   <!-- Map (always visible) -->
-  <view class="map-section">
+  <view wx:if="{{!loading && !error}}" class="map-section">
     <view class="map-wrap">
       <map id="campusMap"
            class="campus-map"
@@ -37,7 +46,7 @@
   </view>
 
   <!-- List (always below map) -->
-  <view class="list-section">
+  <view wx:if="{{!loading && !error}}" class="list-section">
     <view class="list-section-head">
       <text class="section-label">学校 · {{resultsCount}}</text>
       <button class="plain filter-trigger {{hasFilters ? 'on' : ''}}" bindtap="openFilter">
@@ -69,7 +78,7 @@
         <view class="school-card-top">
           <view class="school-card-name-wrap">
             <text class="school-name">{{s.name}}</text>
-            <text class="school-meta tnum">{{s.district}} · {{s.distance}} 公里 · {{s.confirms}} 人确认</text>
+            <text class="school-meta tnum">{{s.subtitle}}</text>
           </view>
           <view class="badge small {{s.statusBgClass}}">{{s.statusLabel}}</view>
         </view>
