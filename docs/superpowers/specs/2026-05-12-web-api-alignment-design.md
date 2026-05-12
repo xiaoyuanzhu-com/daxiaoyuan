@@ -156,10 +156,12 @@ const withDistance = useMemo(() => {
 
 ### UI shape 调整
 
-#### 学校名
+#### 学校名（中文 fallback）
 
-- 移除：`{lang === 'zh' ? school.zh : school.en}`
-- 改为：`{school.name}`
+- 移除所有 `{lang === 'zh' ? school.zh : school.en}` 形式
+- 全部改为 `{school.name}`(永远中文)
+- 在 lang === 'en' 模式下,学校名仍显示中文 —— 这是 spec 的 "内容默认中文" 原则:UI chrome 翻译,内容字段不翻译
+- 同样适用于 `school.address`、`reservation.hint`(都是 backend 给的中文内容字段)
 
 #### 卡片副标题（`SchoolCard.jsx`）
 
@@ -242,7 +244,11 @@ frontend 当前无 unit test 框架；用浏览器手动验证。
    - [ ] 停 backend → 首页显示错误 + retry 按钮 → backend 起回来 → 点 retry 恢复
 9. 控制台无 React warnings / proxy errors
 
-## 待回答的问题
+## 已确认的边界
 
-- **lang === 'en' 时学校名显示什么**？方案 spec 已经定为「显示中文 name」。但 UI 里中文字符在 en 模式下可能视觉违和。可选 fallback：用 slug 大写（`pku` → `PKU`）。倾向：先按 spec 走（中文 name）,如果视觉不佳再单独 iterate。
-- **地图组件**：检查 HomeScreen 当前有没有真实地图集成。如果是占位/无地图,本次不引入；如果是 placeholder 但样式重要,保留其作为 SVG 装饰元素即可。
+- **lang === 'en' 时学校名显示**：fallback 到中文 `name`（不另做翻译,也不用 slug 大写）。spec §UI shape 调整 §学校名 已写明。
+- **地图组件**：`HomeScreen.MapView` 是手写 SVG 假地图(纹理 + 装饰道路 + lat/lng 投影出来的学校标签),不是真地图库。基于 cx=116.34, cy=39.96 的北京中心。
+  - 本次 alignment 不动 MapView 整体结构,只改两处字段:
+    - 学校标签的文本:`s.zh.replace('大学','')` → `s.name.replace('大学','')`(en 模式不再用 `s.short`)
+    - schools 数据源:从 `SCHOOLS` import → useApi 返回值
+  - 非北京城市(切城市后)假地图视觉上会失真(投影错位),但此 alignment 阶段 backend 也没有非北京数据,实际不会触发。后续真正铺开多城市时再换真地图库
