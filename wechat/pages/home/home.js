@@ -133,6 +133,9 @@ Page({
       url: '/pages/cities/cities',
       events: {
         selectedCity: (city) => {
+          // TODO: recompute() is not city-aware yet — SCHOOLS is currently a
+          // single-city dataset. Picking a non-Beijing city will update the
+          // header chip and map center but the school list will stay Beijing.
           this.setData(
             {
               cityName: city.name,

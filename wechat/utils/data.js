@@ -100,6 +100,8 @@ const SCHOOLS = [
   },
 ];
 
+// Active cities MUST include lat and lng (used as the map center when picked).
+// Inactive cities may omit them — they are never emitted via eventChannel.
 const CITIES = [
   { id: 'bj', name: '北京', schools: 10, openRate: 0.30, active: true, lat: 39.96, lng: 116.34 },
   { id: 'sh', name: '上海', schools: 12, openRate: 0.45, active: false },
