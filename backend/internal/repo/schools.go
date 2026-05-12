@@ -199,7 +199,7 @@ func (s *Schools) Insert(ctx context.Context, sch *models.School) error {
 	}
 
 	_, err = s.db.ExecContext(ctx, `
-		INSERT INTO schools (
+		INSERT OR REPLACE INTO schools (
 			id, city_id, name, address, lat, lng, status, reservation,
 			library_status, library_reservation,
 			track_status, track_reservation,

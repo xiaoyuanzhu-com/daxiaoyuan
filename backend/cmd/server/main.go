@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/config"
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/db"
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/server"
@@ -10,6 +12,9 @@ import (
 
 func main() {
 	cfg := config.Load()
+	if cfg.LogLevel != "debug" {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	d, err := db.Open(cfg.DBPath)
 	if err != nil {
