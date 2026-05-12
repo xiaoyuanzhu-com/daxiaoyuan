@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { AppHeader } from '../components/AppHeader.jsx';
 import { StatusBadge } from '../components/StatusBadge.jsx';
 import { FacilityIcon } from '../components/FacilityIcon.jsx';
@@ -11,7 +11,6 @@ import { C, serif } from '../theme.js';
 
 export default function DetailScreen() {
   const { lang } = useLang();
-  const navigate = useNavigate();
   const { id } = useParams();
   const school = findSchool(id);
 
@@ -168,23 +167,6 @@ export default function DetailScreen() {
         </DetailSection>
       )}
 
-      <div style={{
-        position: 'sticky', bottom: 0, left: 0, right: 0,
-        background: `linear-gradient(to top, ${C.paper} 60%, rgba(246,241,232,0))`,
-        padding: '16px 16px 28px', marginTop: 8,
-      }}>
-        <button onClick={() => navigate(`/update/${school.id}`)} type="button" style={{
-          width: '100%', padding: 14, background: C.ink, color: C.paper,
-          border: 0, borderRadius: 12, fontSize: 15, fontWeight: 600, cursor: 'pointer',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-          letterSpacing: lang === 'zh' ? 0.6 : 0,
-        }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-            <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-          {t('iveBeen', lang)}
-        </button>
-      </div>
     </div>
   );
 }

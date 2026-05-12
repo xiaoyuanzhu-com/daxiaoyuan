@@ -143,10 +143,6 @@ Page({
     });
   },
 
-  openUpdate() {
-    wx.navigateTo({ url: '/pages/update/update' });
-  },
-
   openFilter() {
     this.setData({ filterOpen: true });
   },

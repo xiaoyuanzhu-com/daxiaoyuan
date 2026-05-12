@@ -29,9 +29,4 @@ Page({
 
     wx.setNavigationBarTitle({ title: school.name });
   },
-
-  openUpdate() {
-    if (!this.data.school) return;
-    wx.navigateTo({ url: `/pages/update/update?id=${this.data.school.id}` });
-  },
 });

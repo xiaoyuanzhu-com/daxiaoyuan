@@ -14,7 +14,6 @@ export const STR = {
   filter:         { zh: '筛选',     en: 'Filter' },
   search:         { zh: '搜索学校 / 设施', en: 'Search schools or facilities' },
   noMatch:        { zh: '没有符合条件的学校', en: 'No schools match' },
-  iveBeenShort:   { zh: '我去过',  en: "I've been" },
 
   entry:          { zh: '进入方式', en: 'How to enter' },
   schedule:       { zh: '开放时段', en: 'Open hours' },
@@ -23,36 +22,8 @@ export const STR = {
   summer:         { zh: '寒暑假',   en: 'Holidays' },
   facilities:     { zh: '设施',     en: 'Facilities' },
   notes:          { zh: '用户补充', en: 'Recent reports' },
-  iveBeen:        { zh: '我去过,更新一下', en: "I've been there — update" },
   confirms:       { zh: '人确认',   en: 'confirmations' },
   updatedAt:      { zh: '更新',     en: 'Updated' },
-
-  stepStatus:     { zh: '现在能进吗?',     en: 'Can you get in right now?' },
-  stepFacility:   { zh: '哪些设施开放?',   en: 'Which facilities are open?' },
-  stepDetail:     { zh: '想补充什么?',     en: 'Anything to add?' },
-  stepPickSchool: { zh: '你去的是哪所学校?', en: 'Which school did you visit?' },
-  stepThanks:     { zh: '收到,感谢!',      en: 'Thanks — submitted!' },
-  stepThanksSub:  { zh: '审核后将合入数据', en: "We'll review and merge into the dataset" },
-  basedOn:        { zh: '基于你的真实体验', en: 'Based on what you actually saw' },
-  cycleHint:      { zh: '点击切换:开放 / 不开放 / 不确定', en: 'Tap to cycle: open / closed / unsure' },
-  optional:       { zh: '选填,可以帮助其他人', en: 'Optional — helps others' },
-  placeholder:    { zh: '比如:今天 9 点从西门进,没排队…', en: 'e.g. Got in 9am via West Gate, no queue…' },
-  transparency:   { zh: '透明承诺', en: 'Transparency' },
-  transparencyBody: {
-    zh: '你的补充会经过审核,合入数据后会出现在学校页面。原始数据公开存放在 GitHub 上,任何人可以审计。',
-    en: 'Your report will be reviewed and merged into the dataset. The raw data lives openly on GitHub for anyone to audit.',
-  },
-  thisWeekRank: {
-    zh: '你是这周第 12 个为这所学校提交记录的人',
-    en: "You're the 12th person to log this school this week",
-  },
-
-  next:           { zh: '下一步', en: 'Next' },
-  back:           { zh: '返回',   en: 'Back' },
-  submit:         { zh: '提交',   en: 'Submit' },
-  done:           { zh: '完成',   en: 'Done' },
-  yes:            { zh: '能',     en: 'Yes' },
-  no:             { zh: '不能',   en: 'No' },
 
   aboutTitle:     { zh: '关于大大校园',                  en: 'About Daxiaoyuan' },
   aboutKicker:    { zh: '大同 · 大公 · 有容乃大',      en: 'Open. Public. Inclusive.' },
@@ -95,13 +66,6 @@ export const STR = {
   results:        { zh: '结果',     en: 'results' },
 
   km:             { zh: '公里',     en: 'km' },
-  facOpen:        { zh: '开放',     en: 'Open' },
-  facClosed:      { zh: '不开放',   en: 'Closed' },
-  facUnsure:      { zh: '不确定',   en: 'Unsure' },
-
-  step:           { zh: '第',       en: 'Step' },
-  stepTotal:      { zh: '步',       en: '' },
-  stepOf:         { zh: '步 · 共',  en: ' of ' },
 };
 
 export const t = (key, lang) => STR[key]?.[lang] ?? key;

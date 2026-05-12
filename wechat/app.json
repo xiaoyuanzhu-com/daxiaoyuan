@@ -2,7 +2,6 @@
   "pages": [
     "pages/home/home",
     "pages/detail/detail",
-    "pages/update/update",
     "pages/cities/cities",
     "pages/about/about"
   ],

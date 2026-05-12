@@ -223,37 +223,3 @@
   letter-spacing: 0.6rpx;
 }
 
-/* ---------- Sticky CTA ---------- */
-.cta-wrap {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 32rpx 32rpx 56rpx;
-  background: linear-gradient(to top, #FFFFFF 60%, rgba(255,255,255,0));
-  pointer-events: none;
-}
-.cta-wrap .big-button {
-  pointer-events: auto;
-}
-
-.big-button {
-  width: 100%;
-  padding: 28rpx;
-  background: #1A1815;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 24rpx;
-  font-size: 30rpx;
-  font-weight: 600;
-  letter-spacing: 1.2rpx;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12rpx;
-}
-.big-button::after { border: none; }
-.cta-plus {
-  font-size: 32rpx;
-  font-weight: 700;
-}

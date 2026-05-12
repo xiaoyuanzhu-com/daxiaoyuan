@@ -118,21 +118,6 @@ export default function HomeScreen() {
         ? <MapView lang={lang} schools={filtered} onOpen={(id) => navigate(`/s/${id}`)} />
         : <ListView lang={lang} schools={filtered} onOpen={(id) => navigate(`/s/${id}`)} />}
 
-      <button onClick={() => navigate('/update')} type="button" style={{
-        position: 'absolute', right: 14, bottom: 28, zIndex: 20,
-        background: C.ink, color: C.paper, border: 0,
-        padding: '10px 14px', borderRadius: 999, cursor: 'pointer',
-        fontSize: 13, fontWeight: 600,
-        display: 'flex', alignItems: 'center', gap: 6,
-        boxShadow: '0 4px 14px rgba(0,0,0,0.25)',
-        letterSpacing: lang === 'zh' ? 0.4 : 0,
-      }}>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-          <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-        </svg>
-        {t('iveBeenShort', lang)}
-      </button>
-
       {filterOpen && (
         <FilterSheet
           lang={lang}

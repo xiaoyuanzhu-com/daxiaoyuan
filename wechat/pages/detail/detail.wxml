@@ -63,12 +63,4 @@
       </view>
     </view>
   </view>
-
-  <!-- Sticky CTA -->
-  <view class="cta-wrap">
-    <button class="big-button" bindtap="openUpdate">
-      <text class="cta-plus">+</text>
-      我去过,更新一下
-    </button>
-  </view>
 </view>

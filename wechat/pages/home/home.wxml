@@ -85,12 +85,6 @@
     <view wx:if="{{schools.length === 0}}" class="empty">没有符合条件的学校</view>
   </view>
 
-  <!-- FAB -->
-  <button class="plain fab" bindtap="openUpdate">
-    <text class="fab-plus">+</text>
-    <text>我去过</text>
-  </button>
-
   <!-- Filter sheet (kept; trigger added back in Task 3) -->
   <view wx:if="{{filterOpen}}" class="sheet-mask" bindtap="closeFilter">
     <view class="sheet" catchtap="noop">
