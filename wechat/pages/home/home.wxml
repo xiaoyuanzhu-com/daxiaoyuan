@@ -40,7 +40,24 @@
   <view class="list-section">
     <view class="list-section-head">
       <text class="section-label">学校 · {{resultsCount}}</text>
+      <button class="plain filter-trigger {{hasFilters ? 'on' : ''}}" bindtap="openFilter">
+        筛选
+        <text wx:if="{{hasFilters}}" class="filter-trigger-count">· {{statusFilter.length + facFilter.length}}</text>
+      </button>
     </view>
+
+    <scroll-view scroll-x class="filter-chips" enhanced show-scrollbar="{{false}}">
+      <view
+        wx:for="{{statusOptions}}"
+        wx:key="key"
+        class="filter-chip {{statusFilterMap[item.key] ? 'on ' + item.bgClass : ''}}"
+        data-key="{{item.key}}"
+        bindtap="toggleStatus"
+      >
+        <view class="dot smaller {{item.dotClass}}"></view>
+        <text>{{item.label}}</text>
+      </view>
+    </scroll-view>
 
     <view wx:for="{{groups}}" wx:for-item="g" wx:key="key" class="list-group">
       <view class="list-group-head">
