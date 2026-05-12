@@ -11,12 +11,12 @@ import (
 
 func TestSchool_JSON_MinimalShape(t *testing.T) {
 	s := School{
-		ID:         "pku",
-		CityID:     "bj",
-		Name:       "北京大学",
-		Lat:        39.992,
-		Lng:        116.305,
-		Status:     "appt",
+		ID:     "pku",
+		CityID: "bj",
+		Name:   "北京大学",
+		Lat:    39.992,
+		Lng:    116.305,
+		Status: "appt",
 		Facilities: map[string]Facility{
 			"library": {Status: "closed"},
 			"track":   {Status: "closed"},
@@ -44,12 +44,12 @@ func TestSchool_JSON_MinimalShape(t *testing.T) {
 
 func TestSchool_JSON_WithReservation(t *testing.T) {
 	s := School{
-		ID:         "pku",
-		CityID:     "bj",
-		Name:       "北京大学",
-		Lat:        39.992,
-		Lng:        116.305,
-		Status:     "appt",
+		ID:     "pku",
+		CityID: "bj",
+		Name:   "北京大学",
+		Lat:    39.992,
+		Lng:    116.305,
+		Status: "appt",
 		Reservation: &Reservation{
 			QrcodeUrl: "https://example.com/qr.png",
 			Hint:      "关注「参观北大」公众号",

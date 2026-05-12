@@ -19,9 +19,9 @@ type City struct {
 }
 
 var (
-	cities   []City
-	byID     map[string]City
-	byCode   map[string]City
+	cities []City
+	byID   map[string]City
+	byCode map[string]City
 )
 
 func init() {

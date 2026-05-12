@@ -113,9 +113,9 @@ func TestSchools_Insert_RoundTrip(t *testing.T) {
 
 func TestSchools_CountByCity(t *testing.T) {
 	d := newTestDB(t)
-	insertTestSchool(t, d, &models.School{ID: "a", CityID: "bj", Name: "A", Status: "open",   LastUpdate: mustTime("2026-05-01T00:00:00Z")})
-	insertTestSchool(t, d, &models.School{ID: "b", CityID: "bj", Name: "B", Status: "open",   LastUpdate: mustTime("2026-05-01T00:00:00Z")})
-	insertTestSchool(t, d, &models.School{ID: "c", CityID: "bj", Name: "C", Status: "appt",   LastUpdate: mustTime("2026-05-01T00:00:00Z")})
+	insertTestSchool(t, d, &models.School{ID: "a", CityID: "bj", Name: "A", Status: "open", LastUpdate: mustTime("2026-05-01T00:00:00Z")})
+	insertTestSchool(t, d, &models.School{ID: "b", CityID: "bj", Name: "B", Status: "open", LastUpdate: mustTime("2026-05-01T00:00:00Z")})
+	insertTestSchool(t, d, &models.School{ID: "c", CityID: "bj", Name: "C", Status: "appt", LastUpdate: mustTime("2026-05-01T00:00:00Z")})
 	insertTestSchool(t, d, &models.School{ID: "d", CityID: "bj", Name: "D", Status: "closed", LastUpdate: mustTime("2026-05-01T00:00:00Z")})
 
 	r := NewSchools(d)
