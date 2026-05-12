@@ -25,29 +25,37 @@ export const STR = {
   confirms:       { zh: '人确认',   en: 'confirmations' },
   updatedAt:      { zh: '更新',     en: 'Updated' },
 
-  aboutTitle:     { zh: '关于大大校园',                  en: 'About Daxiaoyuan' },
-  aboutKicker:    { zh: '大同 · 大公 · 有容乃大',      en: 'Open. Public. Inclusive.' },
-  aboutLead:      { zh: '大学是公共资源,应当向所有人敞开。', en: 'Universities are public assets. They should be open to everyone.' },
-  values:         { zh: '我们相信', en: 'What we believe' },
-  v1Title:        { zh: '开放',      en: 'Openness' },
-  v1Body:         { zh: '校园是城市的呼吸,应当向社会敞开。',
-                    en: 'Campuses are the city breathing. They should be open to society.' },
-  v2Title:        { zh: '人人',      en: 'Everyone' },
-  v2Body:         { zh: '不分校友、不分身份,每个人都可以走进去。',
-                    en: 'Alumni or not, anyone should be able to walk in.' },
-  v3Title:        { zh: '透明',      en: 'Transparency' },
-  v3Body:         { zh: '把现状摊在所有人面前,是推动改变的第一步。',
-                    en: 'Showing the status quo is the first step toward changing it.' },
-  liveTitle:      { zh: '目前的状况', en: 'Where things stand' },
-  fullyOpen:      { zh: '完全开放',   en: 'Fully open' },
-  withFriction:   { zh: '需预约 / 限时', en: 'With friction' },
-  closedOrAlumni: { zh: '关闭 / 仅校友', en: 'Closed or alumni-only' },
-  outOf:          { zh: '所北京高校', en: 'tracked schools in Beijing' },
-  pullQuote:      { zh: '「大」取大同、大公、有容乃大之意。',
-                    en: '"Big" — as in unity, common good, and big enough to hold us all.' },
-  pullQuoteSig:   { zh: '名字的由来', en: 'on the name' },
+  aboutTitle:     { zh: '关于',  en: 'About' },
+
+  // —— 引
+  aboutQ1Body:    { zh: '大学之道，在明明德，在亲民，在止于至善。',
+                    en: 'The way of great learning lies in manifesting illustrious virtue, in being close to the people, and in coming to rest in the highest good.' },
+  aboutQ1Source:  { zh: '——《大学》', en: '— The Great Learning' },
+
+  // —— 述
+  aboutN1:        { zh: '大学的园子、操场、图书馆、湖边，本来就是一座城市的一部分。',
+                    en: 'A university’s gardens, fields, library and lakeside have always been part of the city around it.' },
+  aboutN2:        { zh: '新冠之后，许多大学关上了对外的门。市民失去了散步、读书、看银杏的地方；而「今天那所学校能不能进去」这件本应清晰的事，散落在过期新闻与小红书帖子里，无从查证。',
+                    en: 'After the pandemic, many campuses closed their doors. Residents lost places to walk, to read, to see the ginkgos turn; and the simple question “can I get into this campus today?” became something only stale news and scattered posts could half-answer.' },
+  aboutN3:        { zh: '「大大校园」逐校核对每所学校今天的开放状况，免费、公开、人人可查。',
+                    en: 'Daxiaoyuan checks the openness of each campus, one by one — free, public, and open to anyone.' },
+
+  // —— 呼
+  aboutQ2Body:    { zh: '故外户而不闭，是谓大同。',
+                    en: 'When the outer doors need not be shut — this is what is called the Great Unity.' },
+  aboutQ2Source:  { zh: '——《礼记·礼运》', en: '— Book of Rites, Liyun' },
+  aboutCallBody:  { zh: '这是难抵达的理想。我们能做的，是让现状先被看见；你能做的，是下次走过某所学校之后，回来告诉我们一声——「今天进去了 / 没进去」。',
+                    en: 'It is a far ideal. What we can do is make the present visible. What you can do is tell us next time you walk past a campus — “I got in today” or “I didn’t.”' },
+  aboutQ3Body:    { zh: '苟日新，日日新，又日新。',
+                    en: 'If renewed for a day, renewed day by day, and renewed yet again.' },
+  aboutQ3Source:  { zh: '——《大学》引《盘铭》', en: '— Inscribed on Tang’s washbasin, cited in The Great Learning' },
+
+  // —— 落款
+  aboutDedication: { zh: '致每一位曾在校园里走过的人。',
+                     en: 'For everyone who has ever walked through a campus.' },
+
   openSourceKicker: { zh: '开源 · 开放数据', en: 'Open source · open data' },
-  openSourceBody:   { zh: '所有学校数据公开存放在 GitHub,欢迎 PR 与审计。',
+  openSourceBody:   { zh: '所有学校数据公开存放在 GitHub，欢迎 PR 与审计。',
                        en: 'All school data lives openly on GitHub. PRs and audits welcome.' },
 
   citiesTitle:    { zh: '城市',     en: 'Cities' },

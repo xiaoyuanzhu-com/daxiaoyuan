@@ -1,161 +1,168 @@
 import { AppHeader } from '../components/AppHeader.jsx';
-import { SectionLabel } from '../components/SectionLabel.jsx';
-import { SCHOOLS } from '../data/seed.js';
-import { STATUS } from '../data/status.js';
 import { t } from '../data/i18n.js';
 import { useLang } from '../context/LangContext.jsx';
 import { C, serif } from '../theme.js';
+import gateImg from '../assets/about-gate.png';
 
 export default function AboutScreen() {
   const { lang } = useLang();
-  const stats = SCHOOLS.reduce((a, s) => {
-    if (s.status === 'open') a.open++;
-    else if (s.status === 'closed' || s.status === 'alumni') a.closed++;
-    else a.friction++;
-    return a;
-  }, { open: 0, friction: 0, closed: 0 });
+  const isZh = lang === 'zh';
 
   return (
-    <div style={{ background: C.paper, minHeight: '100%', paddingBottom: 60 }}>
+    <div style={{ background: C.paper, minHeight: '100%', paddingBottom: 56 }}>
       <AppHeader title={t('aboutTitle', lang)} accent={C.paper} />
 
-      <div style={{
-        padding: '32px 24px 28px', background: C.paperAlt,
-        position: 'relative', overflow: 'hidden',
+      {/* —— 引 */}
+      <section style={{
+        padding: '72px 28px 56px',
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        textAlign: 'center',
+      }}>
+        <Quote large lang={lang}>{t('aboutQ1Body', lang)}</Quote>
+        <Source lang={lang}>{t('aboutQ1Source', lang)}</Source>
+      </section>
+
+      <Divider />
+
+      {/* —— 述 */}
+      <section style={{
+        padding: '52px 28px 56px',
+        maxWidth: 520, margin: '0 auto',
+      }}>
+        <Prose lang={lang}>{t('aboutN1', lang)}</Prose>
+        <Prose lang={lang}>{t('aboutN2', lang)}</Prose>
+        <Prose lang={lang}>{t('aboutN3', lang)}</Prose>
+      </section>
+
+      <Divider />
+
+      {/* —— 呼 (with 题画 gate background) */}
+      <section style={{
+        position: 'relative', padding: '64px 28px 60px',
+        maxWidth: 560, margin: '0 auto',
+        overflow: 'hidden',
+      }}>
+        <img src={gateImg} alt="" aria-hidden="true" style={{
+          position: 'absolute',
+          right: -8, bottom: 16,
+          width: '78%', maxWidth: 420,
+          opacity: 0.22,
+          pointerEvents: 'none',
+          userSelect: 'none',
+          mixBlendMode: 'multiply',
+        }} />
+        <div style={{ position: 'relative' }}>
+          <Quote lang={lang}>{t('aboutQ2Body', lang)}</Quote>
+          <Source lang={lang}>{t('aboutQ2Source', lang)}</Source>
+
+          <div style={{ height: 44 }} />
+
+          <Prose lang={lang} faded>{t('aboutCallBody', lang)}</Prose>
+
+          <div style={{ height: 32 }} />
+
+          <Quote lang={lang}>{t('aboutQ3Body', lang)}</Quote>
+          <Source lang={lang}>{t('aboutQ3Source', lang)}</Source>
+        </div>
+      </section>
+
+      <Divider />
+
+      {/* —— 落款 */}
+      <section style={{
+        padding: '48px 28px 40px', textAlign: 'center',
       }}>
         <div style={{
-          position: 'absolute', right: -30, top: -30, opacity: 0.06,
-          fontSize: 220, fontWeight: 900, lineHeight: 1, color: C.ink,
-          fontFamily: 'serif', pointerEvents: 'none',
-        }}>大</div>
-        <div style={{
-          fontSize: 11, color: C.ink60, letterSpacing: 1.5,
-          fontWeight: 600, textTransform: 'uppercase',
-        }}>{t('aboutKicker', lang)}</div>
-        <div style={{
-          marginTop: 12, fontSize: 28, fontWeight: 700, color: C.ink,
-          lineHeight: 1.25, letterSpacing: lang === 'zh' ? 1 : 0,
           fontFamily: serif(lang),
-        }}>{t('aboutLead', lang)}</div>
-      </div>
+          fontSize: 13, color: C.ink40,
+          letterSpacing: isZh ? 2 : 0.4,
+          fontStyle: isZh ? 'normal' : 'italic',
+        }}>{t('aboutDedication', lang)}</div>
+      </section>
 
-      <div style={{ padding: '24px 16px 8px' }}>
-        <SectionLabel lang={lang}>{t('liveTitle', lang)}</SectionLabel>
-        <div style={{ marginTop: 14, padding: '0 4px' }}>
+      {/* —— 开源 */}
+      <div style={{ padding: '0 20px 32px' }}>
+        <a
+          href="https://github.com/xiaoyuanzhu-com/daxiaoyuan"
+          target="_blank" rel="noreferrer"
+          style={{
+            display: 'block',
+            background: 'transparent',
+            border: `1px solid ${C.line}`,
+            borderRadius: 4,
+            padding: '18px 18px',
+            textDecoration: 'none',
+            color: 'inherit',
+          }}
+        >
           <div style={{
-            display: 'flex', height: 36, borderRadius: 6, overflow: 'hidden',
-            border: `1px solid ${C.line}`, background: C.card,
-          }}>
-            <Bar n={stats.open} total={SCHOOLS.length} bg={STATUS.open.bg} ink={STATUS.open.ink} />
-            <Bar n={stats.friction} total={SCHOOLS.length} bg={STATUS.daytime.bg} ink={STATUS.daytime.ink} />
-            <Bar n={stats.closed} total={SCHOOLS.length} bg={STATUS.closed.bg} ink={STATUS.closed.ink} />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
-            <LegendRow label={t('fullyOpen', lang)} n={stats.open} total={SCHOOLS.length} dot={STATUS.open.dot} lang={lang} />
-            <LegendRow label={t('withFriction', lang)} n={stats.friction} total={SCHOOLS.length} dot={STATUS.daytime.dot} lang={lang} />
-            <LegendRow label={t('closedOrAlumni', lang)} n={stats.closed} total={SCHOOLS.length} dot={STATUS.closed.dot} lang={lang} />
-          </div>
-          <div style={{
-            fontSize: 11, color: C.ink40, marginTop: 14,
-            letterSpacing: lang === 'zh' ? 0.3 : 0,
-          }}>
-            {lang === 'zh'
-              ? `数据来源:${SCHOOLS.length} 所北京高校,用户共建`
-              : `From ${SCHOOLS.length} ${t('outOf', lang)} · community-sourced`}
-          </div>
-        </div>
-      </div>
-
-      <div style={{ padding: '32px 16px 8px' }}>
-        <SectionLabel lang={lang}>{t('values', lang)}</SectionLabel>
-        <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column' }}>
-          {[
-            { num: '01', title: t('v1Title', lang), body: t('v1Body', lang) },
-            { num: '02', title: t('v2Title', lang), body: t('v2Body', lang) },
-            { num: '03', title: t('v3Title', lang), body: t('v3Body', lang) },
-          ].map((v) => (
-            <div key={v.num} style={{
-              display: 'flex', gap: 16, padding: '18px 4px',
-              borderTop: `1px solid ${C.line}`,
-            }}>
-              <div style={{
-                fontSize: 11, color: C.ink40, fontWeight: 600, marginTop: 6, width: 24,
-                fontFeatureSettings: '"tnum"',
-              }}>{v.num}</div>
-              <div style={{ flex: 1 }}>
-                <div style={{
-                  fontSize: 18, fontWeight: 700, color: C.ink,
-                  letterSpacing: lang === 'zh' ? 1 : 0,
-                  fontFamily: serif(lang),
-                }}>{v.title}</div>
-                <div style={{
-                  fontSize: 13, color: C.ink60, marginTop: 6, lineHeight: 1.55,
-                  letterSpacing: lang === 'zh' ? 0.3 : 0,
-                }}>{v.body}</div>
-              </div>
-            </div>
-          ))}
-          <div style={{ borderTop: `1px solid ${C.line}` }} />
-        </div>
-      </div>
-
-      <div style={{ padding: '32px 24px', textAlign: 'center' }}>
-        <div style={{
-          fontSize: 18, fontWeight: 500, color: C.ink, lineHeight: 1.5,
-          letterSpacing: lang === 'zh' ? 0.6 : 0,
-          fontFamily: serif(lang),
-          fontStyle: lang === 'zh' ? 'normal' : 'italic',
-        }}>{t('pullQuote', lang)}</div>
-        <div style={{ fontSize: 11, color: C.ink40, marginTop: 12, letterSpacing: 1 }}>
-          — {t('pullQuoteSig', lang)}
-        </div>
-      </div>
-
-      <div style={{ padding: '0 16px 32px' }}>
-        <div style={{
-          background: C.ink, color: C.paper, borderRadius: 14, padding: '20px 18px',
-        }}>
-          <div style={{
-            fontSize: 11, fontWeight: 600, letterSpacing: 1.4,
-            opacity: 0.6, textTransform: 'uppercase',
+            fontSize: 10, fontWeight: 600, letterSpacing: 1.6,
+            color: C.ink40, textTransform: 'uppercase',
           }}>{t('openSourceKicker', lang)}</div>
           <div style={{
-            fontSize: 16, fontWeight: 600, marginTop: 8, lineHeight: 1.4,
-            letterSpacing: lang === 'zh' ? 0.4 : 0, fontFamily: 'inherit',
+            fontSize: 13, color: C.ink, marginTop: 8, lineHeight: 1.55,
+            letterSpacing: isZh ? 0.3 : 0,
           }}>{t('openSourceBody', lang)}</div>
           <div style={{
-            marginTop: 14, padding: '10px 12px',
-            background: 'rgba(255,255,255,0.08)', borderRadius: 8,
+            marginTop: 12,
             fontFamily: '"SF Mono", "Menlo", monospace', fontSize: 11,
-            color: 'rgba(255,255,255,0.7)',
+            color: C.ink60,
           }}>github.com/xiaoyuanzhu-com/daxiaoyuan</div>
-        </div>
+        </a>
       </div>
     </div>
   );
 }
 
-function Bar({ n, total, bg, ink }) {
-  const pct = (n / total) * 100;
-  if (pct === 0) return null;
+function Quote({ children, large, lang }) {
   return (
     <div style={{
-      width: pct + '%', background: bg,
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontSize: 12, fontWeight: 700, color: ink, fontFeatureSettings: '"tnum"',
-      borderRight: '1px solid rgba(0,0,0,0.04)',
-    }}>{n}</div>
+      fontFamily: serif(lang),
+      fontSize: large ? 22 : 19,
+      lineHeight: 1.7,
+      color: C.ink,
+      letterSpacing: lang === 'zh' ? (large ? 3 : 2) : 0.2,
+      fontStyle: lang === 'zh' ? 'normal' : 'italic',
+      fontWeight: 400,
+      textAlign: large ? 'center' : 'left',
+      maxWidth: large ? 380 : '100%',
+      margin: large ? '0 auto' : '0',
+    }}>{children}</div>
   );
 }
 
-function LegendRow({ label, n, total, dot, lang }) {
+function Source({ children, lang }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-      <span style={{ width: 8, height: 8, borderRadius: 999, background: dot, flexShrink: 0 }} />
-      <span style={{ flex: 1, fontSize: 13, color: C.ink, letterSpacing: lang === 'zh' ? 0.4 : 0 }}>{label}</span>
-      <span style={{ fontSize: 13, color: C.ink60, fontFeatureSettings: '"tnum"' }}>
-        {n}<span style={{ color: C.ink40 }}> / {total}</span>
-      </span>
-    </div>
+    <div style={{
+      marginTop: 18,
+      fontSize: 11,
+      color: C.ink40,
+      letterSpacing: lang === 'zh' ? 1.5 : 0.8,
+      fontFamily: serif(lang),
+    }}>{children}</div>
+  );
+}
+
+function Prose({ children, lang, faded }) {
+  return (
+    <p style={{
+      fontFamily: serif(lang),
+      fontSize: 15,
+      lineHeight: 1.9,
+      color: faded ? C.ink60 : C.ink,
+      letterSpacing: lang === 'zh' ? 0.5 : 0.1,
+      margin: '0 0 18px',
+      textIndent: lang === 'zh' ? '2em' : 0,
+    }}>{children}</p>
+  );
+}
+
+function Divider() {
+  return (
+    <div style={{
+      width: 32, height: 1,
+      background: C.ink20,
+      margin: '0 auto',
+    }} />
   );
 }

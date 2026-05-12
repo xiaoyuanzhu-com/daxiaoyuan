@@ -1,71 +1,53 @@
 <!--pages/about/about.wxml-->
-<view class="page c-paper">
-  <view class="hero c-paper-alt">
-    <text class="hero-mark serif">大</text>
-    <text class="hero-kicker">大同 · 大公 · 有容乃大</text>
-    <text class="hero-lead serif">大学是公共资源,应当向所有人敞开。</text>
+<view class="page">
+
+  <!-- —— 引 -->
+  <view class="section section-yin">
+    <text class="quote quote-large serif">大学之道，在明明德，在亲民，在止于至善。</text>
+    <text class="source serif">——《大学》</text>
   </view>
 
-  <view class="section">
-    <text class="section-label">目前的状况</text>
+  <view class="divider"></view>
 
-    <view class="stack-bar">
-      <view wx:if="{{pctOpen > 0}}" class="bar-seg status-open" style="width: {{pctOpen}}%;">
-        <text class="bar-seg-text">{{statsOpen}}</text>
-      </view>
-      <view wx:if="{{pctFriction > 0}}" class="bar-seg status-daytime" style="width: {{pctFriction}}%;">
-        <text class="bar-seg-text">{{statsFriction}}</text>
-      </view>
-      <view wx:if="{{pctClosed > 0}}" class="bar-seg status-closed" style="width: {{pctClosed}}%;">
-        <text class="bar-seg-text">{{statsClosed}}</text>
-      </view>
-    </view>
-
-    <view class="legend-list">
-      <view class="legend-line">
-        <view class="dot smaller dot-open"></view>
-        <text class="legend-label">完全开放</text>
-        <text class="legend-frac tnum">{{statsOpen}}<text class="ink40-inline"> / {{total}}</text></text>
-      </view>
-      <view class="legend-line">
-        <view class="dot smaller dot-daytime"></view>
-        <text class="legend-label">需预约 / 限时</text>
-        <text class="legend-frac tnum">{{statsFriction}}<text class="ink40-inline"> / {{total}}</text></text>
-      </view>
-      <view class="legend-line">
-        <view class="dot smaller dot-closed"></view>
-        <text class="legend-label">关闭 / 仅校友</text>
-        <text class="legend-frac tnum">{{statsClosed}}<text class="ink40-inline"> / {{total}}</text></text>
-      </view>
-    </view>
-
-    <text class="footnote">数据来源:{{total}} 所北京高校,用户共建</text>
+  <!-- —— 述 -->
+  <view class="section section-shu">
+    <text class="prose serif">大学的园子、操场、图书馆、湖边，本来就是一座城市的一部分。</text>
+    <text class="prose serif">新冠之后，许多大学关上了对外的门。市民失去了散步、读书、看银杏的地方；而「今天那所学校能不能进去」这件本应清晰的事，散落在过期新闻与小红书帖子里，无从查证。</text>
+    <text class="prose serif">「大大校园」逐校核对每所学校今天的开放状况，免费、公开、人人可查。</text>
   </view>
 
-  <view class="section">
-    <text class="section-label">我们相信</text>
-    <view class="values-list">
-      <view wx:for="{{values}}" wx:key="num" class="value-row">
-        <text class="value-num tnum">{{item.num}}</text>
-        <view class="value-text">
-          <text class="value-title serif">{{item.title}}</text>
-          <text class="value-body">{{item.body}}</text>
-        </view>
-      </view>
+  <view class="divider"></view>
+
+  <!-- —— 呼 (with 题画 gate background) -->
+  <view class="section section-hu">
+    <image class="gate" src="/images/about-gate.png" mode="aspectFit" aria-hidden="true"></image>
+    <view class="hu-content">
+      <text class="quote serif">故外户而不闭，是谓大同。</text>
+      <text class="source serif">——《礼记·礼运》</text>
+
+      <view class="spacer-md"></view>
+
+      <text class="prose prose-faded serif">这是难抵达的理想。我们能做的，是让现状先被看见；你能做的，是下次走过某所学校之后，回来告诉我们一声——「今天进去了 / 没进去」。</text>
+
+      <view class="spacer-sm"></view>
+
+      <text class="quote serif">苟日新，日日新，又日新。</text>
+      <text class="source serif">——《大学》引《盘铭》</text>
     </view>
   </view>
 
-  <view class="pull-quote serif">
-    「大」取大同、大公、有容乃大之意。
-  </view>
-  <text class="pull-quote-sig">— 名字的由来</text>
+  <view class="divider"></view>
 
-  <view class="repo-card" bindtap="copyRepo">
+  <!-- —— 落款 -->
+  <view class="section section-dedication">
+    <text class="dedication serif">致每一位曾在校园里走过的人。</text>
+  </view>
+
+  <!-- —— 开源 -->
+  <view class="repo-card" bindtap="copyRepo" hover-class="repo-card-hover">
     <text class="repo-kicker">开源 · 开放数据</text>
-    <text class="repo-body">所有学校数据公开存放在 GitHub,欢迎 PR 与审计。</text>
-    <view class="repo-url-pill">
-      <text class="repo-url">github.com/xiaoyuanzhu-com/daxiaoyuan</text>
-    </view>
-    <text class="repo-tap-hint">点击复制链接</text>
+    <text class="repo-body serif">所有学校数据公开存放在 GitHub，欢迎 PR 与审计。</text>
+    <text class="repo-url">github.com/xiaoyuanzhu-com/daxiaoyuan</text>
   </view>
+
 </view>
