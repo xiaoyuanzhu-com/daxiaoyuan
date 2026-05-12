@@ -33,12 +33,6 @@ Page({
     });
   },
 
-  onShow() {
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setData({ selected: 1 });
-    }
-  },
-
   copyRepo() {
     wx.setClipboardData({ data: 'github.com/xiaoyuanzhu-com/daxiaoyuan' });
   },
