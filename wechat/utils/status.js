@@ -9,9 +9,9 @@ const STATUS = {
 };
 
 const FACILITIES = {
-  library: { label: '图书馆', short: '书' },
-  track:   { label: '操场',   short: '跑' },
-  gym:     { label: '体育馆', short: '体' },
+  library: { label: '图书馆', short: '图' },
+  track:   { label: '操场',   short: '场' },
+  gym:     { label: '体育馆', short: '馆' },
   canteen: { label: '食堂',   short: '食' },
 };
 
