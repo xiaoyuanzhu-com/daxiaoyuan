@@ -36,97 +36,19 @@
            show-location="{{true}}"
            bindmarkertap="openMarker"></map>
     </view>
-
-    <view class="legend">
-      <view wx:for="{{legend}}" wx:key="key" class="legend-item">
-        <view class="dot smaller {{item.dotClass}}"></view>
-        <text>{{item.label}}</text>
-      </view>
-    </view>
   </view>
 
   <!-- List (always below map) -->
   <view wx:if="{{!loading && !error}}" class="list-section">
-    <view class="list-section-head">
-      <text class="section-label">学校 · {{resultsCount}}</text>
-      <button class="plain filter-trigger {{hasFilters ? 'on' : ''}}" bindtap="openFilter">
-        筛选
-        <text wx:if="{{hasFilters}}" class="filter-trigger-count">· {{statusFilter.length + facFilter.length}}</text>
-      </button>
-    </view>
-
-    <scroll-view scroll-x class="filter-chips" enhanced show-scrollbar="{{false}}">
-      <view
-        wx:for="{{statusOptions}}"
-        wx:key="key"
-        class="filter-chip {{statusFilterMap[item.key] ? 'on ' + item.bgClass : ''}}"
-        data-key="{{item.key}}"
-        bindtap="toggleStatus"
-      >
-        <view class="dot smaller {{item.dotClass}}"></view>
-        <text>{{item.label}}</text>
-      </view>
-    </scroll-view>
-
-    <view wx:for="{{groups}}" wx:for-item="g" wx:key="key" class="list-group">
-      <view class="list-group-head">
-        <view class="dot smaller {{g.dotClass}}"></view>
-        <text class="section-label">{{g.label}}</text>
-        <text class="ink40">· {{g.count}}</text>
-      </view>
-      <view wx:for="{{g.items}}" wx:for-item="s" wx:key="id" class="card school-card" data-id="{{s.id}}" bindtap="openSchool">
-        <view class="school-card-top">
-          <view class="school-card-name-wrap">
-            <text class="school-name">{{s.name}}</text>
-            <text class="school-meta tnum">{{s.subtitle}}</text>
-          </view>
-          <view class="badge small {{s.statusBgClass}}">{{s.statusLabel}}</view>
+    <view wx:for="{{schools}}" wx:for-item="s" wx:key="id" class="card school-card" data-id="{{s.id}}" bindtap="openSchool">
+      <view class="school-card-top">
+        <view class="school-card-name-wrap">
+          <text class="school-name">{{s.name}}</text>
+          <text class="school-meta tnum">{{s.subtitle}}</text>
         </view>
-        <view class="school-card-facs">
-          <view wx:for="{{s.facilitiesList}}" wx:for-item="f" wx:key="key" class="fac-chip {{f.muted ? 'muted' : ''}}">
-            <text class="fac-short {{f.bgClass}}">{{f.short}}</text>
-            <text class="fac-label {{f.strikethrough ? 'strike' : ''}}">{{f.label}}</text>
-            <view class="dot smaller {{f.dotClass}}"></view>
-          </view>
-        </view>
+        <view class="badge small {{s.statusBgClass}}">{{s.statusLabel}}</view>
       </view>
     </view>
     <view wx:if="{{schools.length === 0}}" class="empty">没有符合条件的学校</view>
-  </view>
-
-  <!-- Filter sheet (kept; trigger added back in Task 3) -->
-  <view wx:if="{{filterOpen}}" class="sheet-mask" bindtap="closeFilter">
-    <view class="sheet" catchtap="noop">
-      <view class="sheet-grab"></view>
-      <view class="sheet-head">
-        <text class="sheet-title">筛选</text>
-        <text class="sheet-reset" bindtap="resetFilter">重置</text>
-      </view>
-
-      <text class="section-label">开放等级</text>
-      <view class="chip-row">
-        <view wx:for="{{statusOptions}}" wx:key="key"
-              class="chip {{statusFilterMap[item.key] ? 'on ' + item.bgClass : ''}}"
-              data-key="{{item.key}}"
-              bindtap="toggleStatus">
-          <view class="dot smaller {{item.dotClass}}"></view>
-          <text>{{item.label}}</text>
-        </view>
-      </view>
-
-      <text class="section-label">设施</text>
-      <view class="chip-row">
-        <view wx:for="{{facOptions}}" wx:key="key"
-              class="chip {{facFilterMap[item.key] ? 'dark' : ''}}"
-              data-key="{{item.key}}"
-              bindtap="toggleFac">
-          <text>{{item.label}}</text>
-        </view>
-      </view>
-
-      <button class="big-button" bindtap="applyFilter">
-        应用 <text class="big-button-sub">· {{resultsCount}} 结果</text>
-      </button>
-    </view>
   </view>
 </view>
