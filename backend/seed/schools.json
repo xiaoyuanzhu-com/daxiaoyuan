@@ -28,8 +28,7 @@
     "lng": 116.326,
     "status": "appt",
     "reservation": {
-      "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
-      "hint": "识别小程序码进入「清华大学参观预约」"
+      "hint": "搜索小程序「清华大学参观预约」"
     },
     "facilities": {
       "library": { "status": "closed" },

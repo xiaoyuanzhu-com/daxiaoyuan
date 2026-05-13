@@ -80,3 +80,10 @@ func TestReservation_LinkOmittedWhenEmpty(t *testing.T) {
 	require.NoError(t, err)
 	assert.NotContains(t, string(b), `"link"`)
 }
+
+func TestReservation_QrcodeUrlOmittedWhenEmpty(t *testing.T) {
+	r := Reservation{Hint: "搜索小程序「北大预约」"}
+	b, err := json.Marshal(r)
+	require.NoError(t, err)
+	assert.NotContains(t, string(b), `"qrcodeUrl"`)
+}

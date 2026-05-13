@@ -48,7 +48,7 @@ Page({
       modal: {
         visible: true,
         title,
-        qrcodeUrl: r.qrcodeUrl,
+        qrcodeUrl: r.qrcodeUrl || '',
         hint: r.hint || '',
         link: r.link || '',
       },

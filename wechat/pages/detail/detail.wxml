@@ -54,12 +54,14 @@
 <view wx:if="{{modal.visible}}" class="modal-mask" bindtap="closeModal" catchtouchmove="noop">
   <view class="modal-sheet" catchtap="noop">
     <text class="modal-title">{{modal.title}}</text>
-    <image class="modal-qrcode"
-           src="{{modal.qrcodeUrl}}"
-           mode="aspectFit"
-           show-menu-by-longpress="{{true}}"
-           bindtap="saveQrcode"/>
-    <text class="modal-hint-small">长按识别二维码 · 点击保存到相册</text>
+    <block wx:if="{{modal.qrcodeUrl}}">
+      <image class="modal-qrcode"
+             src="{{modal.qrcodeUrl}}"
+             mode="aspectFit"
+             show-menu-by-longpress="{{true}}"
+             bindtap="saveQrcode"/>
+      <text class="modal-hint-small">长按识别二维码 · 点击保存到相册</text>
+    </block>
     <text wx:if="{{modal.hint}}" class="modal-hint">{{modal.hint}}</text>
     <view wx:if="{{modal.link}}" class="modal-actions">
       <view class="modal-btn" bindtap="copyLink">复制链接</view>
