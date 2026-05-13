@@ -1,6 +1,15 @@
-const { fetchSchools } = require('../../utils/api.js');
+const { fetchCities, fetchSchools } = require('../../utils/api.js');
 const { distanceKm } = require('../../utils/distance.js');
 const { STATUS, STATUS_ORDER, FACILITIES } = require('../../utils/status.js');
+
+const citySelector = requirePlugin('citySelector');
+
+// Top 10 中国大陆按高校数量排序的城市,作为 citySelector 的热门城市
+// (替代插件默认的「北京/上海/天津/重庆/广州/深圳/成都/杭州」)。
+//
+// 注意:腾讯位置服务城市库的 name 为「<城市>市」全称。直辖市裸名也能匹配,
+// 但地级市(武汉/西安/郑州 等)必须带「市」后缀才能命中。
+const HOT_CITIES = '北京市,武汉市,广州市,上海市,西安市,重庆市,天津市,南京市,成都市,郑州市';
 
 const STATUS_OPTIONS = STATUS_ORDER.map((k) => ({
   key: k, label: STATUS[k].label, dotClass: STATUS[k].dotClass, bgClass: STATUS[k].bgClass,
@@ -50,7 +59,45 @@ Page({
 
   onLoad() {
     this.locateUser();
+    this.loadCityIndex();
     this.loadAll();
+  },
+
+  // Picks up the result of the Tencent citySelector plugin after the user
+  // returns from it. Also runs on initial show (getCity returns null then).
+  onShow() {
+    const picked = citySelector.getCity && citySelector.getCity();
+    if (!picked) return;
+    citySelector.clearCity();
+    this.applyPickedCity(picked);
+  },
+
+  // Fetches the active city list and indexes by adcode so we can map the
+  // plugin's adcode (e.g. "110100") back to our backend slug ("bj").
+  async loadCityIndex() {
+    try {
+      const cities = await fetchCities();
+      const byCode = {};
+      for (const c of cities) if (c.active) byCode[c.code] = c;
+      this.cityByCode = byCode;
+    } catch (e) {
+      this.cityByCode = {};
+    }
+  },
+
+  applyPickedCity(picked) {
+    const match = this.cityByCode && this.cityByCode[picked.id];
+    if (!match) {
+      wx.showToast({ title: `${picked.name}暂未上线`, icon: 'none' });
+      return;
+    }
+    if (match.id === this.data.cityId) return;
+    this.setData({
+      cityId: match.id,
+      cityName: match.name,
+      cityLat: match.lat,
+      cityLng: match.lng,
+    }, () => this.loadAll());
   },
 
   // Center map on user's location; falls back silently to the default
@@ -183,22 +230,19 @@ Page({
   },
 
   openCities() {
-    wx.navigateTo({
-      url: '/pages/cities/cities',
-      events: {
-        selectedCity: (city) => {
-          this.setData(
-            {
-              cityId: city.id,
-              cityName: city.name,
-              cityLat: city.lat,
-              cityLng: city.lng,
-            },
-            () => this.loadAll(),
-          );
-        },
-      },
-    });
+    const app = getApp();
+    const key = app.globalData.tencentMapKey;
+    if (!key) {
+      wx.showToast({ title: '未配置腾讯位置服务 key', icon: 'none' });
+      return;
+    }
+    const params = [
+      `key=${encodeURIComponent(key)}`,
+      `referer=${encodeURIComponent('大大校园')}`,
+      // `hotCitys=${encodeURIComponent(HOT_CITIES)}`,
+      'accurate=1',
+    ].join('&');
+    wx.navigateTo({ url: `plugin://citySelector/index?${params}` });
   },
 
   openFilter() { this.setData({ filterOpen: true }); },

@@ -2,9 +2,14 @@
   "pages": [
     "pages/home/home",
     "pages/detail/detail",
-    "pages/cities/cities",
     "pages/about/about"
   ],
+  "plugins": {
+    "citySelector": {
+      "version": "1.0.3",
+      "provider": "wx63ffb7b7894e99ae"
+    }
+  },
   "tabBar": {
     "color": "#A3A3A1",
     "selectedColor": "#1A1815",

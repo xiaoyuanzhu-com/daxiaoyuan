@@ -20,7 +20,7 @@
 
   <!-- —— 呼 (with 题画 gate background) -->
   <view class="section section-hu">
-    <image class="gate" src="/images/about-gate.png" mode="aspectFit" aria-hidden="true"></image>
+    <image class="gate" src="/images/about-gate.jpg" mode="aspectFit" aria-hidden="true"></image>
     <view class="hu-content">
       <text class="quote serif">故外户而不闭，是谓大同。</text>
       <text class="source serif">——《礼记·礼运》</text>
