@@ -119,10 +119,24 @@ export default function HomeScreen() {
               {filtered.length} / {schoolsWithDistance.length} {t('schoolsCount', lang)}
             </span>
           </button>
-          <Segment value={view} onChange={setView} lang={lang} options={[
-            { value: 'map',  label: t('tabMap', lang) },
-            { value: 'list', label: t('tabList', lang) },
-          ]} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <button onClick={() => navigate('/s/new')} type="button"
+              aria-label={lang === 'zh' ? '新建学校' : 'New school'}
+              title={lang === 'zh' ? '新建学校' : 'New school'} style={{
+              width: 28, height: 28, borderRadius: 999,
+              background: C.card, border: `1px solid ${C.line}`,
+              color: C.ink, cursor: 'pointer', padding: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            </button>
+            <Segment value={view} onChange={setView} lang={lang} options={[
+              { value: 'map',  label: t('tabMap', lang) },
+              { value: 'list', label: t('tabList', lang) },
+            ]} />
+          </div>
         </div>
       </div>
 

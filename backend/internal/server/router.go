@@ -18,7 +18,9 @@ func NewRouter(db *sql.DB) *gin.Engine {
 	v1 := r.Group("/api/v1")
 	v1.GET("/cities", handlers.Cities(schools))
 	v1.GET("/schools", handlers.SchoolsList(schools))
+	v1.POST("/schools", handlers.SchoolCreate(schools))
 	v1.GET("/schools/:id", handlers.SchoolDetail(schools))
+	v1.PUT("/schools/:id", handlers.SchoolUpdate(schools))
 	v1.GET("/dump.json", handlers.Dump(schools))
 
 	r.GET("/healthz", func(c *gin.Context) {

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { AppHeader } from '../components/AppHeader.jsx';
 import { StatusBadge } from '../components/StatusBadge.jsx';
 import { FacilityIcon } from '../components/FacilityIcon.jsx';
@@ -107,6 +107,10 @@ export default function DetailScreen() {
             <path d="M12 7v5l3 2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
           {relativeTime(school.lastUpdate, lang)}
+          <span aria-hidden="true">·</span>
+          <Link to={`/s/${school.id}/edit`} style={{
+            color: st.ink, textDecoration: 'underline', textUnderlineOffset: 2,
+          }}>{lang === 'zh' ? '编辑' : 'Edit'}</Link>
         </div>
       </div>
 

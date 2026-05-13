@@ -1,15 +1,17 @@
 # 大大校园 Backend
 
-Go + Gin + SQLite. Serves the read-only `/api/v1/` endpoints described in
+Go + Gin + SQLite. Serves the `/api/v1/` endpoints described in
 [`../docs/superpowers/specs/2026-05-12-backend-design.md`](../docs/superpowers/specs/2026-05-12-backend-design.md).
 
 ## Quick start
 
 ```bash
-make seed          # populate ddxy.db with the 10 Beijing schools
-make run           # start server on :8080
+make run           # start server on :8080 (auto-runs migrations on first boot)
 curl localhost:8080/api/v1/cities
 ```
+
+The DB starts empty. Add schools through the frontend (`POST /api/v1/schools`)
+or via curl. There is no seed step — `ddxy.db` is the source of truth.
 
 ## Tests
 

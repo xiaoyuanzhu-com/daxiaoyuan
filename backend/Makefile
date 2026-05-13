@@ -1,4 +1,4 @@
-.PHONY: build run test test-v seed clean fmt vet
+.PHONY: build run test test-v clean fmt vet
 
 build:
 	go build -o bin/ddxy ./cmd/server
@@ -12,14 +12,13 @@ test:
 test-v:
 	go test -v ./...
 
-seed:
-	go run ./seed
-
 fmt:
 	go fmt ./...
 
 vet:
 	go vet ./...
 
+# Intentionally does not touch *.db — the SQLite file is the source of truth
+# now that there is no seed mechanism. Delete it manually if you need to.
 clean:
-	rm -rf bin/ ddxy *.db
+	rm -rf bin/ ddxy

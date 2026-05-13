@@ -3,8 +3,8 @@
 // Paths are relative — Vite proxies /api/* to http://localhost:8080 in dev,
 // same-origin in prod.
 
-async function request(path) {
-  const res = await fetch(path);
+async function request(path, opts) {
+  const res = await fetch(path, opts);
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new Error(body.error || `HTTP ${res.status}`);
@@ -27,3 +27,17 @@ export const fetchSchools = (cityId) => {
 
 export const fetchSchool = (id) =>
   request(`/api/v1/schools/${encodeURIComponent(id)}`).then((d) => d.school);
+
+export const updateSchool = (id, school) =>
+  request(`/api/v1/schools/${encodeURIComponent(id)}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(school),
+  }).then((d) => d.school);
+
+export const createSchool = (school) =>
+  request('/api/v1/schools', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(school),
+  }).then((d) => d.school);
