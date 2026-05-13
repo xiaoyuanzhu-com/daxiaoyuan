@@ -28,9 +28,17 @@ function fetchCities() {
   return request('/api/v1/cities').then((d) => d.cities);
 }
 
-function fetchSchools(cityId) {
-  const q = cityId ? `?city=${encodeURIComponent(cityId)}` : '';
-  return request('/api/v1/schools' + q).then((d) => d.schools);
+// Fetches one page of schools from the list endpoint. All four params are
+// optional. Returns the full envelope: { schools, page, size, total,
+// hasMore } — callers need `hasMore` for infinite-scroll termination.
+function fetchSchools({ cityId, q, page, size } = {}) {
+  const params = [];
+  if (cityId) params.push(`city=${encodeURIComponent(cityId)}`);
+  if (q)      params.push(`q=${encodeURIComponent(q)}`);
+  if (page)   params.push(`page=${page}`);
+  if (size)   params.push(`size=${size}`);
+  const qs = params.length ? '?' + params.join('&') : '';
+  return request('/api/v1/schools' + qs);
 }
 
 function fetchSchool(id) {

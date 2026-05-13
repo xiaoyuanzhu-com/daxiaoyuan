@@ -10,6 +10,7 @@ import (
 
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/db"
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/models"
+	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/search"
 )
 
 func newTestDB(t *testing.T) *sql.DB {
@@ -27,10 +28,11 @@ func insertTestSchool(t *testing.T, d *sql.DB, s *models.School) {
 	t.Helper()
 	_, err := d.ExecContext(context.Background(), `
 		INSERT INTO schools (id, city_id, name, address, lat, lng, status,
-			library_status, track_status, gym_status, canteen_status, last_update)
-		VALUES (?, ?, ?, ?, ?, ?, ?, 'closed', 'closed', 'closed', 'closed', ?)`,
+			library_status, track_status, gym_status, canteen_status,
+			search_text, last_update)
+		VALUES (?, ?, ?, ?, ?, ?, ?, 'closed', 'closed', 'closed', 'closed', ?, ?)`,
 		s.ID, s.CityID, s.Name, nullStr(s.Address), s.Lat, s.Lng, s.Status,
-		s.LastUpdate.UTC(),
+		search.BuildText(s.Name, s.ID), s.LastUpdate.UTC(),
 	)
 	require.NoError(t, err)
 }

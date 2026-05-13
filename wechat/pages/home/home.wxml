@@ -9,9 +9,19 @@
       </view>
     </button>
 
-    <view class="header-search" bindtap="openSearch">
+    <view class="header-search">
       <view class="search-icon"></view>
-      <text class="header-search-placeholder">搜索学校</text>
+      <input
+        class="header-search-input"
+        placeholder="搜索学校 · 汉字 / 拼音 / 缩写"
+        placeholder-class="header-search-placeholder"
+        value="{{query}}"
+        bindinput="onSearchInput"
+        confirm-type="search"
+      />
+      <view wx:if="{{query}}" class="header-search-clear" bindtap="clearSearch">
+        <text class="header-search-clear-x">×</text>
+      </view>
     </view>
   </view>
 
@@ -52,5 +62,8 @@
       </view>
     </view>
     <view wx:if="{{schools.length === 0}}" class="empty">没有符合条件的学校</view>
+
+    <view wx:if="{{schools.length > 0 && loadingMore}}" class="list-foot">加载中…</view>
+    <view wx:elif="{{schools.length > 0 && !hasMore}}" class="list-foot ink40">没有更多了</view>
   </view>
 </view>

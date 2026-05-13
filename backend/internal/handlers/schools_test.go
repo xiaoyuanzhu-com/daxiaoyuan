@@ -12,6 +12,7 @@ import (
 
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/db"
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/repo"
+	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/search"
 )
 
 func seedTwoSchools(t *testing.T) *gin.Engine {
@@ -26,7 +27,7 @@ func seedTwoSchools(t *testing.T) *gin.Engine {
 		track_status, track_reservation,
 		gym_status, gym_reservation,
 		canteen_status, canteen_reservation,
-		others, last_update)
+		others, search_text, last_update)
 		VALUES
 		('pku','bj','北京大学','北京市海淀区颐和园路 5 号',39.992,116.305,'appt',
 		 '{"qrcodeUrl":"https://x/qr.png","hint":"h","link":"https://visit.pku.edu.cn"}',
@@ -34,15 +35,18 @@ func seedTwoSchools(t *testing.T) *gin.Engine {
 		 'closed', NULL,
 		 'closed', NULL,
 		 'closed', NULL,
-		 NULL,
+		 NULL, ?,
 		 '2026-05-09T08:30:00Z'),
 		('fudan','sh','复旦大学',NULL,31.30,121.50,'open',NULL,
 		 'open', NULL,
 		 'open', NULL,
 		 'open', NULL,
 		 'open', NULL,
-		 NULL,
-		 '2026-05-09T00:00:00Z')`)
+		 NULL, ?,
+		 '2026-05-09T00:00:00Z')`,
+		search.BuildText("北京大学", "pku"),
+		search.BuildText("复旦大学", "fudan"),
+	)
 	require.NoError(t, err)
 
 	r := gin.New()
@@ -61,21 +65,43 @@ func TestGETSchools_List_All(t *testing.T) {
 	require.Equal(t, http.StatusOK, w.Code)
 	var body struct {
 		Schools []map[string]any `json:"schools"`
+		Page    int              `json:"page"`
+		Size    int              `json:"size"`
+		Total   int              `json:"total"`
+		HasMore bool             `json:"hasMore"`
 	}
 	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &body))
 	require.Len(t, body.Schools, 2)
-	assert.Equal(t, "fudan", body.Schools[0]["id"]) // alphabetical order
-	assert.Equal(t, "pku", body.Schools[1]["id"])
-	// Summary shape includes facility statuses (key → status) so list views
-	// can show per-facility openness without a per-school detail fetch.
-	// It MUST NOT include reservation / others.
-	facs := body.Schools[1]["facilities"].(map[string]any)
-	assert.Equal(t, "closed", facs["library"])
-	assert.Equal(t, "closed", facs["track"])
-	assert.Equal(t, "closed", facs["gym"])
-	assert.Equal(t, "closed", facs["canteen"])
-	assert.NotContains(t, body.Schools[1], "reservation")
-	assert.NotContains(t, body.Schools[1], "others")
+	assert.Equal(t, 1, body.Page)
+	assert.Equal(t, 10, body.Size)
+	assert.Equal(t, 2, body.Total)
+	assert.False(t, body.HasMore)
+	// Order is last_update DESC: pku (2026-05-09) before fudan (2026-05-09T00).
+	assert.Equal(t, "pku", body.Schools[0]["id"])
+	assert.Equal(t, "fudan", body.Schools[1]["id"])
+	// Full School shape — facilities expand to {status, reservation}, plus
+	// top-level reservation + others are present.
+	facs := body.Schools[0]["facilities"].(map[string]any)
+	lib := facs["library"].(map[string]any)
+	assert.Equal(t, "closed", lib["status"])
+	assert.Contains(t, body.Schools[0], "reservation")
+	assert.Contains(t, body.Schools[0], "others")
+}
+
+func TestGETSchools_List_FuzzyQuery(t *testing.T) {
+	r := seedTwoSchools(t)
+	for _, q := range []string{"北", "bei", "pku", "bjdx"} {
+		req := httptest.NewRequest(http.MethodGet, "/api/v1/schools?q="+q, nil)
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+		require.Equal(t, http.StatusOK, w.Code, "q=%s", q)
+		var body struct {
+			Schools []map[string]any `json:"schools"`
+		}
+		require.NoError(t, json.Unmarshal(w.Body.Bytes(), &body))
+		require.Len(t, body.Schools, 1, "q=%s", q)
+		assert.Equal(t, "pku", body.Schools[0]["id"], "q=%s", q)
+	}
 }
 
 func TestGETSchools_List_FilterByCity(t *testing.T) {

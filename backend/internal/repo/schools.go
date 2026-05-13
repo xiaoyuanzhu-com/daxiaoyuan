@@ -6,8 +6,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/models"
+	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/search"
 )
 
 type Schools struct {
@@ -24,55 +26,82 @@ type CityStats struct {
 	Open  int // schools where status='open'
 }
 
-const summaryCols = `id, city_id, name, address, lat, lng, status,
-	library_status, track_status, gym_status, canteen_status,
-	last_update`
+// ListParams carries the filter + pagination inputs for List.
+// Query is a lowercase substring matched against the precomputed
+// search_text column (which contains name + full pinyin + pinyin
+// initials + id). Page is 1-based.
+type ListParams struct {
+	CityID   string
+	Query    string
+	Page     int
+	PageSize int
+}
 
-func (s *Schools) List(ctx context.Context, cityID string) ([]models.SchoolSummary, error) {
-	q := `SELECT ` + summaryCols + ` FROM schools`
-	args := []any{}
-	if cityID != "" {
-		q += ` WHERE city_id = ?`
-		args = append(args, cityID)
+// ListResult holds the page of schools plus pagination metadata so callers
+// can drive infinite-scroll UIs without a separate count round-trip.
+type ListResult struct {
+	Schools []*models.School
+	Total   int
+	Page    int
+	HasMore bool
+}
+
+// List returns one page of full School records matching the filters.
+// Order is `last_update DESC, id ASC` (newest data first, deterministic
+// tiebreak). Total is the full match count across all pages.
+func (s *Schools) List(ctx context.Context, p ListParams) (ListResult, error) {
+	if p.Page < 1 {
+		p.Page = 1
 	}
-	q += ` ORDER BY id`
-	rows, err := s.db.QueryContext(ctx, q, args...)
+	if p.PageSize < 1 {
+		p.PageSize = 10
+	}
+
+	where := []string{}
+	args := []any{}
+	if p.CityID != "" {
+		where = append(where, "city_id = ?")
+		args = append(args, p.CityID)
+	}
+	if p.Query != "" {
+		where = append(where, "search_text LIKE ?")
+		args = append(args, "%"+p.Query+"%")
+	}
+	whereSQL := ""
+	if len(where) > 0 {
+		whereSQL = " WHERE " + strings.Join(where, " AND ")
+	}
+
+	var total int
+	if err := s.db.QueryRowContext(ctx, `SELECT COUNT(*) FROM schools`+whereSQL, args...).Scan(&total); err != nil {
+		return ListResult{}, fmt.Errorf("count schools: %w", err)
+	}
+
+	pageArgs := append(append([]any{}, args...), p.PageSize, (p.Page-1)*p.PageSize)
+	rows, err := s.db.QueryContext(ctx,
+		`SELECT `+detailCols+` FROM schools`+whereSQL+
+			` ORDER BY last_update DESC, id ASC LIMIT ? OFFSET ?`, pageArgs...)
 	if err != nil {
-		return nil, fmt.Errorf("query schools: %w", err)
+		return ListResult{}, fmt.Errorf("query schools: %w", err)
 	}
 	defer rows.Close()
-	out := []models.SchoolSummary{}
+	out := []*models.School{}
 	for rows.Next() {
-		sch, err := scanSummary(rows)
+		sch, err := scanDetail(rows)
 		if err != nil {
-			return nil, err
+			return ListResult{}, err
 		}
 		out = append(out, sch)
 	}
-	return out, rows.Err()
-}
-
-func scanSummary(rows *sql.Rows) (models.SchoolSummary, error) {
-	var sch models.SchoolSummary
-	var addr sql.NullString
-	var libStat, trkStat, gymStat, canStat string
-	if err := rows.Scan(
-		&sch.ID, &sch.CityID, &sch.Name, &addr, &sch.Lat, &sch.Lng, &sch.Status,
-		&libStat, &trkStat, &gymStat, &canStat,
-		&sch.LastUpdate,
-	); err != nil {
-		return sch, err
+	if err := rows.Err(); err != nil {
+		return ListResult{}, err
 	}
-	if addr.Valid {
-		sch.Address = addr.String
-	}
-	sch.Facilities = map[string]string{
-		"library": libStat,
-		"track":   trkStat,
-		"gym":     gymStat,
-		"canteen": canStat,
-	}
-	return sch, nil
+	return ListResult{
+		Schools: out,
+		Total:   total,
+		Page:    p.Page,
+		HasMore: p.Page*p.PageSize < total,
+	}, nil
 }
 
 const detailCols = `
@@ -218,14 +247,14 @@ func (s *Schools) Insert(ctx context.Context, sch *models.School) error {
 			track_status, track_reservation,
 			gym_status, gym_reservation,
 			canteen_status, canteen_reservation,
-			others, last_update
-		) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+			others, search_text, last_update
+		) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
 		sch.ID, sch.CityID, sch.Name, nullStr(sch.Address), sch.Lat, sch.Lng, sch.Status, resvJSON,
 		sch.Facilities["library"].Status, libRes,
 		sch.Facilities["track"].Status, trkRes,
 		sch.Facilities["gym"].Status, gymRes,
 		sch.Facilities["canteen"].Status, canRes,
-		othersJSON, sch.LastUpdate.UTC(),
+		othersJSON, search.BuildText(sch.Name, sch.ID), sch.LastUpdate.UTC(),
 	)
 	return err
 }

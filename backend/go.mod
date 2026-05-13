@@ -4,6 +4,7 @@ go 1.25.7
 
 require (
 	github.com/gin-gonic/gin v1.12.0
+	github.com/mozillazg/go-pinyin v0.21.0
 	github.com/pressly/goose/v3 v3.27.1
 	github.com/stretchr/testify v1.11.1
 	modernc.org/sqlite v1.50.1

@@ -15,9 +15,15 @@ async function request(path) {
 export const fetchCities = () =>
   request('/api/v1/cities').then((d) => d.cities);
 
-export const fetchSchools = (cityId) =>
-  request(cityId ? `/api/v1/schools?city=${encodeURIComponent(cityId)}` : '/api/v1/schools')
-    .then((d) => d.schools);
+// Backend paginates with default size=10. Web frontend currently
+// renders every school for the selected city in one shot, so we ask for
+// the maximum page size (capped server-side at 50). Switch to true
+// pagination if cities ever exceed 50 schools.
+export const fetchSchools = (cityId) => {
+  const params = ['size=50'];
+  if (cityId) params.push(`city=${encodeURIComponent(cityId)}`);
+  return request('/api/v1/schools?' + params.join('&')).then((d) => d.schools);
+};
 
 export const fetchSchool = (id) =>
   request(`/api/v1/schools/${encodeURIComponent(id)}`).then((d) => d.school);

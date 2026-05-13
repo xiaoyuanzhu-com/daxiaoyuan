@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -13,9 +14,11 @@ import (
 func TestSchools_List_Empty(t *testing.T) {
 	d := newTestDB(t)
 	r := NewSchools(d)
-	out, err := r.List(context.Background(), "")
+	res, err := r.List(context.Background(), ListParams{})
 	require.NoError(t, err)
-	assert.Empty(t, out)
+	assert.Empty(t, res.Schools)
+	assert.Equal(t, 0, res.Total)
+	assert.False(t, res.HasMore)
 }
 
 func TestSchools_List_AllAndByCity(t *testing.T) {
@@ -25,19 +28,74 @@ func TestSchools_List_AllAndByCity(t *testing.T) {
 
 	r := NewSchools(d)
 
-	all, err := r.List(context.Background(), "")
+	all, err := r.List(context.Background(), ListParams{})
 	require.NoError(t, err)
-	assert.Len(t, all, 2)
+	assert.Len(t, all.Schools, 2)
+	assert.Equal(t, 2, all.Total)
 
-	bj, err := r.List(context.Background(), "bj")
+	bj, err := r.List(context.Background(), ListParams{CityID: "bj"})
 	require.NoError(t, err)
-	require.Len(t, bj, 1)
-	assert.Equal(t, "pku", bj[0].ID)
-	assert.Equal(t, "appt", bj[0].Status)
+	require.Len(t, bj.Schools, 1)
+	assert.Equal(t, "pku", bj.Schools[0].ID)
+	assert.Equal(t, "appt", bj.Schools[0].Status)
+	// List returns full School records — facility statuses are populated.
+	assert.Equal(t, "closed", bj.Schools[0].Facilities["library"].Status)
 
-	miss, err := r.List(context.Background(), "nope")
+	miss, err := r.List(context.Background(), ListParams{CityID: "nope"})
 	require.NoError(t, err)
-	assert.Empty(t, miss)
+	assert.Empty(t, miss.Schools)
+}
+
+func TestSchools_List_FuzzyQuery(t *testing.T) {
+	d := newTestDB(t)
+	insertTestSchool(t, d, &models.School{ID: "pku", CityID: "bj", Name: "北京大学", Status: "appt", LastUpdate: mustTime("2026-05-01T00:00:00Z")})
+	insertTestSchool(t, d, &models.School{ID: "tsinghua", CityID: "bj", Name: "清华大学", Status: "appt", LastUpdate: mustTime("2026-05-02T00:00:00Z")})
+	insertTestSchool(t, d, &models.School{ID: "fudan", CityID: "sh", Name: "复旦大学", Status: "open", LastUpdate: mustTime("2026-05-03T00:00:00Z")})
+
+	r := NewSchools(d)
+
+	// Each query form should match the same school.
+	cases := []struct {
+		q    string
+		want string
+	}{
+		{"北", "pku"},
+		{"bei", "pku"},
+		{"pku", "pku"},
+		{"bjdx", "pku"},
+		{"清", "tsinghua"},
+		{"qhdx", "tsinghua"},
+		{"fudan", "fudan"},
+	}
+	for _, tc := range cases {
+		res, err := r.List(context.Background(), ListParams{Query: tc.q})
+		require.NoError(t, err, "q=%s", tc.q)
+		require.Len(t, res.Schools, 1, "q=%s", tc.q)
+		assert.Equal(t, tc.want, res.Schools[0].ID, "q=%s", tc.q)
+	}
+}
+
+func TestSchools_List_Pagination(t *testing.T) {
+	d := newTestDB(t)
+	for i := 0; i < 12; i++ {
+		insertTestSchool(t, d, &models.School{
+			ID: string(rune('a' + i)), CityID: "bj", Name: "x", Status: "open",
+			// Different lastUpdate keeps ordering deterministic.
+			LastUpdate: mustTime("2026-05-01T00:00:00Z").Add(time.Duration(i) * time.Hour),
+		})
+	}
+	r := NewSchools(d)
+
+	page1, err := r.List(context.Background(), ListParams{Page: 1, PageSize: 10})
+	require.NoError(t, err)
+	assert.Len(t, page1.Schools, 10)
+	assert.Equal(t, 12, page1.Total)
+	assert.True(t, page1.HasMore)
+
+	page2, err := r.List(context.Background(), ListParams{Page: 2, PageSize: 10})
+	require.NoError(t, err)
+	assert.Len(t, page2.Schools, 2)
+	assert.False(t, page2.HasMore)
 }
 
 func TestSchools_Get_NotFound(t *testing.T) {

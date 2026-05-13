@@ -80,9 +80,27 @@
   align-items: center;
   gap: 12rpx;
 }
+.header-search-input {
+  flex: 1;
+  height: 100%;
+  font-size: 26rpx;
+  color: #1A1815;
+}
 .header-search-placeholder {
   font-size: 26rpx;
   color: rgba(26,24,21,0.4);
+}
+.header-search-clear {
+  width: 36rpx;
+  height: 36rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(26,24,21,0.4);
+}
+.header-search-clear-x {
+  font-size: 32rpx;
+  line-height: 1;
 }
 
 /* ---------- Map section ---------- */
@@ -162,10 +180,16 @@
   letter-spacing: 0;
 }
 
-/* ---------- empty state ---------- */
+/* ---------- empty state + list footer ---------- */
 .empty {
   text-align: center;
   padding: 80rpx;
   color: rgba(26,24,21,0.4);
   font-size: 26rpx;
+}
+.list-foot {
+  text-align: center;
+  padding: 32rpx;
+  color: rgba(26,24,21,0.4);
+  font-size: 24rpx;
 }

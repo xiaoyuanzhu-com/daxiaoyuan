@@ -14,6 +14,9 @@ const CARD_BLOCKS = [
   { key: 'canteen', short: FACILITIES.canteen.short },
 ];
 
+const PAGE_SIZE = 10;
+const SEARCH_DEBOUNCE_MS = 300;
+
 const citySelector = requirePlugin('citySelector');
 
 // Top 10 中国大陆按高校数量排序的城市,作为 citySelector 的热门城市
@@ -33,11 +36,15 @@ const STATUS_COLOR = {
 
 Page({
   data: {
-    loading: true,
+    loading: true,         // initial load (or full reload on city/query change)
+    loadingMore: false,    // pagination append in flight
     error: '',
 
-    schools: [],         // decorated for display, sorted by distance
-    mapMarkers: [],
+    query: '',             // current search input value
+    page: 0,               // last loaded page (0 = none yet)
+    hasMore: false,        // server indicated more pages exist
+    schools: [],           // decorated, accumulated across pages
+    mapMarkers: [],        // markers for everything currently in `schools`
 
     cityId: 'bj',
     cityName: '北京',
@@ -53,7 +60,7 @@ Page({
   onLoad() {
     this.locateUser();
     this.loadCityIndex();
-    this.loadAll();
+    this.reloadFromStart();
   },
 
   // Picks up the result of the Tencent citySelector plugin after the user
@@ -63,6 +70,11 @@ Page({
     if (!picked) return;
     citySelector.clearCity();
     this.applyPickedCity(picked);
+  },
+
+  // Page reached its bottom: load next page if there is one.
+  onReachBottom() {
+    this.loadNextPage();
   },
 
   // Fetches the active city list and indexes by adcode so we can map the
@@ -90,12 +102,12 @@ Page({
       cityName: match.name,
       cityLat: match.lat,
       cityLng: match.lng,
-    }, () => this.loadAll());
+    }, () => this.reloadFromStart());
   },
 
   // Center map on user's location; falls back silently to the default
   // city center (set in data) if the user denies or the simulator can't
-  // resolve a fix. Also stores user coords for client-side distance calc.
+  // resolve a fix. Also stores user coords for client-side distance display.
   locateUser() {
     wx.getLocation({
       type: 'gcj02',
@@ -106,81 +118,99 @@ Page({
           userLat: res.latitude,
           userLng: res.longitude,
         }, () => {
-          // Re-decorate if schools already loaded — distance changes.
-          if (this.rawSchools) this.recompute();
+          // Re-decorate already-loaded schools so subtitles get distances.
+          if (this.data.schools.length) this.redecorateAll();
         });
       },
       fail: () => {},
     });
   },
 
-  // Fetches schools for current city + recomputes filtered/decorated state.
-  async loadAll() {
-    this.setData({ loading: true, error: '' });
+  // —— Data loading ——
+
+  // Resets to page 1. Called when city changes, when search query changes,
+  // and on initial load / retry.
+  async reloadFromStart() {
+    this.setData({
+      loading: true,
+      error: '',
+      page: 0,
+      hasMore: false,
+      schools: [],
+      mapMarkers: [],
+    });
+    await this.fetchPage(1, /* replace */ true);
+    this.setData({ loading: false });
+  },
+
+  // Appends the next page. No-op if already loading or no more pages.
+  async loadNextPage() {
+    if (this.data.loading || this.data.loadingMore) return;
+    if (this.data.page === 0 || !this.data.hasMore) return;
+    this.setData({ loadingMore: true });
+    await this.fetchPage(this.data.page + 1, /* replace */ false);
+    this.setData({ loadingMore: false });
+  },
+
+  // Internal: fetches one page; either replaces (page 1) or appends.
+  async fetchPage(pageNum, replace) {
     try {
-      const schools = await fetchSchools(this.data.cityId);
-      this.rawSchools = schools;   // keep raw on instance for re-decoration
-      this.recompute();
-      this.setData({ loading: false });
+      const res = await fetchSchools({
+        cityId: this.data.cityId,
+        q: this.data.query,
+        page: pageNum,
+        size: PAGE_SIZE,
+      });
+      const decorated = (res.schools || []).map((s) =>
+        decorateSchool(s, this.distanceFor(s), this.data.cityName)
+      );
+      const all = replace ? decorated : this.data.schools.concat(decorated);
+      this.setData({
+        schools: all,
+        mapMarkers: all.map((s, i) => buildMarker(s, i)),
+        page: res.page || pageNum,
+        hasMore: !!res.hasMore,
+      });
     } catch (e) {
-      this.setData({ loading: false, error: e.message || '加载失败' });
+      this.setData({ error: e.message || '加载失败' });
     }
   },
 
-  retry() {
-    this.loadAll();
+  // Recomputes decoration on all currently-loaded schools (e.g. when user
+  // location resolves after the first fetch). Does not refetch.
+  redecorateAll() {
+    const next = this.data.schools.map((s) =>
+      decorateSchool(s, this.distanceFor(s), this.data.cityName)
+    );
+    this.setData({
+      schools: next,
+      mapMarkers: next.map((s, i) => buildMarker(s, i)),
+    });
   },
 
-  // —— Compute (called when raw data or user location changes) ——
+  distanceFor(s) {
+    if (this.data.userLat === null || this.data.userLng === null) return null;
+    return distanceKm(this.data.userLat, this.data.userLng, s.lat, s.lng);
+  },
 
-  recompute() {
-    if (!this.rawSchools) return;
-    const userLat = this.data.userLat;
-    const userLng = this.data.userLng;
-    const cityName = this.data.cityName;
-
-    const decorated = this.rawSchools
-      .map((s) => {
-        const d = (userLat !== null && userLng !== null)
-          ? distanceKm(userLat, userLng, s.lat, s.lng)
-          : null;
-        return { school: s, distance: d };
-      })
-      .sort((a, b) => {
-        const da = a.distance === null ? Infinity : a.distance;
-        const db = b.distance === null ? Infinity : b.distance;
-        return da - db;
-      })
-      .map(({ school, distance }) => decorateSchoolSummary(school, distance, cityName));
-
-    const markers = decorated.map((s, i) => ({
-      id: i,
-      schoolId: s.id,
-      latitude: s.lat,
-      longitude: s.lng,
-      width: 22,
-      height: 28,
-      callout: {
-        content: s.name.replace('大学', ''),
-        bgColor: STATUS_COLOR[s.statusKey].bg,
-        color: STATUS_COLOR[s.statusKey].ink,
-        padding: 4,
-        borderRadius: 3,
-        fontSize: 10,
-        display: 'ALWAYS',
-      },
-    }));
-
-    this.setData({
-      schools: decorated,
-      mapMarkers: markers,
-    });
+  retry() {
+    this.reloadFromStart();
   },
 
   // —— Event handlers ——
 
-  openSearch() {
-    wx.showToast({ title: '搜索功能开发中', icon: 'none' });
+  onSearchInput(e) {
+    const q = e.detail.value || '';
+    this.setData({ query: q });
+    clearTimeout(this._searchTimer);
+    this._searchTimer = setTimeout(() => this.reloadFromStart(), SEARCH_DEBOUNCE_MS);
+  },
+
+  clearSearch() {
+    if (!this.data.query) return;
+    this.setData({ query: '' });
+    clearTimeout(this._searchTimer);
+    this.reloadFromStart();
   },
 
   openSchool(e) {
@@ -211,19 +241,17 @@ Page({
   },
 });
 
-// Summary-shape decorator: API list endpoint returns SchoolSummary with
-// per-facility status. `subtitle` is precomputed as "<cityName>" or
-// "<cityName> · X.X 公里", since WXML has no Number.toFixed support.
-// `blocks` is the 5-rect row (campus + 4 facilities), each tagged with the
-// status color class for that aspect.
-function decorateSchoolSummary(s, distance, cityName) {
-  const st = STATUS[s.status];
+// Decorates a full School record from the API into the shape the card
+// template expects. `facilities` is the full {status, reservation} map shape
+// from the detail/list endpoint — we only read .status here.
+function decorateSchool(s, distance, cityName) {
+  const st = STATUS[s.status] || STATUS.closed;
   const subtitle = (typeof distance === 'number')
     ? `${cityName} · ${distance.toFixed(1)} 公里`
     : cityName;
   const facs = s.facilities || {};
   const blocks = CARD_BLOCKS.map((b) => {
-    const statusKey = b.key === 'campus' ? s.status : facs[b.key];
+    const statusKey = b.key === 'campus' ? s.status : (facs[b.key] && facs[b.key].status);
     const meta = STATUS[statusKey] || STATUS.closed;
     return { key: b.key, short: b.short, bgClass: meta.bgClass };
   });
@@ -235,5 +263,26 @@ function decorateSchoolSummary(s, distance, cityName) {
     blocks,
     distanceKm: distance,
     subtitle,
+  };
+}
+
+function buildMarker(s, i) {
+  const color = STATUS_COLOR[s.statusKey] || STATUS_COLOR.closed;
+  return {
+    id: i,
+    schoolId: s.id,
+    latitude: s.lat,
+    longitude: s.lng,
+    width: 22,
+    height: 28,
+    callout: {
+      content: s.name.replace('大学', ''),
+      bgColor: color.bg,
+      color: color.ink,
+      padding: 4,
+      borderRadius: 3,
+      fontSize: 10,
+      display: 'ALWAYS',
+    },
   };
 }
