@@ -46,7 +46,9 @@
           <text class="school-name">{{s.name}}</text>
           <text class="school-meta tnum">{{s.subtitle}}</text>
         </view>
-        <view class="badge small {{s.statusBgClass}}">{{s.statusLabel}}</view>
+      </view>
+      <view class="school-card-blocks">
+        <view wx:for="{{s.blocks}}" wx:for-item="b" wx:key="key" class="block {{b.bgClass}}">{{b.short}}</view>
       </view>
     </view>
     <view wx:if="{{schools.length === 0}}" class="empty">没有符合条件的学校</view>

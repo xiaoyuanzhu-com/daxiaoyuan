@@ -66,9 +66,16 @@ func TestGETSchools_List_All(t *testing.T) {
 	require.Len(t, body.Schools, 2)
 	assert.Equal(t, "fudan", body.Schools[0]["id"]) // alphabetical order
 	assert.Equal(t, "pku", body.Schools[1]["id"])
-	// Summary shape MUST NOT include facilities / reservation / others.
-	assert.NotContains(t, body.Schools[1], "facilities")
+	// Summary shape includes facility statuses (key → status) so list views
+	// can show per-facility openness without a per-school detail fetch.
+	// It MUST NOT include reservation / others.
+	facs := body.Schools[1]["facilities"].(map[string]any)
+	assert.Equal(t, "closed", facs["library"])
+	assert.Equal(t, "closed", facs["track"])
+	assert.Equal(t, "closed", facs["gym"])
+	assert.Equal(t, "closed", facs["canteen"])
 	assert.NotContains(t, body.Schools[1], "reservation")
+	assert.NotContains(t, body.Schools[1], "others")
 }
 
 func TestGETSchools_List_FilterByCity(t *testing.T) {

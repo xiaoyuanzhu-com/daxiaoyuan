@@ -1,6 +1,18 @@
 const { fetchCities, fetchSchools } = require('../../utils/api.js');
 const { distanceKm } = require('../../utils/distance.js');
-const { STATUS } = require('../../utils/status.js');
+const { STATUS, FACILITIES } = require('../../utils/status.js');
+
+// 5 status blocks shown on each school card. Order is fixed: campus first
+// (overall school status), then the 4 canonical facilities. Each block is a
+// single-character colored rectangle whose color encodes that aspect's
+// open state.
+const CARD_BLOCKS = [
+  { key: 'campus',  short: '校' },
+  { key: 'library', short: FACILITIES.library.short },
+  { key: 'track',   short: FACILITIES.track.short },
+  { key: 'gym',     short: FACILITIES.gym.short },
+  { key: 'canteen', short: FACILITIES.canteen.short },
+];
 
 const citySelector = requirePlugin('citySelector');
 
@@ -199,19 +211,28 @@ Page({
   },
 });
 
-// Summary-shape decorator: API list endpoint returns SchoolSummary.
-// `subtitle` is precomputed as "<cityName>" or "<cityName> · X.X 公里",
-// since WXML has no Number.toFixed support.
+// Summary-shape decorator: API list endpoint returns SchoolSummary with
+// per-facility status. `subtitle` is precomputed as "<cityName>" or
+// "<cityName> · X.X 公里", since WXML has no Number.toFixed support.
+// `blocks` is the 5-rect row (campus + 4 facilities), each tagged with the
+// status color class for that aspect.
 function decorateSchoolSummary(s, distance, cityName) {
   const st = STATUS[s.status];
   const subtitle = (typeof distance === 'number')
     ? `${cityName} · ${distance.toFixed(1)} 公里`
     : cityName;
+  const facs = s.facilities || {};
+  const blocks = CARD_BLOCKS.map((b) => {
+    const statusKey = b.key === 'campus' ? s.status : facs[b.key];
+    const meta = STATUS[statusKey] || STATUS.closed;
+    return { key: b.key, short: b.short, bgClass: meta.bgClass };
+  });
   return {
     ...s,
     statusKey: st.key,
     statusLabel: st.label,
     statusBgClass: st.bgClass,
+    blocks,
     distanceKm: distance,
     subtitle,
   };

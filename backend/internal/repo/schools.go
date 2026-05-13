@@ -24,7 +24,9 @@ type CityStats struct {
 	Open  int // schools where status='open'
 }
 
-const summaryCols = `id, city_id, name, address, lat, lng, status, last_update`
+const summaryCols = `id, city_id, name, address, lat, lng, status,
+	library_status, track_status, gym_status, canteen_status,
+	last_update`
 
 func (s *Schools) List(ctx context.Context, cityID string) ([]models.SchoolSummary, error) {
 	q := `SELECT ` + summaryCols + ` FROM schools`
@@ -53,11 +55,22 @@ func (s *Schools) List(ctx context.Context, cityID string) ([]models.SchoolSumma
 func scanSummary(rows *sql.Rows) (models.SchoolSummary, error) {
 	var sch models.SchoolSummary
 	var addr sql.NullString
-	if err := rows.Scan(&sch.ID, &sch.CityID, &sch.Name, &addr, &sch.Lat, &sch.Lng, &sch.Status, &sch.LastUpdate); err != nil {
+	var libStat, trkStat, gymStat, canStat string
+	if err := rows.Scan(
+		&sch.ID, &sch.CityID, &sch.Name, &addr, &sch.Lat, &sch.Lng, &sch.Status,
+		&libStat, &trkStat, &gymStat, &canStat,
+		&sch.LastUpdate,
+	); err != nil {
 		return sch, err
 	}
 	if addr.Valid {
 		sch.Address = addr.String
+	}
+	sch.Facilities = map[string]string{
+		"library": libStat,
+		"track":   trkStat,
+		"gym":     gymStat,
+		"canteen": canStat,
 	}
 	return sch, nil
 }
