@@ -13,7 +13,7 @@
       <view class="search-icon"></view>
       <input
         class="header-search-input"
-        placeholder="搜索学校 · 汉字 / 拼音 / 缩写"
+        placeholder="搜索学校"
         placeholder-class="header-search-placeholder"
         value="{{query}}"
         bindinput="onSearchInput"
