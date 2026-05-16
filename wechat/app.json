@@ -1,8 +1,8 @@
 {
   "pages": [
     "pages/home/home",
-    "pages/detail/detail",
-    "pages/about/about"
+    "pages/explore/explore",
+    "pages/detail/detail"
   ],
   "plugins": {
     "citySelector": {
@@ -23,10 +23,10 @@
         "selectedIconPath": "images/tabbar/nearby-active.png"
       },
       {
-        "pagePath": "pages/about/about",
-        "text": "关于",
-        "iconPath": "images/tabbar/about.png",
-        "selectedIconPath": "images/tabbar/about-active.png"
+        "pagePath": "pages/explore/explore",
+        "text": "探索",
+        "iconPath": "images/tabbar/explore.png",
+        "selectedIconPath": "images/tabbar/explore-active.png"
       }
     ]
   },

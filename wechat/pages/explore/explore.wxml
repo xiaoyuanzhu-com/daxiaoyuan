@@ -1,0 +1,62 @@
+<!--pages/explore/explore.wxml-->
+<view class="page c-paper">
+
+  <!-- Tab bar -->
+  <scroll-view class="tabs" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view wx:for="{{tabs}}" wx:for-item="t" wx:key="key"
+          class="tab {{tab === t.key ? 'tab-active' : ''}}"
+          data-key="{{t.key}}" bindtap="switchTab">
+      {{t.label}}
+    </view>
+  </scroll-view>
+
+  <!-- Cities tab -->
+  <block wx:if="{{tab === 'cities'}}">
+    <view wx:if="{{citiesLoading}}" class="status-overlay">
+      <text class="status-overlay-text">加载中…</text>
+    </view>
+    <view wx:elif="{{citiesError}}" class="status-overlay">
+      <text class="status-overlay-text">{{citiesError}}</text>
+      <button class="status-overlay-btn" bindtap="retry">重试</button>
+    </view>
+    <view wx:else class="list">
+      <view wx:for="{{cities}}" wx:for-item="c" wx:key="id"
+            class="card rank-row {{c.active ? '' : 'rank-row-inactive'}}">
+        <view class="rank-num tnum {{c.topRank ? 'rank-num-top' : ''}}">{{c.rank}}</view>
+        <view class="rank-body">
+          <text class="rank-name">{{c.name}}</text>
+          <text class="rank-meta tnum">{{c.schools}} 所 · {{c.ratePct}}% 可入</text>
+        </view>
+        <view class="meter">
+          <text class="meter-text tnum">{{c.ratePct}}%</text>
+        </view>
+      </view>
+      <view wx:if="{{cities.length === 0}}" class="empty">暂无数据</view>
+    </view>
+  </block>
+
+  <!-- School ranking tabs (985 / 211 / c9 / qs30) -->
+  <block wx:for="{{tabs}}" wx:for-item="t" wx:key="key">
+    <block wx:if="{{tab === t.key && t.key !== 'cities'}}">
+      <view wx:if="{{!rankings[t.key] || rankings[t.key].loading}}" class="status-overlay">
+        <text class="status-overlay-text">加载中…</text>
+      </view>
+      <view wx:elif="{{rankings[t.key].error}}" class="status-overlay">
+        <text class="status-overlay-text">{{rankings[t.key].error}}</text>
+        <button class="status-overlay-btn" bindtap="retry">重试</button>
+      </view>
+      <view wx:else class="list">
+        <view wx:for="{{rankings[t.key].schools}}" wx:for-item="s" wx:key="id"
+              class="card rank-row rank-row-tap" data-id="{{s.id}}" bindtap="openSchool">
+          <view class="rank-num tnum {{s.topRank ? 'rank-num-top' : ''}}">{{s.rank}}</view>
+          <view class="rank-body">
+            <text class="rank-name">{{s.name}}</text>
+          </view>
+          <view class="badge small {{s.statusBgClass}}">{{s.statusLabel}}</view>
+        </view>
+        <view wx:if="{{rankings[t.key].schools.length === 0}}" class="empty">暂无数据</view>
+      </view>
+    </block>
+  </block>
+
+</view>

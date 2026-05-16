@@ -45,4 +45,10 @@ function fetchSchool(id) {
   return request(`/api/v1/schools/${encodeURIComponent(id)}`).then((d) => d.school);
 }
 
-module.exports = { fetchCities, fetchSchools, fetchSchool };
+// Returns { category, label, schools: [{ ...school, rank }] }
+// kind ∈ '985' | '211' | 'c9' | 'qs30'
+function fetchRanking(kind) {
+  return request(`/api/v1/rankings/${encodeURIComponent(kind)}`);
+}
+
+module.exports = { fetchCities, fetchSchools, fetchSchool, fetchRanking };
