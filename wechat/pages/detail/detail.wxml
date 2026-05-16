@@ -14,23 +14,14 @@
 
 <view wx:if="{{!loading && !error && school}}" class="page c-paper">
   <!-- Hero -->
-  <view class="hero {{school.statusBgClass}}">
+  <view class="hero">
     <view wx:if="{{school.logo}}" class="seal seal-logo" style="background-image: url('{{school.logo}}');"></view>
     <view wx:else class="seal serif">{{school.initial}}</view>
     <view wx:if="{{school.address}}" class="hero-district badge small">{{school.address}}</view>
     <text class="hero-name serif">{{school.name}}</text>
-    <text class="hero-status">{{school.statusLabel}}</text>
     <view class="hero-meta">
       <view class="clock"></view>
       <text>{{school.updateLabel}}</text>
-    </view>
-  </view>
-
-  <!-- Campus reservation CTA -->
-  <view wx:if="{{school.hasReservation}}" class="section">
-    <view class="cta" bindtap="openCampusReservation">
-      <text class="cta-label">去预约入校</text>
-      <text class="cta-arrow">›</text>
     </view>
   </view>
 
@@ -64,6 +55,16 @@
       <text class="modal-hint-small">长按识别二维码 · 点击保存到相册</text>
     </block>
     <text wx:if="{{modal.hint}}" class="modal-hint">{{modal.hint}}</text>
+    <view wx:if="{{modal.officialAccount}}" class="modal-kv">
+      <text class="modal-kv-label">公众号</text>
+      <text class="modal-kv-value" selectable="{{true}}">{{modal.officialAccount}}</text>
+      <view class="modal-kv-btn" bindtap="copyOfficialAccount">复制</view>
+    </view>
+    <view wx:if="{{modal.miniProgram}}" class="modal-kv">
+      <text class="modal-kv-label">小程序</text>
+      <text class="modal-kv-value" selectable="{{true}}">{{modal.miniProgram}}</text>
+      <view class="modal-kv-btn" bindtap="copyMiniProgram">复制</view>
+    </view>
     <view wx:if="{{modal.link}}" class="modal-actions">
       <view class="modal-btn" bindtap="copyLink">复制链接</view>
     </view>

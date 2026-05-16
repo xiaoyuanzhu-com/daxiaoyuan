@@ -267,12 +267,12 @@ function StatusPicker({ value, onChange }) {
   );
 }
 
-// Reservation block — three optional fields. Empty hint+url+link → null on save.
+// Reservation block — all fields optional. All-empty → null on save.
 function ReservationFields({ value, onChange }) {
-  const r = value || { qrcodeUrl: '', hint: '', link: '' };
+  const r = value || { qrcodeUrl: '', hint: '', link: '', officialAccount: '', miniProgram: '' };
   const update = (patch) => {
     const next = { ...r, ...patch };
-    const empty = !next.qrcodeUrl && !next.hint && !next.link;
+    const empty = !next.qrcodeUrl && !next.hint && !next.link && !next.officialAccount && !next.miniProgram;
     onChange(empty ? null : next);
   };
   return (
@@ -283,6 +283,10 @@ function ReservationFields({ value, onChange }) {
         onChange={(e) => update({ hint: e.target.value })} style={inputStyle} />
       <input type="text" value={r.link || ''} placeholder="预约入口链接（可选）"
         onChange={(e) => update({ link: e.target.value })} style={inputStyle} />
+      <input type="text" value={r.officialAccount || ''} placeholder="公众号名称（可选）"
+        onChange={(e) => update({ officialAccount: e.target.value })} style={inputStyle} />
+      <input type="text" value={r.miniProgram || ''} placeholder="小程序名称（可选）"
+        onChange={(e) => update({ miniProgram: e.target.value })} style={inputStyle} />
       {r.qrcodeUrl && (
         <img src={r.qrcodeUrl} alt="QR preview" style={{
           width: 80, height: 80, objectFit: 'contain',

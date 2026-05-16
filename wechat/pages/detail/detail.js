@@ -30,12 +30,6 @@ Page({
     this.loadSchool();
   },
 
-  openCampusReservation() {
-    const r = this.data.school && this.data.school.reservation;
-    if (!r) return;
-    this.showModal(`${this.data.school.name} 预约入校`, r);
-  },
-
   openFacilityReservation(e) {
     const key = e.currentTarget.dataset.key;
     const facility = this.data.school.facilitiesList.find((f) => f.key === key);
@@ -51,6 +45,8 @@ Page({
         qrcodeUrl: r.qrcodeUrl || '',
         hint: r.hint || '',
         link: r.link || '',
+        officialAccount: r.officialAccount || '',
+        miniProgram: r.miniProgram || '',
       },
     });
   },
@@ -97,11 +93,22 @@ Page({
   },
 
   copyLink() {
-    const link = this.data.modal.link;
-    if (!link) return;
+    this.copyValue(this.data.modal.link, '链接已复制');
+  },
+
+  copyOfficialAccount() {
+    this.copyValue(this.data.modal.officialAccount, '公众号名称已复制');
+  },
+
+  copyMiniProgram() {
+    this.copyValue(this.data.modal.miniProgram, '小程序名称已复制');
+  },
+
+  copyValue(value, toast) {
+    if (!value) return;
     wx.setClipboardData({
-      data: link,
-      success: () => wx.showToast({ title: '链接已复制', icon: 'success' }),
+      data: value,
+      success: () => wx.showToast({ title: toast, icon: 'success' }),
     });
   },
 });

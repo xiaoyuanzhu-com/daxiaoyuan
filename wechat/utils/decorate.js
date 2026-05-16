@@ -9,24 +9,40 @@ function decorateSchool(s, distanceKm) {
   if (!s) return s;
   const st = STATUS[s.status];
 
-  const facilities = FACILITY_ORDER.map((k) => {
-    const f = s.facilities[k];
-    const fst = STATUS[f.status];
-    const muted = f.status === 'closed' || f.status === 'alumni';
-    return {
-      key: k,
-      label: FACILITIES[k].label,
-      short: FACILITIES[k].short,
-      status: f.status,
-      statusLabel: fst.label,
-      bgClass: fst.bgClass,
-      dotClass: fst.dotClass,
-      muted,
-      strikethrough: f.status === 'closed',
-      reservation: f.reservation || null,
-      hasReservation: !!f.reservation,
-    };
-  });
+  const schoolRow = {
+    key: 'school',
+    label: '校园',
+    short: '校',
+    status: s.status,
+    statusLabel: st.label,
+    bgClass: st.bgClass,
+    dotClass: st.dotClass,
+    muted: s.status === 'closed' || s.status === 'alumni',
+    strikethrough: s.status === 'closed',
+    reservation: s.reservation || null,
+    hasReservation: !!s.reservation,
+  };
+
+  const facilities = [schoolRow].concat(
+    FACILITY_ORDER.map((k) => {
+      const f = s.facilities[k];
+      const fst = STATUS[f.status];
+      const muted = f.status === 'closed' || f.status === 'alumni';
+      return {
+        key: k,
+        label: FACILITIES[k].label,
+        short: FACILITIES[k].short,
+        status: f.status,
+        statusLabel: fst.label,
+        bgClass: fst.bgClass,
+        dotClass: fst.dotClass,
+        muted,
+        strikethrough: f.status === 'closed',
+        reservation: f.reservation || null,
+        hasReservation: !!f.reservation,
+      };
+    }),
+  );
 
   return {
     ...s,

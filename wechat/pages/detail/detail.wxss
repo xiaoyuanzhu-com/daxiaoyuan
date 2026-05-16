@@ -46,8 +46,8 @@
 
 .hero-district {
   display: inline-block;
-  background: rgba(255,255,255,0.5);
-  color: inherit;
+  background: rgba(26,24,21,0.06);
+  color: rgba(26,24,21,0.6);
   margin-bottom: 24rpx;
 }
 
@@ -57,15 +57,6 @@
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: 2rpx;
-}
-
-.hero-status {
-  display: block;
-  margin-top: 28rpx;
-  font-size: 60rpx;
-  font-weight: 700;
-  letter-spacing: 2rpx;
-  line-height: 1;
 }
 
 .hero-meta {
@@ -315,6 +306,44 @@
   letter-spacing: 0.6rpx;
   text-align: center;
 }
+
+.modal-kv {
+  margin-top: 24rpx;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 20rpx 24rpx;
+  background: rgba(26,24,21,0.04);
+  border-radius: 12rpx;
+  box-sizing: border-box;
+}
+.modal-kv-label {
+  font-size: 22rpx;
+  color: rgba(26,24,21,0.5);
+  letter-spacing: 0.6rpx;
+  flex-shrink: 0;
+}
+.modal-kv-value {
+  flex: 1;
+  font-size: 28rpx;
+  color: #1A1815;
+  font-weight: 600;
+  letter-spacing: 0.6rpx;
+  word-break: break-all;
+}
+.modal-kv-btn {
+  padding: 10rpx 24rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  letter-spacing: 0.6rpx;
+  line-height: 1.1;
+  border-radius: 8rpx;
+  background: #1A1815;
+  color: #FFFFFF;
+  flex-shrink: 0;
+}
+.modal-kv-btn:active { opacity: 0.7; }
 
 .modal-actions {
   margin-top: 40rpx;
