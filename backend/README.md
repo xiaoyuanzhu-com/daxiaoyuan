@@ -19,6 +19,27 @@ or via curl. There is no seed step — `ddxy.db` is the source of truth.
 make test
 ```
 
+## Docker
+
+Build and run locally:
+
+```bash
+make docker-build
+make docker-run    # mounts ./.docker-data to /data for DB persistence
+```
+
+Pull the latest published image from GHCR:
+
+```bash
+docker pull ghcr.io/xiaoyuanzhu-com/dadaxiaoyuan-backend:latest
+docker run --rm -p 8080:8080 -v $(pwd)/data:/data \
+  ghcr.io/xiaoyuanzhu-com/dadaxiaoyuan-backend:latest
+```
+
+Images are published by `.github/workflows/backend-docker.yml` on every push to
+`main` that touches `backend/**`, and on `backend-v*` tags. Multi-arch:
+`linux/amd64` + `linux/arm64`.
+
 ## Env vars
 
 | Var | Default | |
