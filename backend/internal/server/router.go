@@ -23,6 +23,11 @@ func NewRouter(db *sql.DB) *gin.Engine {
 	v1.PUT("/schools/:id", handlers.SchoolUpdate(schools))
 	v1.GET("/dump.json", handlers.Dump(schools))
 
+	v1.GET("/rankings/c9", handlers.RankingsC9(schools))
+	v1.GET("/rankings/985", handlers.Rankings985(schools))
+	v1.GET("/rankings/211", handlers.Rankings211(schools))
+	v1.GET("/rankings/qs30", handlers.RankingsQS30(schools))
+
 	r.GET("/healthz", func(c *gin.Context) {
 		c.String(200, "ok")
 	})

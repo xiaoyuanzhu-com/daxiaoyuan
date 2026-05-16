@@ -66,6 +66,14 @@ export const STR = {
   results:        { zh: '结果',     en: 'results' },
 
   km:             { zh: '公里',     en: 'km' },
+
+  exploreTitle:   { zh: '榜单',     en: 'Rankings' },
+  tabCities:      { zh: '城市',     en: 'Cities' },
+  tab985:         { zh: '985',      en: '985' },
+  tab211:         { zh: '211',      en: '211' },
+  tabC9:          { zh: 'C9',       en: 'C9' },
+  tabQS30:        { zh: 'QS30',     en: 'QS30' },
+  rankEmpty:      { zh: '暂无数据', en: 'No data yet' },
 };
 
 export const t = (key, lang) => STR[key]?.[lang] ?? key;

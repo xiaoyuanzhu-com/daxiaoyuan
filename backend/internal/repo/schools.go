@@ -280,6 +280,36 @@ func nullStr(v string) sql.NullString {
 	return sql.NullString{String: v, Valid: true}
 }
 
+// ListByIDs returns full School records for the given slugs, in the order
+// returned by the database. The caller is responsible for reordering.
+func (s *Schools) ListByIDs(ctx context.Context, ids []string) ([]*models.School, error) {
+	if len(ids) == 0 {
+		return nil, nil
+	}
+	placeholders := make([]string, len(ids))
+	args := make([]any, len(ids))
+	for i, id := range ids {
+		placeholders[i] = "?"
+		args[i] = id
+	}
+	rows, err := s.db.QueryContext(ctx,
+		`SELECT `+detailCols+` FROM schools WHERE id IN (`+strings.Join(placeholders, ",")+`)`,
+		args...)
+	if err != nil {
+		return nil, fmt.Errorf("query schools by ids: %w", err)
+	}
+	defer rows.Close()
+	out := []*models.School{}
+	for rows.Next() {
+		sch, err := scanDetail(rows)
+		if err != nil {
+			return nil, err
+		}
+		out = append(out, sch)
+	}
+	return out, rows.Err()
+}
+
 // CountByCity returns total + open-status counts per city_id present in
 // the schools table.
 func (s *Schools) CountByCity(ctx context.Context) (map[string]CityStats, error) {

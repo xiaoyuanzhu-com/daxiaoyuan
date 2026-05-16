@@ -41,3 +41,15 @@ export const createSchool = (school) =>
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(school),
   }).then((d) => d.school);
+
+export const fetchRankings985 = () =>
+  request('/api/v1/rankings/985');
+
+export const fetchRankings211 = () =>
+  request('/api/v1/rankings/211');
+
+export const fetchRankingsC9 = () =>
+  request('/api/v1/rankings/c9');
+
+export const fetchRankingsQS30 = () =>
+  request('/api/v1/rankings/qs30');

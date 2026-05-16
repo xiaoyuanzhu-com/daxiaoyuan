@@ -4,6 +4,7 @@ import HomeScreen from './screens/HomeScreen.jsx';
 import DetailScreen from './screens/DetailScreen.jsx';
 import EditScreen from './screens/EditScreen.jsx';
 import CitiesScreen from './screens/CitiesScreen.jsx';
+import ExploreScreen from './screens/ExploreScreen.jsx';
 import AboutScreen from './screens/AboutScreen.jsx';
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/s/:id" element={<DetailScreen />} />
         <Route path="/s/:id/edit" element={<EditScreen />} />
         <Route path="/cities" element={<CitiesScreen />} />
+        <Route path="/explore" element={<ExploreScreen />} />
         <Route path="/about" element={<AboutScreen />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
