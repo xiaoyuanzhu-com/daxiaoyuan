@@ -14,7 +14,9 @@ const CARD_BLOCKS = [
   { key: 'canteen', short: FACILITIES.canteen.short },
 ];
 
-const PAGE_SIZE = 10;
+// Cities cap out at a few hundred schools — we fetch the entire city in one
+// request and sort by distance client-side. No pagination on this tab.
+const FETCH_SIZE = 500;
 const SEARCH_DEBOUNCE_MS = 300;
 
 const citySelector = requirePlugin('citySelector');
@@ -37,13 +39,10 @@ const STATUS_COLOR = {
 Page({
   data: {
     loading: true,         // initial load (or full reload on city/query change)
-    loadingMore: false,    // pagination append in flight
     error: '',
 
     query: '',             // current search input value
-    page: 0,               // last loaded page (0 = none yet)
-    hasMore: false,        // server indicated more pages exist
-    schools: [],           // decorated, accumulated across pages
+    schools: [],           // decorated, sorted by distance ascending
     mapMarkers: [],        // markers for everything currently in `schools`
 
     cityId: 'bj',
@@ -70,11 +69,6 @@ Page({
     if (!picked) return;
     citySelector.clearCity();
     this.applyPickedCity(picked);
-  },
-
-  // Page reached its bottom: load next page if there is one.
-  onReachBottom() {
-    this.loadNextPage();
   },
 
   // Fetches the active city list and indexes by adcode so we can map the
@@ -128,64 +122,60 @@ Page({
 
   // —— Data loading ——
 
-  // Resets to page 1. Called when city changes, when search query changes,
-  // and on initial load / retry.
+  // Fetches the full school list for the current city and renders it sorted
+  // by distance. Called on initial load, city change, search input, and retry.
   async reloadFromStart() {
     this.setData({
       loading: true,
       error: '',
-      page: 0,
-      hasMore: false,
       schools: [],
       mapMarkers: [],
     });
-    await this.fetchPage(1, /* replace */ true);
-    this.setData({ loading: false });
-  },
-
-  // Appends the next page. No-op if already loading or no more pages.
-  async loadNextPage() {
-    if (this.data.loading || this.data.loadingMore) return;
-    if (this.data.page === 0 || !this.data.hasMore) return;
-    this.setData({ loadingMore: true });
-    await this.fetchPage(this.data.page + 1, /* replace */ false);
-    this.setData({ loadingMore: false });
-  },
-
-  // Internal: fetches one page; either replaces (page 1) or appends.
-  async fetchPage(pageNum, replace) {
     try {
       const res = await fetchSchools({
         cityId: this.data.cityId,
         q: this.data.query,
-        page: pageNum,
-        size: PAGE_SIZE,
+        size: FETCH_SIZE,
       });
-      const decorated = (res.schools || []).map((s) =>
-        decorateSchool(s, this.distanceFor(s), this.data.cityName)
-      );
-      const all = replace ? decorated : this.data.schools.concat(decorated);
-      this.setData({
-        schools: all,
-        mapMarkers: all.map((s, i) => buildMarker(s, i)),
-        page: res.page || pageNum,
-        hasMore: !!res.hasMore,
-      });
+      this.renderSchools(res.schools || []);
     } catch (e) {
       this.setData({ error: e.message || '加载失败' });
     }
+    this.setData({ loading: false });
   },
 
-  // Recomputes decoration on all currently-loaded schools (e.g. when user
-  // location resolves after the first fetch). Does not refetch.
-  redecorateAll() {
-    const next = this.data.schools.map((s) =>
+  // Sorts raw schools by distance, decorates each, pushes to state. Also
+  // called by redecorateAll when user location resolves after the first fetch
+  // (the sort order shifts too, not just the subtitle text).
+  renderSchools(raw) {
+    const sorted = this.sortByDistance(raw);
+    const decorated = sorted.map((s) =>
       decorateSchool(s, this.distanceFor(s), this.data.cityName)
     );
     this.setData({
-      schools: next,
-      mapMarkers: next.map((s, i) => buildMarker(s, i)),
+      schools: decorated,
+      mapMarkers: decorated.map((s, i) => buildMarker(s, i)),
     });
+  },
+
+  // Ascending by distance from the reference point: user location when
+  // available, picked-city center otherwise. Schools missing lat/lng go last.
+  sortByDistance(schools) {
+    const refLat = this.data.userLat !== null ? this.data.userLat : this.data.cityLat;
+    const refLng = this.data.userLng !== null ? this.data.userLng : this.data.cityLng;
+    return schools.slice().sort((a, b) => {
+      if (a.lat == null && b.lat == null) return 0;
+      if (a.lat == null) return 1;
+      if (b.lat == null) return -1;
+      return distanceKm(refLat, refLng, a.lat, a.lng) -
+             distanceKm(refLat, refLng, b.lat, b.lng);
+    });
+  },
+
+  // Re-runs sort + decoration on currently-loaded schools (called when user
+  // location resolves after the first fetch). Does not refetch.
+  redecorateAll() {
+    this.renderSchools(this.data.schools);
   },
 
   distanceFor(s) {

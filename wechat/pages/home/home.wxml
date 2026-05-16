@@ -51,7 +51,7 @@
   <!-- List (always below map) -->
   <view wx:if="{{!loading && !error}}" class="list-section">
     <view wx:for="{{schools}}" wx:for-item="s" wx:key="id" class="card school-card" data-id="{{s.id}}" bindtap="openSchool">
-      <view class="school-card-top">
+      <view class="school-card-left">
         <view wx:if="{{s.logo}}" class="school-logo" style="background-image: url('{{s.logo}}');"></view>
         <view class="school-card-name-wrap">
           <text class="school-name">{{s.name}}</text>
@@ -63,8 +63,5 @@
       </view>
     </view>
     <view wx:if="{{schools.length === 0}}" class="empty">没有符合条件的学校</view>
-
-    <view wx:if="{{schools.length > 0 && loadingMore}}" class="list-foot">加载中…</view>
-    <view wx:elif="{{schools.length > 0 && !hasMore}}" class="list-foot ink40">没有更多了</view>
   </view>
 </view>
