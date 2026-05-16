@@ -6,7 +6,7 @@ App({
     // DEV: 'http://localhost:8080'  (仅模拟器有效;真机预览需要改回局域网 IP)
     // PROD: 'https://ddxy.xiaoyuanzhu.com'
     // ⚠️ 发布前必须改回 production!
-    apiBase: 'http://localhost:8080',
+    apiBase: 'https://ddxy.xiaoyuanzhu.com',
 
     // 腾讯位置服务 key,citySelector 插件用。控制台 -> 我的应用 -> 添加 Key,
     // 勾选「WebServiceAPI」+「微信小程序」并配置小程序 APPID。
