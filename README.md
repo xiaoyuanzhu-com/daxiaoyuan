@@ -20,3 +20,18 @@
 ## 部署
 
 单 Docker 镜像,前端编译后由后端 `go:embed` 一起打包,后端同时承担 API (`/api/*`) 和 SPA fallback。
+
+```bash
+# 本地构建并运行(端口 8080,DB 持久化到 ./.docker-data)
+make docker-build
+make docker-run
+```
+
+GHCR 上由 `.github/workflows/docker.yml` 自动发布:
+
+```bash
+docker run --rm -p 8080:8080 -v $(pwd)/data:/data \
+  ghcr.io/xiaoyuanzhu-com/dadaxiaoyuan:latest
+```
+
+触发条件:推到 `main` 且改了 `backend/**` 或 `frontend/**`,或打 `v*` 标签,或手动 `workflow_dispatch`。多架构:`linux/amd64` + `linux/arm64`。

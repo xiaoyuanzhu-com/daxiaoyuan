@@ -2,11 +2,13 @@ package server
 
 import (
 	"database/sql"
+	"log"
 
 	"github.com/gin-gonic/gin"
 
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/handlers"
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/repo"
+	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/web"
 )
 
 func NewRouter(db *sql.DB) *gin.Engine {
@@ -31,6 +33,10 @@ func NewRouter(db *sql.DB) *gin.Engine {
 	r.GET("/healthz", func(c *gin.Context) {
 		c.String(200, "ok")
 	})
+
+	if err := web.RegisterRoutes(r); err != nil {
+		log.Printf("web: SPA bundle unavailable, serving API only: %v", err)
+	}
 
 	return r
 }

@@ -15,3 +15,9 @@
 # Test coverage
 *.out
 coverage.html
+
+# Embedded frontend bundle — only the .gitkeep is tracked so `go build` works
+# without first building the frontend. Docker build pipes frontend/dist into
+# this folder before `go build`.
+web/dist/*
+!web/dist/.gitkeep

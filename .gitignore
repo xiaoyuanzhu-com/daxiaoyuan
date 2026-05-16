@@ -25,6 +25,7 @@ vendor/
 # Node
 node_modules/
 dist/
+!/backend/web/dist/
 build/
 .pnpm-store/
 *.log

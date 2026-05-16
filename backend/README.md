@@ -19,26 +19,27 @@ or via curl. There is no seed step — `ddxy.db` is the source of truth.
 make test
 ```
 
+## Embedded web UI
+
+In production builds the backend also serves the React frontend from
+`backend/web/dist/` (embedded via `//go:embed`). The Docker build at the repo
+root handles this for you. For local dev, run `make dev` from the repo root —
+Vite serves the UI on `:5173` and proxies `/api/*` to the Go server on `:8080`.
+
+If you `make run` the backend by itself without a frontend build, requests for
+`/` return 404 — only the API is served. To build a self-contained binary
+locally:
+
+```bash
+(cd ../frontend && npm ci && npm run build)
+rm -rf web/dist && cp -r ../frontend/dist web/dist
+make build
+./bin/ddxy
+```
+
 ## Docker
 
-Build and run locally:
-
-```bash
-make docker-build
-make docker-run    # mounts ./.docker-data to /data for DB persistence
-```
-
-Pull the latest published image from GHCR:
-
-```bash
-docker pull ghcr.io/xiaoyuanzhu-com/dadaxiaoyuan-backend:latest
-docker run --rm -p 8080:8080 -v $(pwd)/data:/data \
-  ghcr.io/xiaoyuanzhu-com/dadaxiaoyuan-backend:latest
-```
-
-Images are published by `.github/workflows/backend-docker.yml` on every push to
-`main` that touches `backend/**`, and on `backend-v*` tags. Multi-arch:
-`linux/amd64` + `linux/arm64`.
+See the repo-root README for the fullstack Docker image (web UI + API).
 
 ## Env vars
 
