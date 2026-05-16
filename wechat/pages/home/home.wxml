@@ -52,6 +52,7 @@
   <view wx:if="{{!loading && !error}}" class="list-section">
     <view wx:for="{{schools}}" wx:for-item="s" wx:key="id" class="card school-card" data-id="{{s.id}}" bindtap="openSchool">
       <view class="school-card-top">
+        <view wx:if="{{s.logo}}" class="school-logo" style="background-image: url('{{s.logo}}');"></view>
         <view class="school-card-name-wrap">
           <text class="school-name">{{s.name}}</text>
           <text class="school-meta tnum">{{s.subtitle}}</text>

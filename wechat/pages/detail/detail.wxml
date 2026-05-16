@@ -15,7 +15,8 @@
 <view wx:if="{{!loading && !error && school}}" class="page c-paper">
   <!-- Hero -->
   <view class="hero {{school.statusBgClass}}">
-    <view class="seal serif">{{school.initial}}</view>
+    <view wx:if="{{school.logo}}" class="seal seal-logo" style="background-image: url('{{school.logo}}');"></view>
+    <view wx:else class="seal serif">{{school.initial}}</view>
     <view wx:if="{{school.address}}" class="hero-district badge small">{{school.address}}</view>
     <text class="hero-name serif">{{school.name}}</text>
     <text class="hero-status">{{school.statusLabel}}</text>

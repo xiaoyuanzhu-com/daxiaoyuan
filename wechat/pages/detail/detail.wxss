@@ -35,6 +35,14 @@
   opacity: 0.10;
   pointer-events: none;
 }
+/* When a logo URL is set, the seal becomes the logo image (no border, larger opacity). */
+.seal-logo {
+  border: none;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.18;
+}
 
 .hero-district {
   display: inline-block;

@@ -7,6 +7,7 @@ type School struct {
 	ID          string              `json:"id"`
 	CityID      string              `json:"cityId"`
 	Name        string              `json:"name"`
+	Logo        string              `json:"logo,omitempty"`
 	Address     string              `json:"address,omitempty"`
 	Lat         float64             `json:"lat"`
 	Lng         float64             `json:"lng"`

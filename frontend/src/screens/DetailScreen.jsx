@@ -68,15 +68,24 @@ export default function DetailScreen() {
       <div style={{
         background: st.bg, padding: '4px 20px 24px', position: 'relative', overflow: 'hidden',
       }}>
-        <svg width="180" height="180" viewBox="0 0 180 180" style={{
-          position: 'absolute', right: -40, top: -20, opacity: 0.10,
-        }}>
-          <circle cx="90" cy="90" r="80" fill="none" stroke={st.ink} strokeWidth="1.5" />
-          <circle cx="90" cy="90" r="65" fill="none" stroke={st.ink} strokeWidth="0.8" />
-          <text x="90" y="100" textAnchor="middle" fontSize="60" fontWeight="700" fill={st.ink} fontFamily="serif">
-            {school.name.charAt(0)}
-          </text>
-        </svg>
+        {school.logo ? (
+          <img src={school.logo} alt=""
+            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            style={{
+              position: 'absolute', right: -10, top: 10, width: 140, height: 140,
+              objectFit: 'contain', opacity: 0.18, pointerEvents: 'none',
+            }} />
+        ) : (
+          <svg width="180" height="180" viewBox="0 0 180 180" style={{
+            position: 'absolute', right: -40, top: -20, opacity: 0.10,
+          }}>
+            <circle cx="90" cy="90" r="80" fill="none" stroke={st.ink} strokeWidth="1.5" />
+            <circle cx="90" cy="90" r="65" fill="none" stroke={st.ink} strokeWidth="0.8" />
+            <text x="90" y="100" textAnchor="middle" fontSize="60" fontWeight="700" fill={st.ink} fontFamily="serif">
+              {school.name.charAt(0)}
+            </text>
+          </svg>
+        )}
         {school.address && (
           <div style={{
             display: 'inline-block', padding: '5px 10px', background: 'rgba(255,255,255,0.5)',

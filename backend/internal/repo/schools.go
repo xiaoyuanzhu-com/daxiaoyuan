@@ -105,7 +105,7 @@ func (s *Schools) List(ctx context.Context, p ListParams) (ListResult, error) {
 }
 
 const detailCols = `
-	id, city_id, name, address, lat, lng, status, reservation,
+	id, city_id, name, logo, address, lat, lng, status, reservation,
 	library_status, library_reservation,
 	track_status, track_reservation,
 	gym_status, gym_reservation,
@@ -149,11 +149,11 @@ type scanner interface {
 
 func scanDetail(sc scanner) (*models.School, error) {
 	var sch models.School
-	var addr, resv, libRes, trkRes, gymRes, canRes, others sql.NullString
+	var logo, addr, resv, libRes, trkRes, gymRes, canRes, others sql.NullString
 	var libStat, trkStat, gymStat, canStat string
 
 	if err := sc.Scan(
-		&sch.ID, &sch.CityID, &sch.Name, &addr, &sch.Lat, &sch.Lng, &sch.Status, &resv,
+		&sch.ID, &sch.CityID, &sch.Name, &logo, &addr, &sch.Lat, &sch.Lng, &sch.Status, &resv,
 		&libStat, &libRes,
 		&trkStat, &trkRes,
 		&gymStat, &gymRes,
@@ -161,6 +161,9 @@ func scanDetail(sc scanner) (*models.School, error) {
 		&others, &sch.LastUpdate,
 	); err != nil {
 		return nil, err
+	}
+	if logo.Valid {
+		sch.Logo = logo.String
 	}
 	if addr.Valid {
 		sch.Address = addr.String
@@ -242,14 +245,14 @@ func (s *Schools) Insert(ctx context.Context, sch *models.School) error {
 
 	_, err = s.db.ExecContext(ctx, `
 		INSERT OR REPLACE INTO schools (
-			id, city_id, name, address, lat, lng, status, reservation,
+			id, city_id, name, logo, address, lat, lng, status, reservation,
 			library_status, library_reservation,
 			track_status, track_reservation,
 			gym_status, gym_reservation,
 			canteen_status, canteen_reservation,
 			others, search_text, last_update
-		) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-		sch.ID, sch.CityID, sch.Name, nullStr(sch.Address), sch.Lat, sch.Lng, sch.Status, resvJSON,
+		) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+		sch.ID, sch.CityID, sch.Name, nullStr(sch.Logo), nullStr(sch.Address), sch.Lat, sch.Lng, sch.Status, resvJSON,
 		sch.Facilities["library"].Status, libRes,
 		sch.Facilities["track"].Status, trkRes,
 		sch.Facilities["gym"].Status, gymRes,

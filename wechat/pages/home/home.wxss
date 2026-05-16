@@ -151,6 +151,14 @@
   flex-direction: column;
   gap: 4rpx;
 }
+.school-logo {
+  width: 64rpx;
+  height: 64rpx;
+  flex-shrink: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
 .school-name {
   font-size: 32rpx;
   font-weight: 600;

@@ -18,6 +18,15 @@ export function SchoolCard({ school, cityName, distanceKm, lang, density = 'medi
       fontFamily: 'inherit',
     }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
+        {school.logo && (
+          <img src={school.logo} alt="" aria-hidden="true"
+            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            style={{
+              width: density === 'compact' ? 28 : 32,
+              height: density === 'compact' ? 28 : 32,
+              objectFit: 'contain', flexShrink: 0,
+            }} />
+        )}
         <div style={{ minWidth: 0, flex: 1 }}>
           <div style={{
             fontSize: density === 'compact' ? 15 : 16, fontWeight: 600, color: C.ink,

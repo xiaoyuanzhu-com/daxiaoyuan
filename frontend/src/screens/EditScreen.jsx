@@ -110,6 +110,18 @@ export default function EditScreen() {
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             style={inputStyle} />
         </Field>
+        <Field label="校徽 URL">
+          <input type="text" value={form.logo || ''} placeholder="https://…/logo.svg"
+            onChange={(e) => setForm({ ...form, logo: e.target.value })}
+            style={inputStyle} />
+          {form.logo && (
+            <img src={form.logo} alt="logo preview" style={{
+              width: 56, height: 56, objectFit: 'contain', marginTop: 6,
+              border: `1px solid ${C.line}`, borderRadius: 4, alignSelf: 'flex-start',
+              background: C.card,
+            }} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+          )}
+        </Field>
         <Field label="地址">
           <input type="text" value={form.address || ''}
             onChange={(e) => setForm({ ...form, address: e.target.value })}
@@ -184,6 +196,7 @@ function blankSchool() {
     id: '',
     cityId: 'bj',
     name: '',
+    logo: '',
     address: '',
     lat: 39.96,
     lng: 116.34,
