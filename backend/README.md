@@ -56,6 +56,5 @@ See the repo-root README for the fullstack Docker image (web UI + API).
 | Var | Default | |
 |---|---|---|
 | `DDXY_ADDR` | `:8080` | HTTP listen address |
-| `DDXY_DATA_DIR` | `./data` | Directory containing `cities.json` and `schools/<country>/*.json` |
 | `DDXY_LOG_LEVEL` | `info` | log level (debug/info/warn/error) |
 | `DDXY_ADMIN_TOKEN` | (unset) | Bearer token required for POST/PUT; if unset, writes return 401 |

@@ -34,16 +34,15 @@ RUN go build -trimpath -ldflags="-s -w" -o /out/ddxy ./cmd/server
 #
 # Backend does atomic writes back into the data dir (new/edited schools),
 # so it must be owned by the nonroot user. In production the directory
-# is typically bind-mounted from the host and the baked-in copy is just
-# a default/dev seed.
+# is typically bind-mounted from the host onto /app/data and the baked-in
+# copy is just a default/dev seed.
 FROM gcr.io/distroless/static-debian12:nonroot
 WORKDIR /app
 
-COPY --chown=nonroot:nonroot data/ /data/
+COPY --chown=nonroot:nonroot data/ /app/data/
 COPY --from=backend /out/ddxy /app/ddxy
 
-ENV DDXY_ADDR=:8080 \
-    DDXY_DATA_DIR=/data
+ENV DDXY_ADDR=:8080
 
 EXPOSE 8080
 USER nonroot:nonroot

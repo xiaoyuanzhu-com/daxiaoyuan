@@ -79,8 +79,10 @@ data/
   这种 CDN URL。上传是离线步骤，前端 `<img onError>` 容忍 CDN 暂时 404。
 - **写流程 atomic**：handler 写一个 `data/schools/cn/.<slug>.*.tmp` 然后
   `rename` 到目标，避免半写入文件。
-- **配置**：`DDXY_DATA_DIR` 默认 `./data`（cwd 相对，`make run` 用 `../data`
-  绝对路径）。生产部署需要把 `data/` 挂载到容器里。
+- **数据目录**：固定为 cwd 下的 `./data`，没有 env var 可调。`make run` 用
+  `cd .. && exec backend/bin/ddxy` 从仓库根启动。容器里 `WORKDIR=/app`，数据
+  baked 在 `/app/data/`；生产部署把宿主机的 `data/` bind-mount 到
+  `/app/data` 即可，避免镜像内 baked 数据被新版本覆盖丢失。
 
 ## 数据模型核心约定
 
