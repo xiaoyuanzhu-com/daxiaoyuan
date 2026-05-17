@@ -1,0 +1,18 @@
+{
+  "id": "whu",
+  "cityId": "wh",
+  "name": "武汉大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/whu.svg",
+  "address": "湖北省武汉市武昌区八一路 299 号",
+  "lat": 30.5388,
+  "lng": 114.3622,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

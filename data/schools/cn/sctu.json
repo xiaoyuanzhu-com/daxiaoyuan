@@ -1,0 +1,18 @@
+{
+  "id": "sctu",
+  "cityId": "cd",
+  "name": "四川旅游学院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/sctu.svg",
+  "address": "成都市龙泉驿区红岭路 459 号",
+  "lat": 30.5747,
+  "lng": 104.2542,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

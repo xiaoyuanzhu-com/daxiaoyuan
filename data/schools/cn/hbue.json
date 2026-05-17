@@ -1,0 +1,18 @@
+{
+  "id": "hbue",
+  "cityId": "wh",
+  "name": "湖北经济学院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/hbue.svg",
+  "address": "湖北省武汉市江夏区藏龙岛开发区杨桥湖大道 8 号",
+  "lat": 30.3936,
+  "lng": 114.3471,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

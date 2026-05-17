@@ -1,0 +1,18 @@
+{
+  "id": "njau",
+  "cityId": "nj",
+  "name": "南京农业大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/njau.svg",
+  "address": "江苏省南京市玄武区卫岗 1 号",
+  "lat": 32.039,
+  "lng": 118.841,
+  "facilities": {
+    "campus":  { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track":   { "status": "closed", "reservation": null },
+    "gym":     { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

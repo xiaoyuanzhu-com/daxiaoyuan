@@ -1,0 +1,18 @@
+{
+  "id": "hznu",
+  "cityId": "hz",
+  "name": "杭州师范大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/hznu.svg",
+  "address": "浙江省杭州市余杭区余杭塘路 2318 号（仓前校区）",
+  "lat": 30.2855,
+  "lng": 120.0042,
+  "facilities": {
+    "campus":  { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track":   { "status": "closed", "reservation": null },
+    "gym":     { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

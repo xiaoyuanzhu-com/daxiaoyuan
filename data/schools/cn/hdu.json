@@ -1,0 +1,18 @@
+{
+  "id": "hdu",
+  "cityId": "hz",
+  "name": "杭州电子科技大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/hdu.svg",
+  "address": "浙江省杭州市钱塘区白杨街道 2 号大街（下沙校区）",
+  "lat": 30.3163,
+  "lng": 120.3416,
+  "facilities": {
+    "campus":  { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track":   { "status": "closed", "reservation": null },
+    "gym":     { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "zufe",
+  "cityId": "hz",
+  "name": "浙江财经大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/zufe.svg",
+  "address": "浙江省杭州市下沙高教园区学源街 18 号",
+  "lat": 30.3104,
+  "lng": 120.3603,
+  "facilities": {
+    "campus":  { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track":   { "status": "closed", "reservation": null },
+    "gym":     { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

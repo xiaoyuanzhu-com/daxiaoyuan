@@ -1,0 +1,18 @@
+{
+  "id": "scau",
+  "cityId": "gz",
+  "name": "华南农业大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/scau.svg",
+  "address": "广州市天河区五山路 483 号（主校区）",
+  "lat": 23.1583,
+  "lng": 113.3556,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "gdpu",
+  "cityId": "gz",
+  "name": "广东药科大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/gdpu.svg",
+  "address": "广州市白云区江高镇广花路 280 号（广州校区）",
+  "lat": 23.2674,
+  "lng": 113.2196,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

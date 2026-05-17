@@ -1,0 +1,18 @@
+{
+  "id": "zuel",
+  "cityId": "wh",
+  "name": "中南财经政法大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/zuel.svg",
+  "address": "湖北省武汉市洪山区南湖大道 182 号",
+  "lat": 30.4716,
+  "lng": 114.3479,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

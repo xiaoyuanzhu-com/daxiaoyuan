@@ -1,0 +1,18 @@
+{
+  "id": "njfu",
+  "cityId": "nj",
+  "name": "南京林业大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/njfu.svg",
+  "address": "江苏省南京市玄武区龙蟠路 159 号",
+  "lat": 32.082,
+  "lng": 118.815,
+  "facilities": {
+    "campus":  { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track":   { "status": "closed", "reservation": null },
+    "gym":     { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

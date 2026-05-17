@@ -1,0 +1,18 @@
+{
+  "id": "sicnu",
+  "cityId": "cd",
+  "name": "四川师范大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/sicnu.svg",
+  "address": "成都市锦江区静安路 5 号（狮子山校区）",
+  "lat": 30.6386,
+  "lng": 104.1383,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

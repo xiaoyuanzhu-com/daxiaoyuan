@@ -1,0 +1,18 @@
+{
+  "id": "sysusz",
+  "cityId": "sz",
+  "name": "中山大学·深圳",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/sysusz.svg",
+  "address": "广东省深圳市光明区公常路 66 号",
+  "lat": 22.7657,
+  "lng": 113.9298,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

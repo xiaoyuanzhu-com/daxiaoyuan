@@ -1,0 +1,18 @@
+{
+  "id": "cdut",
+  "cityId": "cd",
+  "name": "成都理工大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/cdut.svg",
+  "address": "成都市成华区二仙桥东三路 1 号",
+  "lat": 30.6753,
+  "lng": 104.1419,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

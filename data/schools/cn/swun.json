@@ -1,0 +1,18 @@
+{
+  "id": "swun",
+  "cityId": "cd",
+  "name": "西南民族大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/swun.svg",
+  "address": "成都市武侯区一环路南四段 16 号（武侯校区）",
+  "lat": 30.6275,
+  "lng": 104.0700,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

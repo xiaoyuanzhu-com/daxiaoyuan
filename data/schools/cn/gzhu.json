@@ -1,0 +1,18 @@
+{
+  "id": "gzhu",
+  "cityId": "gz",
+  "name": "广州大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/gzhu.svg",
+  "address": "广州市番禺区大学城外环西路 230 号（大学城校区）",
+  "lat": 23.0512,
+  "lng": 113.4011,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

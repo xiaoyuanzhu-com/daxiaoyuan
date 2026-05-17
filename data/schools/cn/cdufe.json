@@ -1,0 +1,18 @@
+{
+  "id": "cdufe",
+  "cityId": "cd",
+  "name": "四川工商学院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/cdufe.svg",
+  "address": "成都市郫都区花石路 278 号",
+  "lat": 30.7656,
+  "lng": 103.9189,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

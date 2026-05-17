@@ -1,0 +1,18 @@
+{
+  "id": "nuaa",
+  "cityId": "nj",
+  "name": "南京航空航天大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/nuaa.svg",
+  "address": "江苏省南京市秦淮区御道街 29 号",
+  "lat": 32.029,
+  "lng": 118.806,
+  "facilities": {
+    "campus":  { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track":   { "status": "closed", "reservation": null },
+    "gym":     { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

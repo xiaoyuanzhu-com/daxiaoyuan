@@ -1,0 +1,18 @@
+{
+  "id": "gdufe",
+  "cityId": "gz",
+  "name": "广东财经大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/gdufe.svg",
+  "address": "广州市海珠区仑头路 21 号（广州校区）",
+  "lat": 23.0879,
+  "lng": 113.3625,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

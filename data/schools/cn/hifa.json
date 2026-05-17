@@ -1,0 +1,18 @@
+{
+  "id": "hifa",
+  "cityId": "wh",
+  "name": "湖北美术学院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/hifa.svg",
+  "address": "湖北省武汉市江夏区藏龙岛科技园栎山路 1 号",
+  "lat": 30.3866,
+  "lng": 114.3404,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "cuit",
+  "cityId": "cd",
+  "name": "成都信息工程大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/cuit.svg",
+  "address": "成都市双流区学府路一段 24 号（航空港校区）",
+  "lat": 30.5825,
+  "lng": 103.9933,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

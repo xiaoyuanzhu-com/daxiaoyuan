@@ -1,0 +1,18 @@
+{
+  "id": "wit",
+  "cityId": "wh",
+  "name": "武汉工程大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/wit.svg",
+  "address": "湖北省武汉市洪山区雄楚大街 693 号",
+  "lat": 30.5083,
+  "lng": 114.3331,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

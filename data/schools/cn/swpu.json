@@ -1,0 +1,18 @@
+{
+  "id": "swpu",
+  "cityId": "cd",
+  "name": "西南石油大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/swpu.svg",
+  "address": "成都市新都区新都大道 8 号",
+  "lat": 30.7944,
+  "lng": 104.1572,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

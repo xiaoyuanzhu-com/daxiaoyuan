@@ -1,0 +1,18 @@
+{
+  "id": "pkusz",
+  "cityId": "sz",
+  "name": "北京大学深圳研究生院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/pkusz.svg",
+  "address": "广东省深圳市南山区西丽大学城",
+  "lat": 22.5949,
+  "lng": 113.9747,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

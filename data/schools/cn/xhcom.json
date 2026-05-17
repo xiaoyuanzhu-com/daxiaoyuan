@@ -1,0 +1,18 @@
+{
+  "id": "xhcom",
+  "cityId": "gz",
+  "name": "星海音乐学院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/xhcom.svg",
+  "address": "广州市番禺区大学城外环西路 398 号（大学城校区）",
+  "lat": 23.0489,
+  "lng": 113.3878,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

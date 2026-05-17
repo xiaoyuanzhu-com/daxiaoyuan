@@ -1,0 +1,18 @@
+{
+  "id": "cdsu",
+  "cityId": "cd",
+  "name": "成都体育学院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/cdsu.svg",
+  "address": "成都市武侯区体院路 2 号",
+  "lat": 30.6478,
+  "lng": 104.0858,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

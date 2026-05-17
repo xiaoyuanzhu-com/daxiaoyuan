@@ -1,0 +1,18 @@
+{
+  "id": "sziit",
+  "cityId": "sz",
+  "name": "深圳信息职业技术学院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/sziit.svg",
+  "address": "广东省深圳市龙岗区龙翔大道 2188 号",
+  "lat": 22.6845,
+  "lng": 114.2120,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

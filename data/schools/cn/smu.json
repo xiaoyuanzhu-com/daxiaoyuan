@@ -1,0 +1,18 @@
+{
+  "id": "smu",
+  "cityId": "gz",
+  "name": "南方医科大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/smu.svg",
+  "address": "广州市白云区沙太南路 1023-1063 号（校本部）",
+  "lat": 23.1812,
+  "lng": 113.3253,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

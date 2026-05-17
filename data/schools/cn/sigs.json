@@ -1,0 +1,18 @@
+{
+  "id": "sigs",
+  "cityId": "sz",
+  "name": "清华大学深圳国际研究生院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/sigs.svg",
+  "address": "广东省深圳市南山区西丽大学城清华园",
+  "lat": 22.6021,
+  "lng": 113.9706,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

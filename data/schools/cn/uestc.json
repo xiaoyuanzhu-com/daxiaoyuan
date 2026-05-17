@@ -1,0 +1,18 @@
+{
+  "id": "uestc",
+  "cityId": "cd",
+  "name": "电子科技大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/uestc.svg",
+  "address": "成都市成华区建设北路二段 4 号（沙河校区）",
+  "lat": 30.6792,
+  "lng": 104.1264,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

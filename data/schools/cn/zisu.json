@@ -1,0 +1,18 @@
+{
+  "id": "zisu",
+  "cityId": "hz",
+  "name": "浙江外国语学院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/zisu.svg",
+  "address": "浙江省杭州市西湖区留和路 299 号",
+  "lat": 30.2638,
+  "lng": 120.0867,
+  "facilities": {
+    "campus":  { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track":   { "status": "closed", "reservation": null },
+    "gym":     { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

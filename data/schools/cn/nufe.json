@@ -1,0 +1,18 @@
+{
+  "id": "nufe",
+  "cityId": "nj",
+  "name": "南京财经大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/nufe.svg",
+  "address": "江苏省南京市栖霞区仙林大道 3 号",
+  "lat": 32.118,
+  "lng": 118.911,
+  "facilities": {
+    "campus":  { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track":   { "status": "closed", "reservation": null },
+    "gym":     { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

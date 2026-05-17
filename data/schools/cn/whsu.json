@@ -1,0 +1,18 @@
+{
+  "id": "whsu",
+  "cityId": "wh",
+  "name": "武汉体育学院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/whsu.svg",
+  "address": "湖北省武汉市洪山区珞瑜路 461 号",
+  "lat": 30.5108,
+  "lng": 114.3868,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}

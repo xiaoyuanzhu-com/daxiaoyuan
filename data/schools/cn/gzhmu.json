@@ -1,0 +1,18 @@
+{
+  "id": "gzhmu",
+  "cityId": "gz",
+  "name": "广州医科大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/gzhmu.svg",
+  "address": "广州市番禺区新造镇新造路 1 号（番禺校区）",
+  "lat": 23.0359,
+  "lng": 113.4283,
+  "facilities": {
+    "campus": { "status": "closed", "reservation": null },
+    "library": { "status": "closed", "reservation": null },
+    "track": { "status": "closed", "reservation": null },
+    "gym": { "status": "closed", "reservation": null },
+    "canteen": { "status": "closed", "reservation": null }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T12:00:00Z"
+}
