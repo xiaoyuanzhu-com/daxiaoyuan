@@ -40,11 +40,11 @@ func newTestRepo(t *testing.T, schools ...*models.School) *repo.Schools {
 		require.NoError(t, os.MkdirAll(schoolsDir, 0o755))
 		for _, s := range schools {
 			if s.Facilities == nil {
-				s.Facilities = map[string]models.Facility{
-					"library": {Status: "closed"},
-					"track":   {Status: "closed"},
-					"gym":     {Status: "closed"},
-					"canteen": {Status: "closed"},
+				s.Facilities = map[string]models.Facility{}
+			}
+			for _, k := range []string{"campus", "library", "track", "gym", "canteen"} {
+				if _, ok := s.Facilities[k]; !ok {
+					s.Facilities[k] = models.Facility{Status: "closed"}
 				}
 			}
 			if s.Others == nil {

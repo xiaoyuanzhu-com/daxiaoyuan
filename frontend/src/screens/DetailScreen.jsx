@@ -57,9 +57,11 @@ export default function DetailScreen() {
     );
   }
 
-  const st = STATUS[school.status];
+  const campus = school.facilities?.campus || { status: 'closed' };
+  const st = STATUS[campus.status];
   const name = school.name;
-  const facKeys = Object.keys(school.facilities);
+  // Hero already renders the campus state, so list only the non-campus facilities below.
+  const facKeys = Object.keys(school.facilities).filter((k) => k !== 'campus');
 
   return (
     <div style={{ background: C.paper, minHeight: '100%', paddingBottom: 100 }}>

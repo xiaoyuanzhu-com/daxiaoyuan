@@ -6,9 +6,11 @@
   "address": "上海市杨浦区四平路 1239 号（四平路校区）",
   "lat": 31.2825,
   "lng": 121.505,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

@@ -6,12 +6,14 @@
   "address": "北京市海淀区中关村大街59号（中关村校区）",
   "lat": 39.969,
   "lng": 116.319,
-  "status": "appt",
-  "reservation": {
-    "qrcodeUrl": "https://placehold.co/300x300?text=RUC+QR",
-    "hint": "访问 www.ruc.edu.cn 首页「参观预约」入口提交申请；具体公众入校政策以校方核验为准"
-  },
   "facilities": {
+    "campus": {
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/300x300?text=RUC+QR",
+        "hint": "访问 www.ruc.edu.cn 首页「参观预约」入口提交申请；具体公众入校政策以校方核验为准"
+      }
+    },
     "canteen": {
       "status": "open",
       "reservation": null

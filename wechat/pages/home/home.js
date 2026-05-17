@@ -7,7 +7,7 @@ const { STATUS, FACILITIES } = require('../../utils/status.js');
 // single-character colored rectangle whose color encodes that aspect's
 // open state.
 const CARD_BLOCKS = [
-  { key: 'campus',  short: '校' },
+  { key: 'campus',  short: FACILITIES.campus.short },
   { key: 'library', short: FACILITIES.library.short },
   { key: 'track',   short: FACILITIES.track.short },
   { key: 'gym',     short: FACILITIES.gym.short },
@@ -233,15 +233,17 @@ Page({
 
 // Decorates a full School record from the API into the shape the card
 // template expects. `facilities` is the full {status, reservation} map shape
-// from the detail/list endpoint — we only read .status here.
+// from the detail/list endpoint — we only read .status here. Campus-level
+// status lives in facilities.campus.
 function decorateSchool(s, distance, cityName) {
-  const st = STATUS[s.status] || STATUS.closed;
+  const facs = s.facilities || {};
+  const campusStatus = (facs.campus && facs.campus.status) || 'closed';
+  const st = STATUS[campusStatus] || STATUS.closed;
   const subtitle = (typeof distance === 'number')
     ? `${cityName} · ${distance.toFixed(1)} 公里`
     : cityName;
-  const facs = s.facilities || {};
   const blocks = CARD_BLOCKS.map((b) => {
-    const statusKey = b.key === 'campus' ? s.status : (facs[b.key] && facs[b.key].status);
+    const statusKey = facs[b.key] && facs[b.key].status;
     const meta = STATUS[statusKey] || STATUS.closed;
     return { key: b.key, short: b.short, bgClass: meta.bgClass };
   });

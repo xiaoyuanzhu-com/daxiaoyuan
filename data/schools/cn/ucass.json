@@ -6,9 +6,11 @@
   "address": "北京市房山区",
   "lat": 39.75,
   "lng": 115.99,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

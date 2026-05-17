@@ -22,8 +22,12 @@ func TestSchools_List_Empty(t *testing.T) {
 
 func TestSchools_List_AllAndByCity(t *testing.T) {
 	r := newTestRepo(t,
-		&models.School{ID: "pku", CityID: "bj", Name: "北京大学", Lat: 39.99, Lng: 116.30, Status: "appt", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
-		&models.School{ID: "fudan", CityID: "sh", Name: "复旦大学", Lat: 31.30, Lng: 121.50, Status: "open", LastUpdate: mustTime("2026-05-02T00:00:00Z")},
+		&models.School{ID: "pku", CityID: "bj", Name: "北京大学", Lat: 39.99, Lng: 116.30,
+			Facilities: map[string]models.Facility{"campus": {Status: "appt"}},
+			LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "fudan", CityID: "sh", Name: "复旦大学", Lat: 31.30, Lng: 121.50,
+			Facilities: map[string]models.Facility{"campus": {Status: "open"}},
+			LastUpdate: mustTime("2026-05-02T00:00:00Z")},
 	)
 
 	all, err := r.List(context.Background(), ListParams{})
@@ -35,7 +39,7 @@ func TestSchools_List_AllAndByCity(t *testing.T) {
 	require.NoError(t, err)
 	require.Len(t, bj.Schools, 1)
 	assert.Equal(t, "pku", bj.Schools[0].ID)
-	assert.Equal(t, "appt", bj.Schools[0].Status)
+	assert.Equal(t, "appt", bj.Schools[0].Facilities["campus"].Status)
 	// List returns full School records — facility statuses are populated.
 	assert.Equal(t, "closed", bj.Schools[0].Facilities["library"].Status)
 
@@ -46,9 +50,9 @@ func TestSchools_List_AllAndByCity(t *testing.T) {
 
 func TestSchools_List_FuzzyQuery(t *testing.T) {
 	r := newTestRepo(t,
-		&models.School{ID: "pku", CityID: "bj", Name: "北京大学", Status: "appt", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
-		&models.School{ID: "tsinghua", CityID: "bj", Name: "清华大学", Status: "appt", LastUpdate: mustTime("2026-05-02T00:00:00Z")},
-		&models.School{ID: "fudan", CityID: "sh", Name: "复旦大学", Status: "open", LastUpdate: mustTime("2026-05-03T00:00:00Z")},
+		&models.School{ID: "pku", CityID: "bj", Name: "北京大学", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "tsinghua", CityID: "bj", Name: "清华大学", LastUpdate: mustTime("2026-05-02T00:00:00Z")},
+		&models.School{ID: "fudan", CityID: "sh", Name: "复旦大学", LastUpdate: mustTime("2026-05-03T00:00:00Z")},
 	)
 
 	cases := []struct {
@@ -75,7 +79,7 @@ func TestSchools_List_Pagination(t *testing.T) {
 	seeded := make([]*models.School, 12)
 	for i := 0; i < 12; i++ {
 		seeded[i] = &models.School{
-			ID: string(rune('a' + i)), CityID: "bj", Name: "x", Status: "open",
+			ID: string(rune('a' + i)), CityID: "bj", Name: "x",
 			LastUpdate: mustTime("2026-05-01T00:00:00Z").Add(time.Duration(i) * time.Hour),
 		}
 	}
@@ -103,13 +107,16 @@ func TestSchools_Get_FullShape(t *testing.T) {
 	r := newTestRepo(t,
 		&models.School{
 			ID: "pku", CityID: "bj", Name: "北京大学", Address: "北京市海淀区颐和园路 5 号",
-			Lat: 39.992, Lng: 116.305, Status: "appt",
-			Reservation: &models.Reservation{
-				QrcodeUrl: "https://example.com/qr.png",
-				Hint:      "关注「参观北大」",
-				Link:      "https://visit.pku.edu.cn",
-			},
+			Lat: 39.992, Lng: 116.305,
 			Facilities: map[string]models.Facility{
+				"campus": {
+					Status: "appt",
+					Reservation: &models.Reservation{
+						QrcodeUrl: "https://example.com/qr.png",
+						Hint:      "关注「参观北大」",
+						Link:      "https://visit.pku.edu.cn",
+					},
+				},
 				"library": {Status: "closed"},
 				"track":   {Status: "closed"},
 				"gym":     {Status: "closed"},
@@ -125,12 +132,14 @@ func TestSchools_Get_FullShape(t *testing.T) {
 	assert.Equal(t, "pku", got.ID)
 	assert.Equal(t, "bj", got.CityID)
 	assert.Equal(t, "北京市海淀区颐和园路 5 号", got.Address)
-	assert.Equal(t, "appt", got.Status)
-	require.NotNil(t, got.Reservation)
-	assert.Equal(t, "https://example.com/qr.png", got.Reservation.QrcodeUrl)
-	assert.Equal(t, "https://visit.pku.edu.cn", got.Reservation.Link)
 
-	assert.Len(t, got.Facilities, 4)
+	campus := got.Facilities["campus"]
+	assert.Equal(t, "appt", campus.Status)
+	require.NotNil(t, campus.Reservation)
+	assert.Equal(t, "https://example.com/qr.png", campus.Reservation.QrcodeUrl)
+	assert.Equal(t, "https://visit.pku.edu.cn", campus.Reservation.Link)
+
+	assert.Len(t, got.Facilities, 5)
 	assert.Equal(t, "closed", got.Facilities["library"].Status)
 	assert.Nil(t, got.Facilities["library"].Reservation)
 
@@ -143,9 +152,9 @@ func TestSchools_Insert_RoundTrip(t *testing.T) {
 	r := newTestRepo(t)
 
 	in := &models.School{
-		ID: "tsinghua", CityID: "bj", Name: "清华大学", Lat: 40.0, Lng: 116.326, Status: "appt",
-		Reservation: &models.Reservation{QrcodeUrl: "https://x.png", Hint: "h"},
+		ID: "tsinghua", CityID: "bj", Name: "清华大学", Lat: 40.0, Lng: 116.326,
 		Facilities: map[string]models.Facility{
+			"campus":  {Status: "appt", Reservation: &models.Reservation{QrcodeUrl: "https://x.png", Hint: "h"}},
 			"library": {Status: "closed"},
 			"track":   {Status: "closed"},
 			"gym":     {Status: "closed"},
@@ -159,16 +168,25 @@ func TestSchools_Insert_RoundTrip(t *testing.T) {
 	got, err := r.Get(context.Background(), "tsinghua")
 	require.NoError(t, err)
 	assert.Equal(t, "清华大学", got.Name)
-	require.NotNil(t, got.Reservation)
-	assert.Equal(t, "https://x.png", got.Reservation.QrcodeUrl)
+	campus := got.Facilities["campus"]
+	require.NotNil(t, campus.Reservation)
+	assert.Equal(t, "https://x.png", campus.Reservation.QrcodeUrl)
 }
 
 func TestSchools_CountByCity(t *testing.T) {
 	r := newTestRepo(t,
-		&models.School{ID: "a", CityID: "bj", Name: "A", Status: "open", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
-		&models.School{ID: "b", CityID: "bj", Name: "B", Status: "open", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
-		&models.School{ID: "c", CityID: "bj", Name: "C", Status: "appt", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
-		&models.School{ID: "d", CityID: "bj", Name: "D", Status: "closed", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "a", CityID: "bj", Name: "A",
+			Facilities: map[string]models.Facility{"campus": {Status: "open"}},
+			LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "b", CityID: "bj", Name: "B",
+			Facilities: map[string]models.Facility{"campus": {Status: "open"}},
+			LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "c", CityID: "bj", Name: "C",
+			Facilities: map[string]models.Facility{"campus": {Status: "appt"}},
+			LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "d", CityID: "bj", Name: "D",
+			Facilities: map[string]models.Facility{"campus": {Status: "closed"}},
+			LastUpdate: mustTime("2026-05-01T00:00:00Z")},
 	)
 	stats, err := r.CountByCity(context.Background())
 	require.NoError(t, err)

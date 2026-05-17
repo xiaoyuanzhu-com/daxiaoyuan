@@ -1,5 +1,12 @@
 # 大大校园 Backend — 设计
 
+> **历史文档说明**：本文档是后端第一版的设计 spec(SQLite + 宽表 + 校园级 root `status`)。仓库后续做了两次重要演进:
+>
+> 1. **存储**：SQLite 被替换为文件式 JSON(`data/schools/<country>/<slug>.json`),启动时全量读入内存 map。详见 [CLAUDE.md](../../../CLAUDE.md) §数据存储。
+> 2. **数据模型**：root 级 `status` / `reservation` 字段被并入 `facilities.campus`,设施由 4 项变为 5 项(`campus` / `library` / `track` / `gym` / `canteen`)。详见 [CLAUDE.md](../../../CLAUDE.md) §数据模型核心约定。
+>
+> 阅读本文档下面的 SQL schema / API shape 时请脑补这两处差异。当前数据模型 source of truth 是 [CLAUDE.md](../../../CLAUDE.md) 与 `backend/internal/models/`。
+
 ## 背景
 
 到目前为止，学校与城市数据各自硬编码在两个客户端里（`frontend/src/data/seed.js` 与 `wechat/utils/data.js`），shape 已经偷偷分叉，无法在 Web、小程序、未来的 iOS/Android 之间共用。

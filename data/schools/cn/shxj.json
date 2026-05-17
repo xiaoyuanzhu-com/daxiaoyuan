@@ -6,9 +6,11 @@
   "address": "上海市静安区",
   "lat": 31.23,
   "lng": 121.45,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

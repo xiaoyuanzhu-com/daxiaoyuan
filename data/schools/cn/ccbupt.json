@@ -6,9 +6,11 @@
   "address": "北京市延庆区",
   "lat": 40.46,
   "lng": 115.97,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

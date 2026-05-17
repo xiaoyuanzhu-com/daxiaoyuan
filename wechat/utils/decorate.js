@@ -3,46 +3,33 @@
 
 const { STATUS, FACILITIES } = require('./status.js');
 
-const FACILITY_ORDER = ['library', 'track', 'gym', 'canteen'];
+// Canonical render order: campus first (the umbrella status), then the four
+// concrete facilities. Matches frontend FACILITIES key order.
+const FACILITY_ORDER = ['campus', 'library', 'track', 'gym', 'canteen'];
 
 function decorateSchool(s, distanceKm) {
   if (!s) return s;
-  const st = STATUS[s.status];
+  const campus = (s.facilities && s.facilities.campus) || { status: 'closed', reservation: null };
+  const st = STATUS[campus.status];
 
-  const schoolRow = {
-    key: 'school',
-    label: '校园',
-    short: '校',
-    status: s.status,
-    statusLabel: st.label,
-    bgClass: st.bgClass,
-    dotClass: st.dotClass,
-    muted: s.status === 'closed' || s.status === 'alumni',
-    strikethrough: s.status === 'closed',
-    reservation: s.reservation || null,
-    hasReservation: !!s.reservation,
-  };
-
-  const facilities = [schoolRow].concat(
-    FACILITY_ORDER.map((k) => {
-      const f = s.facilities[k];
-      const fst = STATUS[f.status];
-      const muted = f.status === 'closed' || f.status === 'alumni';
-      return {
-        key: k,
-        label: FACILITIES[k].label,
-        short: FACILITIES[k].short,
-        status: f.status,
-        statusLabel: fst.label,
-        bgClass: fst.bgClass,
-        dotClass: fst.dotClass,
-        muted,
-        strikethrough: f.status === 'closed',
-        reservation: f.reservation || null,
-        hasReservation: !!f.reservation,
-      };
-    }),
-  );
+  const facilities = FACILITY_ORDER.map((k) => {
+    const f = (s.facilities && s.facilities[k]) || { status: 'closed', reservation: null };
+    const fst = STATUS[f.status];
+    const muted = f.status === 'closed' || f.status === 'alumni';
+    return {
+      key: k,
+      label: FACILITIES[k].label,
+      short: FACILITIES[k].short,
+      status: f.status,
+      statusLabel: fst.label,
+      bgClass: fst.bgClass,
+      dotClass: fst.dotClass,
+      muted,
+      strikethrough: f.status === 'closed',
+      reservation: f.reservation || null,
+      hasReservation: !!f.reservation,
+    };
+  });
 
   return {
     ...s,
@@ -53,7 +40,7 @@ function decorateSchool(s, distanceKm) {
     statusOrder: st.order,
     initial: s.name.charAt(0),
     facilitiesList: facilities,
-    hasReservation: !!s.reservation,
+    hasReservation: !!campus.reservation,
     distanceKm: typeof distanceKm === 'number' ? distanceKm : null,
     updateLabel: relativeTimeZh(s.lastUpdate),
   };

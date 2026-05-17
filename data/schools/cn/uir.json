@@ -6,9 +6,11 @@
   "address": "北京市海淀区",
   "lat": 39.97,
   "lng": 116.31,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

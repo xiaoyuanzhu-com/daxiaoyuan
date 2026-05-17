@@ -6,9 +6,11 @@
   "address": "北京市西城区",
   "lat": 39.91,
   "lng": 116.37,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

@@ -29,16 +29,22 @@ func seedTwoSchools(t *testing.T) *gin.Engine {
 	repoS := newTestRepo(t,
 		&models.School{
 			ID: "pku", CityID: "bj", Name: "北京大学", Address: "北京市海淀区颐和园路 5 号",
-			Lat: 39.992, Lng: 116.305, Status: "appt",
-			Reservation: &models.Reservation{
-				QrcodeUrl: "https://x/qr.png", Hint: "h", Link: "https://visit.pku.edu.cn",
+			Lat: 39.992, Lng: 116.305,
+			Facilities: map[string]models.Facility{
+				"campus": {
+					Status: "appt",
+					Reservation: &models.Reservation{
+						QrcodeUrl: "https://x/qr.png", Hint: "h", Link: "https://visit.pku.edu.cn",
+					},
+				},
 			},
 			LastUpdate: mustTime("2026-05-09T08:30:00Z"),
 		},
 		&models.School{
 			ID: "fudan", CityID: "sh", Name: "复旦大学",
-			Lat: 31.30, Lng: 121.50, Status: "open",
+			Lat: 31.30, Lng: 121.50,
 			Facilities: map[string]models.Facility{
+				"campus":  {Status: "open"},
 				"library": {Status: "open"},
 				"track":   {Status: "open"},
 				"gym":     {Status: "open"},
@@ -79,12 +85,13 @@ func TestGETSchools_List_All(t *testing.T) {
 	// Order is lastUpdate DESC: pku (08:30Z) before fudan (00:00Z).
 	assert.Equal(t, "pku", body.Schools[0]["id"])
 	assert.Equal(t, "fudan", body.Schools[1]["id"])
-	// Full School shape — facilities expand to {status, reservation}, plus
-	// top-level reservation + others are present.
+	// Full School shape — facilities expand to {status, reservation}, others present.
 	facs := body.Schools[0]["facilities"].(map[string]any)
 	lib := facs["library"].(map[string]any)
 	assert.Equal(t, "closed", lib["status"])
-	assert.Contains(t, body.Schools[0], "reservation")
+	campus := facs["campus"].(map[string]any)
+	assert.Equal(t, "appt", campus["status"])
+	assert.NotNil(t, campus["reservation"])
 	assert.Contains(t, body.Schools[0], "others")
 }
 
@@ -132,11 +139,12 @@ func TestGETSchool_Detail_OK(t *testing.T) {
 	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &body))
 	s := body.School
 	assert.Equal(t, "pku", s["id"])
-	assert.Equal(t, "appt", s["status"])
-	r2 := s["reservation"].(map[string]any)
-	assert.Equal(t, "https://x/qr.png", r2["qrcodeUrl"])
 	facs := s["facilities"].(map[string]any)
-	assert.Len(t, facs, 4)
+	assert.Len(t, facs, 5)
+	campus := facs["campus"].(map[string]any)
+	assert.Equal(t, "appt", campus["status"])
+	r2 := campus["reservation"].(map[string]any)
+	assert.Equal(t, "https://x/qr.png", r2["qrcodeUrl"])
 }
 
 func TestGETSchool_Detail_NotFound(t *testing.T) {
@@ -170,13 +178,15 @@ func validPKUBody() map[string]any {
 		"address": "北京市海淀区颐和园路 5 号",
 		"lat":     39.992,
 		"lng":     116.305,
-		"status":  "appt",
-		"reservation": map[string]any{
-			"qrcodeUrl": "https://x/new-qr.png",
-			"hint":      "扫码预约",
-			"link":      "https://visit.pku.edu.cn",
-		},
 		"facilities": map[string]any{
+			"campus": map[string]any{
+				"status": "appt",
+				"reservation": map[string]any{
+					"qrcodeUrl": "https://x/new-qr.png",
+					"hint":      "扫码预约",
+					"link":      "https://visit.pku.edu.cn",
+				},
+			},
 			"library": map[string]any{"status": "closed"},
 			"track":   map[string]any{"status": "open"},
 			"gym":     map[string]any{"status": "closed"},
@@ -198,9 +208,9 @@ func TestPUTSchool_Update_OK(t *testing.T) {
 	}
 	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &resp))
 	assert.Equal(t, "北京大学（更新）", resp.School["name"])
-	resv := resp.School["reservation"].(map[string]any)
-	assert.Equal(t, "https://x/new-qr.png", resv["qrcodeUrl"])
 	facs := resp.School["facilities"].(map[string]any)
+	resv := facs["campus"].(map[string]any)["reservation"].(map[string]any)
+	assert.Equal(t, "https://x/new-qr.png", resv["qrcodeUrl"])
 	assert.Equal(t, "open", facs["track"].(map[string]any)["status"])
 	// lastUpdate is server-set on PUT — must be present and non-empty.
 	assert.NotEmpty(t, resp.School["lastUpdate"])
@@ -225,7 +235,7 @@ func TestPUTSchool_IDMismatch(t *testing.T) {
 func TestPUTSchool_InvalidStatus(t *testing.T) {
 	r := seedTwoSchools(t)
 	body := validPKUBody()
-	body["status"] = "bogus"
+	body["facilities"].(map[string]any)["campus"].(map[string]any)["status"] = "bogus"
 	w := putJSON(t, r, "/api/v1/schools/pku", body)
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 }
@@ -265,8 +275,8 @@ func validNewSchoolBody() map[string]any {
 		"address": "北京市海淀区中关村大街 59 号",
 		"lat":     39.969,
 		"lng":     116.319,
-		"status":  "open",
 		"facilities": map[string]any{
+			"campus":  map[string]any{"status": "open"},
 			"library": map[string]any{"status": "closed"},
 			"track":   map[string]any{"status": "open"},
 			"gym":     map[string]any{"status": "closed"},
@@ -316,7 +326,7 @@ func TestPOSTSchool_BadSlug(t *testing.T) {
 
 func TestPOSTSchool_BadValidation(t *testing.T) {
 	r := seedTwoSchools(t)
-	// Missing one of the four required facilities.
+	// Missing one of the five required facilities.
 	body := validNewSchoolBody()
 	delete(body["facilities"].(map[string]any), "gym")
 	w := postJSON(t, r, "/api/v1/schools", body)

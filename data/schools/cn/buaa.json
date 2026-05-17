@@ -6,12 +6,14 @@
   "address": "北京市海淀区学院路37号（学院路校区）",
   "lat": 39.982,
   "lng": 116.348,
-  "status": "appt",
-  "reservation": {
-    "qrcodeUrl": "https://placehold.co/240x240?text=QR",
-    "hint": "关注「北京航空航天大学」微信公众号 → 菜单「服务」→「场馆参观」预约入校"
-  },
   "facilities": {
+    "campus": {
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/240x240?text=QR",
+        "hint": "关注「北京航空航天大学」微信公众号 → 菜单「服务」→「场馆参观」预约入校"
+      }
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

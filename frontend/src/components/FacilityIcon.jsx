@@ -3,6 +3,12 @@ import { C } from '../theme.js';
 export function FacilityIcon({ kind, size = 18, color = C.ink }) {
   const stroke = { stroke: color, strokeWidth: 1.6, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' };
   switch (kind) {
+    case 'campus':
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 20h18M5 20V10l7-5 7 5v10M9 20v-6h6v6M9 11h.01M15 11h.01" {...stroke}/>
+        </svg>
+      );
     case 'library':
       return (
         <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">

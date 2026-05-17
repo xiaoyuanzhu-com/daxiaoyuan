@@ -6,9 +6,11 @@
   "address": "北京市东城区",
   "lat": 39.93,
   "lng": 116.42,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

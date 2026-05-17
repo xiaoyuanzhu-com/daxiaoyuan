@@ -84,7 +84,7 @@ func (s *Schools) load() error {
 		}
 		// Empty facilities map after unmarshal means the JSON didn't include
 		// the field at all — treat as malformed since the API contract requires
-		// all four keys.
+		// all five keys (campus + library + track + gym + canteen).
 		if sch.Facilities == nil {
 			sch.Facilities = map[string]models.Facility{}
 		}
@@ -231,7 +231,7 @@ func (s *Schools) CountByCity(_ context.Context) (map[string]CityStats, error) {
 	for _, sch := range s.byID {
 		cs := out[sch.CityID]
 		cs.Total++
-		if sch.Status == "open" {
+		if sch.Facilities["campus"].Status == "open" {
 			cs.Open++
 		}
 		out[sch.CityID] = cs

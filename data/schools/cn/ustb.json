@@ -6,12 +6,14 @@
   "address": "北京市海淀区学院路 30 号",
   "lat": 39.9926,
   "lng": 116.3586,
-  "status": "appt",
-  "reservation": {
-    "qrcodeUrl": "https://placehold.co/240x240?text=USTB+QR",
-    "hint": "关注「北京科技大学」公众号 → 公共服务 → 参观北科大（可提前 7 日预约，凭身份证从西门/南二门/教东门/教北门刷闸入校）"
-  },
   "facilities": {
+    "campus": {
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/240x240?text=USTB+QR",
+        "hint": "关注「北京科技大学」公众号 → 公共服务 → 参观北科大（可提前 7 日预约，凭身份证从西门/南二门/教东门/教北门刷闸入校）"
+      }
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

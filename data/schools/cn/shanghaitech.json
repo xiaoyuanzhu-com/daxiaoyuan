@@ -6,9 +6,11 @@
   "address": "上海市浦东新区华夏中路 393 号",
   "lat": 31.179,
   "lng": 121.59,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

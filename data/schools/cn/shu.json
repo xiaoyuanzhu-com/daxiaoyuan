@@ -6,9 +6,11 @@
   "address": "上海市宝山区上大路 99 号（宝山校区）",
   "lat": 31.317,
   "lng": 121.391,
-  "status": "alumni",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "alumni",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

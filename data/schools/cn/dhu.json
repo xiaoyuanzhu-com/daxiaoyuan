@@ -6,9 +6,11 @@
   "address": "上海市松江区人民北路 2999 号（松江校区）",
   "lat": 31.0289,
   "lng": 121.2316,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

@@ -6,9 +6,11 @@
   "address": "北京市海淀区清华东路 17 号（东校区）",
   "lat": 40.001,
   "lng": 116.351,
-  "status": "open",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "open",
+      "reservation": null
+    },
     "canteen": {
       "status": "open",
       "reservation": null

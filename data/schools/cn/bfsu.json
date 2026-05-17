@@ -6,9 +6,11 @@
   "address": "北京市海淀区西三环北路2号（西校区）",
   "lat": 39.952,
   "lng": 116.305,
-  "status": "open",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "open",
+      "reservation": null
+    },
     "canteen": {
       "status": "open",
       "reservation": null

@@ -133,15 +133,7 @@ export default function EditScreen() {
           </div>
         </Field>
 
-        <Section title="学校开放状态">
-          <StatusPicker value={form.status}
-            onChange={(v) => setForm({ ...form, status: v })} />
-          <ReservationFields
-            value={form.reservation}
-            onChange={(r) => setForm({ ...form, reservation: r })} />
-        </Section>
-
-        <Section title="设施">
+        <Section title="开放状态（校园 + 设施）">
           {Object.keys(FACILITIES).map((k) => {
             const f = form.facilities[k] || { status: 'closed', reservation: null };
             return (
@@ -224,9 +216,8 @@ function blankSchool() {
     address: '',
     lat: 39.96,
     lng: 116.34,
-    status: 'open',
-    reservation: null,
     facilities: {
+      campus:  { status: 'open',   reservation: null },
       library: { status: 'closed', reservation: null },
       track:   { status: 'closed', reservation: null },
       gym:     { status: 'closed', reservation: null },

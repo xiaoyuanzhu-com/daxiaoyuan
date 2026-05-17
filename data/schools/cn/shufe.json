@@ -6,9 +6,11 @@
   "address": "上海市杨浦区国定路 777 号（国定路校区）",
   "lat": 31.306,
   "lng": 121.505,
-  "status": "open",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "open",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

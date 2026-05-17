@@ -6,9 +6,11 @@
   "address": "上海市虹口区",
   "lat": 31.27,
   "lng": 121.5,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

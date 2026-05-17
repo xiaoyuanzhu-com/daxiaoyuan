@@ -16,7 +16,9 @@ import (
 func TestGETDump_Shape(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	repoS := newTestRepo(t,
-		&models.School{ID: "pku", CityID: "bj", Name: "北京大学", Status: "appt", LastUpdate: mustTime("2026-05-09T00:00:00Z")},
+		&models.School{ID: "pku", CityID: "bj", Name: "北京大学",
+			Facilities: map[string]models.Facility{"campus": {Status: "appt"}},
+			LastUpdate: mustTime("2026-05-09T00:00:00Z")},
 	)
 
 	r := gin.New()

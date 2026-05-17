@@ -21,8 +21,11 @@ const (
 )
 
 var (
-	validStatuses  = map[string]bool{"open": true, "appt": true, "alumni": true, "closed": true}
-	facilityKeys   = []string{"library", "track", "gym", "canteen"}
+	validStatuses = map[string]bool{"open": true, "appt": true, "alumni": true, "closed": true}
+	// facilityKeys is the canonical 5-item set. "campus" represents the school
+	// as a whole; the other four are concrete facilities. See CLAUDE.md
+	// §数据模型核心约定.
+	facilityKeys   = []string{"campus", "library", "track", "gym", "canteen"}
 	facilityKeySet = func() map[string]bool {
 		m := map[string]bool{}
 		for _, k := range facilityKeys {
@@ -184,11 +187,8 @@ func validateSchool(s *models.School) string {
 	if _, ok := data.CityByID(s.CityID); !ok {
 		return "unknown cityId: " + s.CityID
 	}
-	if !validStatuses[s.Status] {
-		return "invalid status: " + s.Status
-	}
 	if len(s.Facilities) != len(facilityKeys) {
-		return "facilities must contain exactly: library, track, gym, canteen"
+		return "facilities must contain exactly: campus, library, track, gym, canteen"
 	}
 	for _, k := range facilityKeys {
 		f, ok := s.Facilities[k]

@@ -9,6 +9,7 @@ const STATUS = {
 };
 
 const FACILITIES = {
+  campus:  { label: '校园',   short: '校' },
   library: { label: '图书馆', short: '图' },
   track:   { label: '操场',   short: '场' },
   gym:     { label: '体育馆', short: '馆' },

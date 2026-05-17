@@ -6,9 +6,11 @@
   "address": "上海市徐汇区梅陇路 130 号（徐汇校区）",
   "lat": 31.146,
   "lng": 121.426,
-  "status": "open",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "open",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

@@ -6,13 +6,15 @@
   "address": "北京市海淀区颐和园路 5 号（燕园校区）",
   "lat": 39.992,
   "lng": 116.305,
-  "status": "appt",
-  "reservation": {
-    "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
-    "hint": "微信关注「北京大学」公众号（iPKU1898）→ 底部菜单「参观北大」进入小程序预约；或直接访问 visitor.pku.edu.cn。即时预约最多提前 7 日，抽签预约最多提前 8 日；预约成功后凭身份证从东侧门（地铁 4 号线北大东门站 A 口）刷脸入校",
-    "link": "https://visitor.pku.edu.cn"
-  },
   "facilities": {
+    "campus": {
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+        "hint": "微信关注「北京大学」公众号（iPKU1898）→ 底部菜单「参观北大」进入小程序预约；或直接访问 visitor.pku.edu.cn。即时预约最多提前 7 日，抽签预约最多提前 8 日；预约成功后凭身份证从东侧门（地铁 4 号线北大东门站 A 口）刷脸入校",
+        "link": "https://visitor.pku.edu.cn"
+      }
+    },
     "canteen": {
       "status": "appt",
       "reservation": {

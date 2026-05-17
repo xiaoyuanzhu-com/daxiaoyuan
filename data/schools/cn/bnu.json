@@ -6,9 +6,11 @@
   "address": "北京市海淀区新街口外大街19号（北京校区）",
   "lat": 39.962,
   "lng": 116.366,
-  "status": "alumni",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "alumni",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

@@ -42,9 +42,15 @@ func TestGETCities_EmptyDB(t *testing.T) {
 func TestGETCities_WithStats(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	repoS := newTestRepo(t,
-		&models.School{ID: "a", CityID: "bj", Name: "A", Status: "open", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
-		&models.School{ID: "b", CityID: "bj", Name: "B", Status: "open", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
-		&models.School{ID: "c", CityID: "bj", Name: "C", Status: "appt", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "a", CityID: "bj", Name: "A",
+			Facilities: map[string]models.Facility{"campus": {Status: "open"}},
+			LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "b", CityID: "bj", Name: "B",
+			Facilities: map[string]models.Facility{"campus": {Status: "open"}},
+			LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "c", CityID: "bj", Name: "C",
+			Facilities: map[string]models.Facility{"campus": {Status: "appt"}},
+			LastUpdate: mustTime("2026-05-01T00:00:00Z")},
 	)
 
 	r := gin.New()

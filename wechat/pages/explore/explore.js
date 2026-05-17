@@ -73,7 +73,8 @@ Page({
     try {
       const res = await fetchRanking(kind);
       const schools = (res.schools || []).map((s) => {
-        const meta = STATUS[s.status] || STATUS.closed;
+        const campusStatus = (s.facilities && s.facilities.campus && s.facilities.campus.status) || 'closed';
+        const meta = STATUS[campusStatus] || STATUS.closed;
         return {
           id: s.id,
           name: s.name,

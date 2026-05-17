@@ -6,9 +6,11 @@
   "address": "上海市浦东新区",
   "lat": 31.22,
   "lng": 121.54,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

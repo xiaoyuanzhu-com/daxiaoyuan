@@ -6,9 +6,11 @@
   "address": "北京市海淀区中关村南大街5号（中关村校区）",
   "lat": 39.962,
   "lng": 116.318,
-  "status": "open",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "open",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

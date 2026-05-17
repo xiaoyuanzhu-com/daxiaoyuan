@@ -6,9 +6,11 @@
   "address": "上海市嘉定区",
   "lat": 31.38,
   "lng": 121.25,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

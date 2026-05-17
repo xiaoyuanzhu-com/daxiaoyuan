@@ -47,15 +47,17 @@ func newTestRepo(t *testing.T, schools ...*models.School) *Schools {
 	return r
 }
 
-// fillDefaults populates empty facility map and others slice so the seeded
-// school satisfies the on-disk schema (all four facility keys present).
+// fillDefaults populates missing facility keys and others slice so the seeded
+// school satisfies the on-disk schema (all five facility keys present:
+// campus + library + track + gym + canteen). Missing keys are filled as
+// "closed" so tests only need to set the keys they care about.
 func fillDefaults(s *models.School) {
 	if s.Facilities == nil {
-		s.Facilities = map[string]models.Facility{
-			"library": {Status: "closed"},
-			"track":   {Status: "closed"},
-			"gym":     {Status: "closed"},
-			"canteen": {Status: "closed"},
+		s.Facilities = map[string]models.Facility{}
+	}
+	for _, k := range []string{"campus", "library", "track", "gym", "canteen"} {
+		if _, ok := s.Facilities[k]; !ok {
+			s.Facilities[k] = models.Facility{Status: "closed"}
 		}
 	}
 	if s.Others == nil {

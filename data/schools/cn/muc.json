@@ -6,9 +6,11 @@
   "address": "北京市海淀区中关村南大街27号（海淀校区）",
   "lat": 39.951,
   "lng": 116.318,
-  "status": "open",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "open",
+      "reservation": null
+    },
     "canteen": {
       "status": "open",
       "reservation": null

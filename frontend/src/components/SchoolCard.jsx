@@ -9,6 +9,11 @@ import { C } from '../theme.js';
 // density: 'compact' hides the facility chip row.
 export function SchoolCard({ school, cityName, distanceKm, lang, density = 'medium', onClick }) {
   const hasFacilities = !!school.facilities;
+  const campusStatus = school.facilities?.campus?.status ?? 'closed';
+  // Badge already renders campus, so chips below only list the four concrete facilities.
+  const chipKeys = hasFacilities
+    ? Object.keys(school.facilities).filter((k) => k !== 'campus')
+    : [];
   return (
     <button onClick={onClick} type="button" style={{
       background: C.card, border: `1px solid ${C.line}`,
@@ -44,11 +49,11 @@ export function SchoolCard({ school, cityName, distanceKm, lang, density = 'medi
             )}
           </div>
         </div>
-        <StatusBadge status={school.status} lang={lang} size="sm" />
+        <StatusBadge status={campusStatus} lang={lang} size="sm" />
       </div>
-      {density !== 'compact' && hasFacilities && (
+      {density !== 'compact' && chipKeys.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 2 }}>
-          {Object.keys(school.facilities).map((k) => (
+          {chipKeys.map((k) => (
             <FacilityChip key={k} kind={k} status={school.facilities[k].status} lang={lang} dense />
           ))}
         </div>

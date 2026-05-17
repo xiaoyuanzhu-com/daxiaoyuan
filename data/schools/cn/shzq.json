@@ -6,9 +6,11 @@
   "address": "上海市金山区",
   "lat": 30.74,
   "lng": 121.34,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

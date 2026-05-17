@@ -7,7 +7,7 @@ import { FacilityIcon } from '../components/FacilityIcon.jsx';
 import { LangToggle } from '../components/AppHeader.jsx';
 import { fetchSchools } from '../data/api.js';
 import { distanceKm } from '../data/distance.js';
-import { STATUS, STATUS_ORDER, FACILITIES } from '../data/status.js';
+import { STATUS, STATUS_ORDER, FACILITIES, campusStatus } from '../data/status.js';
 import { t } from '../data/i18n.js';
 import { useLang } from '../context/LangContext.jsx';
 import { useCity } from '../context/CityContext.jsx';
@@ -61,14 +61,14 @@ export default function HomeScreen() {
   // facility filtering does nothing here. We keep the UI to avoid an extra
   // task, with a known limitation in the plan.
   const filtered = schoolsWithDistance.filter((s) => {
-    if (statusFilter.size && !statusFilter.has(s.status)) return false;
+    if (statusFilter.size && !statusFilter.has(campusStatus(s))) return false;
     // Summary endpoint has no facilities; facility filter would require a heavier
     // endpoint. For now any active facility filter yields no results (matches wechat).
     if (facFilter.size) return false;
     return true;
   }).sort((a, b) => {
-    const aOrder = STATUS[a.status].order;
-    const bOrder = STATUS[b.status].order;
+    const aOrder = STATUS[campusStatus(a)].order;
+    const bOrder = STATUS[campusStatus(b)].order;
     if (aOrder !== bOrder) return aOrder - bOrder;
     const da = a.distanceKm === null ? Infinity : a.distanceKm;
     const db = b.distanceKm === null ? Infinity : b.distanceKm;
@@ -248,7 +248,7 @@ function MapView({ lang, schools, cityName, cityLat, cityLng, onOpen }) {
           const y = Math.max(20, Math.min(H - 20, p.y));
           const xp = (x / W) * 100;
           const yp = (y / H) * 100;
-          const st = STATUS[s.status];
+          const st = STATUS[campusStatus(s)];
           return (
             <button key={s.id} onClick={() => onOpen(s.id)} type="button" style={{
               position: 'absolute', left: `${xp}%`, top: `${yp}%`,
@@ -319,7 +319,7 @@ function MapView({ lang, schools, cityName, cityLat, cityLng, onOpen }) {
 
 function ListView({ lang, schools, cityName, onOpen }) {
   const groups = {};
-  schools.forEach((s) => { (groups[s.status] = groups[s.status] || []).push(s); });
+  schools.forEach((s) => { const k = campusStatus(s); (groups[k] = groups[k] || []).push(s); });
   return (
     <div style={{ padding: '12px 16px 100px', display: 'flex', flexDirection: 'column', gap: 16 }}>
       {STATUS_ORDER.filter((o) => groups[o]).map((key) => {

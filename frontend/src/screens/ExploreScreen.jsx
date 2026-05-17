@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppHeader } from '../components/AppHeader.jsx';
 import { StatusBadge } from '../components/StatusBadge.jsx';
 import { fetchCities, fetchRankings985, fetchRankings211, fetchRankingsC9, fetchRankingsQS30 } from '../data/api.js';
-import { STATUS } from '../data/status.js';
+import { STATUS, campusStatus } from '../data/status.js';
 import { t } from '../data/i18n.js';
 import { useLang } from '../context/LangContext.jsx';
 import { useApi } from '../hooks/useApi.js';
@@ -129,7 +129,7 @@ function SchoolRanking({ lang, data, loading, error, retry, navigate }) {
                 fontFamily: serif(lang),
               }}>{s.name}</div>
             </div>
-            <StatusBadge status={s.status} lang={lang} size="sm" />
+            <StatusBadge status={campusStatus(s)} lang={lang} size="sm" />
           </button>
         ))}
       {schools.length === 0 && <EmptyState lang={lang} />}

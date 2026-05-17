@@ -6,9 +6,11 @@
   "address": "北京市海淀区西土城路 10 号（西土城路校区）",
   "lat": 39.961,
   "lng": 116.355,
-  "status": "open",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "open",
+      "reservation": null
+    },
     "canteen": {
       "status": "open",
       "reservation": null

@@ -6,9 +6,11 @@
   "address": "上海市奉贤区",
   "lat": 30.92,
   "lng": 121.47,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

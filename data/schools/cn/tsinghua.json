@@ -6,12 +6,14 @@
   "address": "北京市海淀区清华园 1 号",
   "lat": 40,
   "lng": 116.326,
-  "status": "appt",
-  "reservation": {
-    "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
-    "hint": "关注「清华大学」微信公众号 → 菜单「参观清华」→ 个人参观实名预约（不收费）"
-  },
   "facilities": {
+    "campus": {
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+        "hint": "关注「清华大学」微信公众号 → 菜单「参观清华」→ 个人参观实名预约（不收费）"
+      }
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

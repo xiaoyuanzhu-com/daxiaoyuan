@@ -6,9 +6,11 @@
   "address": "上海市松江区文翔路 1550 号（松江校区）",
   "lat": 31.057,
   "lng": 121.218,
-  "status": "closed",
-  "reservation": null,
   "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
     "canteen": {
       "status": "closed",
       "reservation": null

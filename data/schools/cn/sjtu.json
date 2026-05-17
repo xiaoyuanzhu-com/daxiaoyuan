@@ -6,13 +6,15 @@
   "address": "上海市闵行区东川路 800 号（闵行校区）",
   "lat": 31.027,
   "lng": 121.443,
-  "status": "appt",
-  "reservation": {
-    "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
-    "hint": "微信关注「上海交通大学」或「平安交大」公众号 → 进入「临时访客入校信息登记系统」，填写姓名 / 身份证 / 手机号 → 凭身份证原件或随申码从指定校门入校（闵行校区：东川路 600 号凯旋门；徐汇校区：广元西路 55 号五号门）。开放时段 6:00–11:00、13:00–22:00；当日可多次进出；超过 10 人需团队预约电话 021-62932060。",
-    "link": "http://visit.sjtu.edu.cn/"
-  },
   "facilities": {
+    "campus": {
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+        "hint": "微信关注「上海交通大学」或「平安交大」公众号 → 进入「临时访客入校信息登记系统」，填写姓名 / 身份证 / 手机号 → 凭身份证原件或随申码从指定校门入校（闵行校区：东川路 600 号凯旋门；徐汇校区：广元西路 55 号五号门）。开放时段 6:00–11:00、13:00–22:00；当日可多次进出；超过 10 人需团队预约电话 021-62932060。",
+        "link": "http://visit.sjtu.edu.cn/"
+      }
+    },
     "canteen": {
       "status": "closed",
       "reservation": null
