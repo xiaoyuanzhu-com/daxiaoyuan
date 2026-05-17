@@ -33,15 +33,10 @@ func rankingsHandler(schools *repo.Schools, category, label string, order []stri
 			writeError(c, http.StatusInternalServerError, err.Error())
 			return
 		}
-		index := map[string]int{}
-		for i, id := range order {
-			index[id] = i
-		}
 		out := make([]*rankedSchool, 0, len(all))
-		for _, sch := range all {
-			out = append(out, &rankedSchool{School: sch, Rank: index[sch.ID] + 1})
+		for i, sch := range all {
+			out = append(out, &rankedSchool{School: sch, Rank: i + 1})
 		}
-		sortByRank(out)
 		c.JSON(http.StatusOK, gin.H{
 			"category": category,
 			"label":    label,
@@ -53,13 +48,4 @@ func rankingsHandler(schools *repo.Schools, category, label string, order []stri
 type rankedSchool struct {
 	*models.School // embedded — inherits all JSON fields
 	Rank int `json:"rank"`
-}
-
-// sortByRank orders in-place by ascending Rank using insertion sort (small N).
-func sortByRank(schools []*rankedSchool) {
-	for i := 1; i < len(schools); i++ {
-		for j := i; j > 0 && schools[j].Rank < schools[j-1].Rank; j-- {
-			schools[j], schools[j-1] = schools[j-1], schools[j]
-		}
-	}
 }

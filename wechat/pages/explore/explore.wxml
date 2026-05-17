@@ -22,7 +22,6 @@
     <view wx:else class="list">
       <view wx:for="{{cities}}" wx:for-item="c" wx:key="id"
             class="card rank-row {{c.active ? '' : 'rank-row-inactive'}}">
-        <view class="rank-num tnum {{c.topRank ? 'rank-num-top' : ''}}">{{c.rank}}</view>
         <view class="rank-body">
           <text class="rank-name">{{c.name}}</text>
           <text class="rank-meta tnum">{{c.schools}} 所 · {{c.ratePct}}% 可入</text>
@@ -48,7 +47,6 @@
       <view wx:else class="list">
         <view wx:for="{{rankings[t.key].schools}}" wx:for-item="s" wx:key="id"
               class="card rank-row rank-row-tap" data-id="{{s.id}}" bindtap="openSchool">
-          <view class="rank-num tnum {{s.topRank ? 'rank-num-top' : ''}}">{{s.rank}}</view>
           <view class="rank-body">
             <text class="rank-name">{{s.name}}</text>
           </view>

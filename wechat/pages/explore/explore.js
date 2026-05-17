@@ -53,10 +53,8 @@ Page({
       const ranked = cities.slice().sort((a, b) => {
         if (b.openRate !== a.openRate) return b.openRate - a.openRate;
         return b.schools - a.schools;
-      }).map((c, i) => ({
+      }).map((c) => ({
         ...c,
-        rank: i + 1,
-        topRank: i < 3,
         ratePct: Math.round((c.openRate || 0) * 100),
       }));
       this.setData({ cities: ranked, citiesLoading: false });
@@ -78,8 +76,6 @@ Page({
         return {
           id: s.id,
           name: s.name,
-          rank: s.rank,
-          topRank: s.rank <= 3,
           statusLabel: meta.label,
           statusBgClass: meta.bgClass,
         };

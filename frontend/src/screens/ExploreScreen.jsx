@@ -72,18 +72,13 @@ function CityRanking({ lang, cities, loading, error, retry }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {cities.map((c, i) => (
+      {cities.map((c) => (
         <div key={c.id} style={{
           background: C.card, border: `1px solid ${c.active ? C.line : 'transparent'}`,
           borderRadius: 12, padding: '14px 16px',
           display: 'flex', alignItems: 'center', gap: 14,
           opacity: c.active ? 1 : 0.5,
         }}>
-          <div style={{
-            width: 28, textAlign: 'center', fontSize: 17, fontWeight: 700,
-            color: i < 3 ? C.accent : C.ink40, fontFeatureSettings: '"tnum"',
-            flexShrink: 0,
-          }}>{i + 1}</div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{
               fontSize: 16, fontWeight: 700, color: C.ink,
@@ -117,11 +112,6 @@ function SchoolRanking({ lang, data, loading, error, retry, navigate }) {
             display: 'flex', alignItems: 'center', gap: 14,
             fontFamily: 'inherit',
           }}>
-            <div style={{
-              width: 28, textAlign: 'center', fontSize: 17, fontWeight: 700,
-              color: s.rank <= 3 ? C.accent : C.ink40,
-              fontFeatureSettings: '"tnum"', flexShrink: 0,
-            }}>{s.rank}</div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{
                 fontSize: 16, fontWeight: 700, color: C.ink,
