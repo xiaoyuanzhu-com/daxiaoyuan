@@ -3,11 +3,33 @@
 // Paths are relative — Vite proxies /api/* to http://localhost:8080 in dev,
 // same-origin in prod.
 
-async function request(path, opts) {
-  const res = await fetch(path, opts);
+const ADMIN_TOKEN_KEY = 'ddxy_admin_token';
+
+export const getAdminToken = () => {
+  try { return localStorage.getItem(ADMIN_TOKEN_KEY) || ''; }
+  catch { return ''; }
+};
+
+export const setAdminToken = (token) => {
+  try {
+    if (token) localStorage.setItem(ADMIN_TOKEN_KEY, token);
+    else localStorage.removeItem(ADMIN_TOKEN_KEY);
+  } catch { /* storage unavailable, treat as ephemeral */ }
+};
+
+async function request(path, opts = {}) {
+  const { auth, headers, ...rest } = opts;
+  const finalHeaders = { ...(headers || {}) };
+  if (auth) {
+    const token = getAdminToken();
+    if (token) finalHeaders.Authorization = `Bearer ${token}`;
+  }
+  const res = await fetch(path, { ...rest, headers: finalHeaders });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new Error(body.error || `HTTP ${res.status}`);
+    const err = new Error(body.error || `HTTP ${res.status}`);
+    err.status = res.status;
+    throw err;
   }
   return res.json();
 }
@@ -33,6 +55,7 @@ export const updateSchool = (id, school) =>
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(school),
+    auth: true,
   }).then((d) => d.school);
 
 export const createSchool = (school) =>
@@ -40,6 +63,7 @@ export const createSchool = (school) =>
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(school),
+    auth: true,
   }).then((d) => d.school);
 
 export const fetchRankings985 = () =>

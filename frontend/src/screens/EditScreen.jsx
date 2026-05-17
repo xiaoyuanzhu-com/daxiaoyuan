@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppHeader } from '../components/AppHeader.jsx';
 import { useApi } from '../hooks/useApi.js';
-import { fetchSchool, fetchCities, updateSchool, createSchool } from '../data/api.js';
+import { fetchSchool, fetchCities, updateSchool, createSchool, getAdminToken, setAdminToken } from '../data/api.js';
 import { STATUS, FACILITIES, STATUS_ORDER } from '../data/status.js';
 import { C } from '../theme.js';
 
 // EditScreen — handles both edit (/s/:id/edit) and create (/s/new).
-// No auth, no audit. In create mode id + cityId are editable; in edit mode
-// they are locked. `others` round-trips unchanged in both modes.
+// Writes are gated by a shared admin Bearer token, prompted on 401 and
+// cached in localStorage. In create mode id + cityId are editable; in
+// edit mode they are locked. `others` round-trips unchanged in both modes.
 export default function EditScreen() {
   const { id } = useParams();
   const isCreate = !id;
@@ -45,13 +46,7 @@ export default function EditScreen() {
     setSaving(true);
     setSaveError(null);
     try {
-      if (isCreate) {
-        const created = await createSchool(form);
-        navigate(`/s/${created.id}`);
-      } else {
-        await updateSchool(id, form);
-        navigate(`/s/${id}`);
-      }
+      await saveWithAuth(form, isCreate, id, navigate);
     } catch (err) {
       setSaveError(err.message || (isCreate ? '创建失败' : '保存失败'));
       setSaving(false);
@@ -189,6 +184,35 @@ export default function EditScreen() {
       </form>
     </Shell>
   );
+}
+
+// One save round-trip with auth retry. If the request 401s, prompt for the
+// admin token, cache it, and try once more. User cancelling the prompt
+// surfaces as a normal error so EditScreen can render it.
+async function saveWithAuth(form, isCreate, id, navigate) {
+  const doSave = async () => {
+    if (isCreate) {
+      const created = await createSchool(form);
+      navigate(`/s/${created.id}`);
+    } else {
+      await updateSchool(id, form);
+      navigate(`/s/${id}`);
+    }
+  };
+  if (!getAdminToken()) {
+    const t = window.prompt('请输入管理员 Token');
+    if (!t) throw new Error('未提供管理员 Token');
+    setAdminToken(t.trim());
+  }
+  try {
+    await doSave();
+  } catch (err) {
+    if (err.status !== 401) throw err;
+    const t = window.prompt('Token 无效或已过期,请重新输入');
+    if (!t) throw new Error('未提供管理员 Token');
+    setAdminToken(t.trim());
+    await doSave();
+  }
 }
 
 function blankSchool() {

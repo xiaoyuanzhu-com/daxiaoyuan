@@ -22,7 +22,7 @@ func main() {
 	}
 	defer d.Close()
 
-	r := server.NewRouter(d)
+	r := server.NewRouter(d, cfg)
 	log.Printf("ddxy backend listening on %s (db=%s)", cfg.Addr, cfg.DBPath)
 	if err := r.Run(cfg.Addr); err != nil {
 		log.Fatalf("server.Run: %v", err)
