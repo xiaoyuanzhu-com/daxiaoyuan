@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppHeader } from '../components/AppHeader.jsx';
 import { StatusBadge } from '../components/StatusBadge.jsx';
-import { fetchCities, fetchRankings985, fetchRankings211, fetchRankingsC9, fetchRankingsQS30 } from '../data/api.js';
+import { fetchCities, fetchRankings985, fetchRankings211, fetchRankingsC9, fetchRankingsQS30, fetchRankingsShuangYiLiu } from '../data/api.js';
 import { STATUS, campusStatus } from '../data/status.js';
 import { t } from '../data/i18n.js';
 import { useLang } from '../context/LangContext.jsx';
@@ -10,11 +10,12 @@ import { useApi } from '../hooks/useApi.js';
 import { C, serif } from '../theme.js';
 
 const TABS = [
-  { key: 'cities', i18n: 'tabCities' },
-  { key: '985',    i18n: 'tab985' },
-  { key: '211',    i18n: 'tab211' },
-  { key: 'c9',     i18n: 'tabC9' },
-  { key: 'qs30',   i18n: 'tabQS30' },
+  { key: 'cities',      i18n: 'tabCities' },
+  { key: '985',         i18n: 'tab985' },
+  { key: '211',         i18n: 'tab211' },
+  { key: 'c9',          i18n: 'tabC9' },
+  { key: 'qs30',        i18n: 'tabQS30' },
+  { key: 'shuangyiliu', i18n: 'tabShuangYiLiu' },
 ];
 
 export default function ExploreScreen() {
@@ -27,6 +28,7 @@ export default function ExploreScreen() {
   const { data: d211, loading: l211, error: e211, retry: r211 } = useApi(fetchRankings211);
   const { data: dC9,  loading: lC9,  error: eC9,  retry: rC9  } = useApi(fetchRankingsC9);
   const { data: dQS,  loading: lQS,  error: eQS,  retry: rQS  } = useApi(fetchRankingsQS30);
+  const { data: dSYL, loading: lSYL, error: eSYL, retry: rSYL } = useApi(fetchRankingsShuangYiLiu);
 
   const rankedCities = (cities || []).slice().sort((a, b) => {
     if (b.openRate !== a.openRate) return b.openRate - a.openRate;
@@ -61,6 +63,7 @@ export default function ExploreScreen() {
         {tab === '211'   && <SchoolRanking lang={lang} data={d211} loading={l211} error={e211} retry={r211} navigate={navigate} />}
         {tab === 'c9'    && <SchoolRanking lang={lang} data={dC9}  loading={lC9}  error={eC9}  retry={rC9}  navigate={navigate} />}
         {tab === 'qs30'  && <SchoolRanking lang={lang} data={dQS}  loading={lQS}  error={eQS}  retry={rQS}  navigate={navigate} />}
+        {tab === 'shuangyiliu' && <SchoolRanking lang={lang} data={dSYL} loading={lSYL} error={eSYL} retry={rSYL} navigate={navigate} />}
       </div>
     </div>
   );

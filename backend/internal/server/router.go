@@ -25,6 +25,7 @@ func NewRouter(schools *repo.Schools, cfg config.Config) *gin.Engine {
 	v1.GET("/rankings/985", handlers.Rankings985(schools))
 	v1.GET("/rankings/211", handlers.Rankings211(schools))
 	v1.GET("/rankings/qs30", handlers.RankingsQS30(schools))
+	v1.GET("/rankings/shuangyiliu", handlers.RankingsShuangYiLiu(schools))
 
 	admin := v1.Group("", bearerAuth(cfg.AdminToken))
 	admin.POST("/schools", handlers.SchoolCreate(schools))

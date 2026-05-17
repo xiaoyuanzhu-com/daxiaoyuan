@@ -26,6 +26,10 @@ func RankingsQS30(schools *repo.Schools) gin.HandlerFunc {
 	return rankingsHandler(schools, "qs30", "QS Top 30", data.OrderQS30)
 }
 
+func RankingsShuangYiLiu(schools *repo.Schools) gin.HandlerFunc {
+	return rankingsHandler(schools, "shuangyiliu", "双一流", data.OrderShuangYiLiu)
+}
+
 func rankingsHandler(schools *repo.Schools, category, label string, order []string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		all, err := schools.ListByIDs(c.Request.Context(), order)

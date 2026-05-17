@@ -46,7 +46,7 @@ function fetchSchool(id) {
 }
 
 // Returns { category, label, schools: [{ ...school, rank }] }
-// kind ∈ '985' | '211' | 'c9' | 'qs30'
+// kind ∈ '985' | '211' | 'c9' | 'qs30' | 'shuangyiliu'
 function fetchRanking(kind) {
   return request(`/api/v1/rankings/${encodeURIComponent(kind)}`);
 }

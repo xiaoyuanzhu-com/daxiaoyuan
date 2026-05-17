@@ -73,6 +73,7 @@ export const STR = {
   tab211:         { zh: '211',      en: '211' },
   tabC9:          { zh: 'C9',       en: 'C9' },
   tabQS30:        { zh: 'QS30',     en: 'QS30' },
+  tabShuangYiLiu: { zh: '双一流',   en: 'Double First-Class' },
   rankEmpty:      { zh: '暂无数据', en: 'No data yet' },
 };
 

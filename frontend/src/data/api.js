@@ -76,3 +76,6 @@ export const fetchRankingsC9 = () =>
 
 export const fetchRankingsQS30 = () =>
   request('/api/v1/rankings/qs30');
+
+export const fetchRankingsShuangYiLiu = () =>
+  request('/api/v1/rankings/shuangyiliu');

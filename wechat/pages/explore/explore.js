@@ -3,11 +3,12 @@ const { STATUS } = require('../../utils/status.js');
 
 // Tab definitions — same set as web ExploreScreen.
 const TABS = [
-  { key: 'cities', label: '城市'    },
-  { key: '985',    label: '985'    },
-  { key: '211',    label: '211'    },
-  { key: 'c9',     label: 'C9'     },
-  { key: 'qs30',   label: 'QS 30'  },
+  { key: 'cities',      label: '城市'    },
+  { key: '985',         label: '985'    },
+  { key: '211',         label: '211'    },
+  { key: 'c9',          label: 'C9'     },
+  { key: 'qs30',        label: 'QS 30'  },
+  { key: 'shuangyiliu', label: '双一流' },
 ];
 
 Page({
