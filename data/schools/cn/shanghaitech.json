@@ -1,0 +1,31 @@
+{
+  "id": "shanghaitech",
+  "cityId": "sh",
+  "name": "上海科技大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/shanghaitech.svg",
+  "address": "上海市浦东新区华夏中路 393 号",
+  "lat": 31.179,
+  "lng": 121.59,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T05:46:34.113691Z"
+}

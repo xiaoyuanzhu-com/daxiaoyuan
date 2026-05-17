@@ -1,0 +1,31 @@
+{
+  "id": "buu",
+  "cityId": "bj",
+  "name": "北京联合大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/buu.png",
+  "address": "北京市朝阳区",
+  "lat": 39.93,
+  "lng": 116.45,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T04:34:20.46888Z"
+}

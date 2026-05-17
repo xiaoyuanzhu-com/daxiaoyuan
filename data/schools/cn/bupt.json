@@ -1,0 +1,34 @@
+{
+  "id": "bupt",
+  "cityId": "bj",
+  "name": "北京邮电大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/bupt.svg",
+  "address": "北京市海淀区西土城路 10 号（西土城路校区）",
+  "lat": 39.961,
+  "lng": 116.355,
+  "status": "open",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "open",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/200x200?text=QR",
+        "hint": "校外读者凭本人有效证件到图书馆办公室办理入馆手续（西土城路校区图书馆 4 楼南侧 405 室）"
+      }
+    },
+    "track": {
+      "status": "open",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T04:01:05.321871Z"
+}

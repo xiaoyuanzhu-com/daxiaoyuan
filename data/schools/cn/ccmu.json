@@ -1,0 +1,31 @@
+{
+  "id": "ccmu",
+  "cityId": "bj",
+  "name": "首都医科大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/ccmu.png",
+  "address": "北京市丰台区",
+  "lat": 39.86,
+  "lng": 116.29,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T04:34:20.724755Z"
+}

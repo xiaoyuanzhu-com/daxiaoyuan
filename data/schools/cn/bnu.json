@@ -1,0 +1,31 @@
+{
+  "id": "bnu",
+  "cityId": "bj",
+  "name": "北京师范大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/bnu.svg",
+  "address": "北京市海淀区新街口外大街19号（北京校区）",
+  "lat": 39.962,
+  "lng": 116.366,
+  "status": "alumni",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "alumni",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "alumni",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T03:54:55.033718Z"
+}

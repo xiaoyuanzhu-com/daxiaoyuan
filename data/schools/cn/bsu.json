@@ -1,0 +1,31 @@
+{
+  "id": "bsu",
+  "cityId": "bj",
+  "name": "北京体育大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/bsu.svg",
+  "address": "北京市海淀区",
+  "lat": 39.97,
+  "lng": 116.31,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T04:21:48.018193Z"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "bfsu",
+  "cityId": "bj",
+  "name": "北京外国语大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/bfsu.svg",
+  "address": "北京市海淀区西三环北路2号（西校区）",
+  "lat": 39.952,
+  "lng": 116.305,
+  "status": "open",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "open",
+      "reservation": null
+    },
+    "gym": {
+      "status": "open",
+      "reservation": null
+    },
+    "library": {
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+        "hint": "识别小程序码进入「北外图书馆预约」"
+      }
+    },
+    "track": {
+      "status": "open",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T03:54:35.214298Z"
+}

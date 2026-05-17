@@ -1,0 +1,31 @@
+{
+  "id": "muc",
+  "cityId": "bj",
+  "name": "中央民族大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/muc.svg",
+  "address": "北京市海淀区中关村南大街27号（海淀校区）",
+  "lat": 39.951,
+  "lng": 116.318,
+  "status": "open",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "open",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "open",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T03:54:26.496951Z"
+}

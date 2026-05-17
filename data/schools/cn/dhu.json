@@ -1,0 +1,31 @@
+{
+  "id": "dhu",
+  "cityId": "sh",
+  "name": "东华大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/dhu.svg",
+  "address": "上海市松江区人民北路 2999 号（松江校区）",
+  "lat": 31.0289,
+  "lng": 121.2316,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T05:46:44.387959Z"
+}

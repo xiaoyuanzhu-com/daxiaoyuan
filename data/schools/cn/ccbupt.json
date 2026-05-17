@@ -1,0 +1,31 @@
+{
+  "id": "ccbupt",
+  "cityId": "bj",
+  "name": "北京邮电大学世纪学院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/ccbupt.png",
+  "address": "北京市延庆区",
+  "lat": 40.46,
+  "lng": 115.97,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T04:34:21.494176Z"
+}

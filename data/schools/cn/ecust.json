@@ -1,0 +1,31 @@
+{
+  "id": "ecust",
+  "cityId": "sh",
+  "name": "华东理工大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/ecust.svg",
+  "address": "上海市徐汇区梅陇路 130 号（徐汇校区）",
+  "lat": 31.146,
+  "lng": 121.426,
+  "status": "open",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T05:46:10.799569Z"
+}

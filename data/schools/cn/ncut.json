@@ -1,0 +1,31 @@
+{
+  "id": "ncut",
+  "cityId": "bj",
+  "name": "北方工业大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/ncut.jpg",
+  "address": "北京市石景山区",
+  "lat": 39.91,
+  "lng": 116.22,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T04:34:20.775708Z"
+}

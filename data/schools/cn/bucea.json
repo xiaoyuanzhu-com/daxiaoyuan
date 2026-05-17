@@ -1,0 +1,31 @@
+{
+  "id": "bucea",
+  "cityId": "bj",
+  "name": "北京建筑大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/bucea.svg",
+  "address": "北京市西城区",
+  "lat": 39.91,
+  "lng": 116.37,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T04:22:07.972025Z"
+}

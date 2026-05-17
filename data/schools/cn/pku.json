@@ -1,0 +1,43 @@
+{
+  "id": "pku",
+  "cityId": "bj",
+  "name": "北京大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/pku.svg",
+  "address": "北京市海淀区颐和园路 5 号（燕园校区）",
+  "lat": 39.992,
+  "lng": 116.305,
+  "status": "appt",
+  "reservation": {
+    "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+    "hint": "微信关注「北京大学」公众号（iPKU1898）→ 底部菜单「参观北大」进入小程序预约；或直接访问 visitor.pku.edu.cn。即时预约最多提前 7 日，抽签预约最多提前 8 日；预约成功后凭身份证从东侧门（地铁 4 号线北大东门站 A 口）刷脸入校",
+    "link": "https://visitor.pku.edu.cn"
+  },
+  "facilities": {
+    "canteen": {
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+        "hint": "完成「参观北大」校园参观预约后，参观日当天农园 / 家园 / 勺园食堂对外开放；在邱德拔体育馆北广场「餐饮中心」展位扫码办理临时餐卡用餐",
+        "link": "https://visitor.pku.edu.cn"
+      }
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+        "hint": "校外读者需至少提前 2 个工作日发送邮件预约至 office@lib.pku.edu.cn；古籍阅览需提前 10 个工作日并附单位介绍信",
+        "link": "https://www.lib.pku.edu.cn/portal/cn/bggk/laifangyuyue"
+      }
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T10:57:39.358589Z"
+}

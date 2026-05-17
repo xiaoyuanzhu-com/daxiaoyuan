@@ -1,0 +1,31 @@
+{
+  "id": "cnu",
+  "cityId": "bj",
+  "name": "首都师范大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/cnu.svg",
+  "address": "北京市海淀区",
+  "lat": 39.97,
+  "lng": 116.31,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T04:34:20.264257Z"
+}

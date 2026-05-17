@@ -1,0 +1,37 @@
+{
+  "id": "bit",
+  "cityId": "bj",
+  "name": "北京理工大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/bit.svg",
+  "address": "北京市海淀区中关村南大街5号（中关村校区）",
+  "lat": 39.962,
+  "lng": 116.318,
+  "status": "open",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+        "hint": "良乡校区体育馆面向社会有偿开放，个人项目当天现场预约（先到先得），团体须提前 10 个工作日申请"
+      }
+    },
+    "library": {
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+        "hint": "校外读者凭借阅证刷卡入馆；无证读者凭介绍信及本人有效证件通过门卫联系入馆"
+      }
+    },
+    "track": {
+      "status": "open",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T04:00:25.786Z"
+}

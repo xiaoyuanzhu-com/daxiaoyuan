@@ -1,0 +1,31 @@
+{
+  "id": "ncepu",
+  "cityId": "bj",
+  "name": "华北电力大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/ncepu.svg",
+  "address": "北京市昌平区",
+  "lat": 40.22,
+  "lng": 116.23,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T04:21:30.922704Z"
+}

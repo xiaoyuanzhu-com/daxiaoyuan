@@ -1,0 +1,31 @@
+{
+  "id": "pumc",
+  "cityId": "bj",
+  "name": "北京协和医学院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/pumc.svg",
+  "address": "北京市东城区",
+  "lat": 39.93,
+  "lng": 116.42,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T04:34:20.160672Z"
+}

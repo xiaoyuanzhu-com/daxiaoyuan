@@ -1,0 +1,31 @@
+{
+  "id": "shufe",
+  "cityId": "sh",
+  "name": "上海财经大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/shufe.svg",
+  "address": "上海市杨浦区国定路 777 号（国定路校区）",
+  "lat": 31.306,
+  "lng": 121.505,
+  "status": "open",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T05:48:37.618901Z"
+}

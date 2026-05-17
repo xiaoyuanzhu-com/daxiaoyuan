@@ -1,0 +1,31 @@
+{
+  "id": "cfau",
+  "cityId": "bj",
+  "name": "外交学院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/cfau.svg",
+  "address": "北京市西城区",
+  "lat": 39.91,
+  "lng": 116.37,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T04:23:15.251514Z"
+}

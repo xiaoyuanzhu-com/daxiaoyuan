@@ -1,0 +1,31 @@
+{
+  "id": "shupl",
+  "cityId": "sh",
+  "name": "上海政法学院",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/shupl.svg",
+  "address": "上海市青浦区",
+  "lat": 31.15,
+  "lng": 121.12,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T09:22:02.106259Z"
+}

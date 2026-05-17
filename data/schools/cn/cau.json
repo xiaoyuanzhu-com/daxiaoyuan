@@ -1,0 +1,35 @@
+{
+  "id": "cau",
+  "cityId": "bj",
+  "name": "中国农业大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/cau.svg",
+  "address": "北京市海淀区清华东路 17 号（东校区）",
+  "lat": 40.001,
+  "lng": 116.351,
+  "status": "open",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "open",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+        "hint": "校外读者凭本人有效证件到本馆办公室接待处办理入馆手续",
+        "link": "https://lib.cau.edu.cn/"
+      }
+    },
+    "track": {
+      "status": "open",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T03:20:50.832018Z"
+}

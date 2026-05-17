@@ -1,0 +1,44 @@
+{
+  "id": "buaa",
+  "cityId": "bj",
+  "name": "北京航空航天大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/buaa.svg",
+  "address": "北京市海淀区学院路37号（学院路校区）",
+  "lat": 39.982,
+  "lng": 116.348,
+  "status": "appt",
+  "reservation": {
+    "qrcodeUrl": "https://placehold.co/240x240?text=QR",
+    "hint": "关注「北京航空航天大学」微信公众号 → 菜单「服务」→「场馆参观」预约入校"
+  },
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [
+    {
+      "kind": "museum",
+      "name": "北京航空航天博物馆",
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/240x240?text=QR",
+        "hint": "关注「北京航空航天大学」公众号 → 服务 →「场馆参观」预约；开放时间周一至周六 9:00-16:30（周日闭馆），凭有效证件登记参观"
+      }
+    }
+  ],
+  "lastUpdate": "2026-05-17T03:54:39.991601Z"
+}

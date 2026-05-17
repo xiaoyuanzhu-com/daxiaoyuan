@@ -1,0 +1,31 @@
+{
+  "id": "ucass",
+  "cityId": "bj",
+  "name": "中国社会科学院大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/ucass.png",
+  "address": "北京市房山区",
+  "lat": 39.75,
+  "lng": 115.99,
+  "status": "closed",
+  "reservation": null,
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T04:34:20.673179Z"
+}

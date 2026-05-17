@@ -1,0 +1,44 @@
+{
+  "id": "tsinghua",
+  "cityId": "bj",
+  "name": "清华大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/images/logo/tsinghua.svg",
+  "address": "北京市海淀区清华园 1 号",
+  "lat": 40,
+  "lng": 116.326,
+  "status": "appt",
+  "reservation": {
+    "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+    "hint": "关注「清华大学」微信公众号 → 菜单「参观清华」→ 个人参观实名预约（不收费）"
+  },
+  "facilities": {
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [
+    {
+      "kind": "art-museum",
+      "name": "艺术博物馆",
+      "status": "appt",
+      "reservation": {
+        "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
+        "hint": "newticket.artmuseum.tsinghua.edu.cn 在线购票预约，独立入口（不与校园参观共用）"
+      }
+    }
+  ],
+  "lastUpdate": "2026-05-17T03:54:08.049614Z"
+}
