@@ -71,21 +71,39 @@ Page({
     this.applyPickedCity(picked);
   },
 
-  // Fetches the active city list and indexes by adcode so we can map the
-  // plugin's adcode (e.g. "110100") back to our backend slug ("bj").
+  // Caches the active city list so we can map the plugin's adcode back to
+  // our backend slug. The plugin returns adcodes at varying granularity:
+  // prefecture (440300 for 深圳) for 地级市, but province-level (310000) for
+  // 直辖市 like 上海/北京/天津/重庆, and county-level (110105 for 朝阳区) if a
+  // user drills into a district. matchCity() handles all three.
   async loadCityIndex() {
     try {
       const cities = await fetchCities();
-      const byCode = {};
-      for (const c of cities) if (c.active) byCode[c.code] = c;
-      this.cityByCode = byCode;
+      this.activeCities = cities.filter((c) => c.active);
     } catch (e) {
-      this.cityByCode = {};
+      this.activeCities = [];
     }
   },
 
+  // Resolves a plugin adcode to one of our active cities, falling back from
+  // exact → prefecture-level (xx00) → province-prefix (when unique).
+  matchCity(adcode) {
+    const cities = this.activeCities || [];
+    const exact = cities.find((c) => c.code === adcode);
+    if (exact) return exact;
+    if (adcode && adcode.length === 6) {
+      const prefecture = adcode.slice(0, 4) + '00';
+      const prefMatch = cities.find((c) => c.code === prefecture);
+      if (prefMatch) return prefMatch;
+      const provincePrefix = adcode.slice(0, 2);
+      const inProvince = cities.filter((c) => c.code.slice(0, 2) === provincePrefix);
+      if (inProvince.length === 1) return inProvince[0];
+    }
+    return null;
+  },
+
   applyPickedCity(picked) {
-    const match = this.cityByCode && this.cityByCode[picked.id];
+    const match = this.matchCity(picked.id);
     if (!match) {
       wx.showToast({ title: `${picked.name}暂未上线`, icon: 'none' });
       return;

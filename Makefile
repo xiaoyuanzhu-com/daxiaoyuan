@@ -1,4 +1,4 @@
-.PHONY: dev dev-backend dev-frontend docker-build docker-run docker-clean
+.PHONY: dev dev-backend dev-frontend docker-build docker-run
 
 dev:
 	@$(MAKE) -j2 dev-backend dev-frontend
@@ -13,10 +13,7 @@ dev-frontend:
 docker-build:
 	docker build -t ddxy:dev .
 
-# Run the locally built image with a host-mounted DB so data persists.
+# Run the locally built image with the repo's data/ bind-mounted in, so
+# edits made via the web UI land back in the source tree.
 docker-run:
-	mkdir -p .docker-data
-	docker run --rm -p 8080:8080 -v $(CURDIR)/.docker-data:/data ddxy:dev
-
-docker-clean:
-	rm -rf .docker-data
+	docker run --rm -p 8080:8080 -v $(CURDIR)/data:/app/data ddxy:dev
