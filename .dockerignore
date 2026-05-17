@@ -6,17 +6,11 @@ Dockerfile
 README.md
 CLAUDE.md
 docs/
-data/
 wechat/
 .worktrees/
 
 # Backend artifacts
 backend/bin/
-backend/*.db
-backend/*.db-journal
-backend/*.db-wal
-backend/*.db-shm
-backend/.docker-data/
 backend/web/dist/*
 !backend/web/dist/.gitkeep
 

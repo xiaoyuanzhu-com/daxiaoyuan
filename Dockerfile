@@ -24,18 +24,26 @@ ARG TARGETARCH
 ENV CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH
 RUN go build -trimpath -ldflags="-s -w" -o /out/ddxy ./cmd/server
 
-# Pre-create /data with nonroot (uid 65532) ownership so SQLite can write
-# without needing a shell in the runtime image.
-RUN mkdir -p /out/data && chown 65532:65532 /out/data
-
-# Stage 3: minimal runtime — distroless static, runs as nonroot
+# Stage 3: minimal runtime — distroless static, runs as nonroot.
+#
+# Layer order is "least frequently changing first" for cache efficiency:
+# data/ is the biggest layer (~19MB of school JSON + logo blobs) but
+# changes only when schools are added; the binary is tiny but rebuilds
+# on every code edit. Putting data first lets `docker push/pull` reuse
+# the big layer across the common case of code-only changes.
+#
+# Backend does atomic writes back into the data dir (new/edited schools),
+# so it must be owned by the nonroot user. In production the directory
+# is typically bind-mounted from the host and the baked-in copy is just
+# a default/dev seed.
 FROM gcr.io/distroless/static-debian12:nonroot
 WORKDIR /app
+
+COPY --chown=nonroot:nonroot data/ /data/
 COPY --from=backend /out/ddxy /app/ddxy
-COPY --from=backend /out/data /data
 
 ENV DDXY_ADDR=:8080 \
-    DDXY_DB_PATH=/data/ddxy.db
+    DDXY_DATA_DIR=/data
 
 EXPOSE 8080
 USER nonroot:nonroot
