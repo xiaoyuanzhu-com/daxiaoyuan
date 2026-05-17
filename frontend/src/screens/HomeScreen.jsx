@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { TMap, MultiMarker } from 'tlbs-map-react';
 import { SchoolCard } from '../components/SchoolCard.jsx';
 import { Segment } from '../components/Segment.jsx';
 import { SectionLabel } from '../components/SectionLabel.jsx';
@@ -191,7 +192,7 @@ export default function HomeScreen() {
       {!loading && !error && (
         <>
           {view === 'map'
-            ? <MapView lang={lang} schools={filtered} cityName={cityName} cityLat={cityLat} cityLng={cityLng} onOpen={(id) => navigate(`/s/${id}`)} />
+            ? <MapView lang={lang} schools={filtered} coords={coords} cityName={cityName} cityLat={cityLat} cityLng={cityLng} onOpen={(id) => navigate(`/s/${id}`)} />
             : <ListView lang={lang} schools={filtered} cityName={cityName} onOpen={(id) => navigate(`/s/${id}`)} />}
         </>
       )}
@@ -212,74 +213,85 @@ export default function HomeScreen() {
   );
 }
 
-function MapView({ lang, schools, cityName, cityLat, cityLng, onOpen }) {
-  const W = 343, H = 360;
-  const cx = cityLng, cy = cityLat, scale = 1800;
-  const proj = (lat, lng) => ({
-    x: W / 2 + (lng - cx) * scale,
-    y: H / 2 - (lat - cy) * scale,
-  });
+const TENCENT_KEY = import.meta.env.VITE_TENCENT_MAP_KEY;
+
+const dotSvg = (color) =>
+  'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="7" fill="${color}" stroke="#fff" stroke-width="2.5"/></svg>`
+  );
+
+const MARKER_STYLES = {
+  open:   { width: 22, height: 22, anchor: { x: 11, y: 11 }, src: dotSvg(STATUS.open.dot) },
+  appt:   { width: 22, height: 22, anchor: { x: 11, y: 11 }, src: dotSvg(STATUS.appt.dot) },
+  alumni: { width: 22, height: 22, anchor: { x: 11, y: 11 }, src: dotSvg(STATUS.alumni.dot) },
+  closed: { width: 22, height: 22, anchor: { x: 11, y: 11 }, src: dotSvg(STATUS.closed.dot) },
+};
+
+const ME_STYLES = {
+  me: { width: 18, height: 18, anchor: { x: 9, y: 9 }, src: dotSvg('#1E73D6') },
+};
+
+function MapView({ lang, schools, coords, cityName, cityLat, cityLng, onOpen }) {
+  const H = 360;
+
+  const geometries = useMemo(
+    () => schools.map((s) => ({
+      id: s.id,
+      position: { lat: s.lat, lng: s.lng },
+      styleId: campusStatus(s),
+      properties: { name: s.name },
+    })),
+    [schools],
+  );
+
+  const meGeometries = useMemo(
+    () => (coords ? [{ id: 'me', position: { lat: coords.lat, lng: coords.lng }, styleId: 'me' }] : []),
+    [coords],
+  );
+
+  const handleMarkerClick = useCallback((evt) => {
+    const id = evt?.geometry?.id;
+    if (id) onOpen(id);
+  }, [onOpen]);
 
   return (
     <div style={{ padding: '8px 16px 0 16px', background: C.paper }}>
       <div style={{
         position: 'relative', width: '100%', height: H, borderRadius: 14,
-        background: '#E8E3D5', overflow: 'hidden',
-        border: `1px solid ${C.line}`,
+        overflow: 'hidden', border: `1px solid ${C.line}`,
+        background: '#E8E3D5',
       }}>
-        <svg width="100%" height="100%" viewBox={`0 0 ${W} ${H}`} style={{ position: 'absolute', inset: 0 }} preserveAspectRatio="none">
-          <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M40 0H0V40" fill="none" stroke="rgba(26,24,21,0.05)" strokeWidth="1" />
-            </pattern>
-          </defs>
-          <rect width={W} height={H} fill="url(#grid)" />
-          <path d="M0 180 Q 100 160 200 200 T 360 180" stroke="rgba(26,24,21,0.12)" strokeWidth="14" fill="none" />
-          <path d="M180 0 Q 160 120 200 200 T 220 360" stroke="rgba(26,24,21,0.12)" strokeWidth="14" fill="none" />
-          <path d="M0 60 L 360 80" stroke="rgba(26,24,21,0.08)" strokeWidth="6" fill="none" />
-          <path d="M0 280 L 360 320" stroke="rgba(26,24,21,0.08)" strokeWidth="6" fill="none" />
-          <ellipse cx="100" cy="100" rx="50" ry="34" fill="rgba(91,161,60,0.18)" />
-          <ellipse cx="280" cy="260" rx="40" ry="28" fill="rgba(91,161,60,0.15)" />
-        </svg>
-
-        {schools.map((s) => {
-          const p = proj(s.lat, s.lng);
-          const x = Math.max(20, Math.min(W - 20, p.x));
-          const y = Math.max(20, Math.min(H - 20, p.y));
-          const xp = (x / W) * 100;
-          const yp = (y / H) * 100;
-          const st = STATUS[campusStatus(s)];
-          return (
-            <button key={s.id} onClick={() => onOpen(s.id)} type="button" style={{
-              position: 'absolute', left: `${xp}%`, top: `${yp}%`,
-              transform: 'translate(-50%, -100%)',
-              background: 'transparent', border: 0, padding: 0, cursor: 'pointer',
-            }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
-                <div style={{
-                  padding: '3px 7px', background: st.bg, color: st.ink,
-                  fontSize: 10, fontWeight: 700, borderRadius: 3, whiteSpace: 'nowrap',
-                  border: `1px solid ${st.dot}`,
-                  letterSpacing: lang === 'zh' ? 0.4 : 0,
-                  maxWidth: 88, overflow: 'hidden', textOverflow: 'ellipsis',
-                }}>{s.name.replace('大学', '')}</div>
-                <div style={{
-                  width: 8, height: 8, borderRadius: 999, background: st.dot,
-                  border: '2px solid #fff', marginTop: -1,
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
-                }} />
-              </div>
-            </button>
-          );
-        })}
-
-        <div style={{
-          position: 'absolute', left: '50%', top: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 14, height: 14, borderRadius: 999,
-          background: '#1E73D6', border: '3px solid #fff',
-          boxShadow: '0 0 0 8px rgba(30,115,214,0.18), 0 1px 3px rgba(0,0,0,0.2)',
-        }} />
+        {TENCENT_KEY ? (
+          <TMap
+            apiKey={TENCENT_KEY}
+            style={{ width: '100%', height: '100%' }}
+            options={{
+              center: { lat: cityLat, lng: cityLng },
+              zoom: 11,
+              viewMode: '2D',
+              showControl: false,
+            }}
+          >
+            <MultiMarker
+              styles={MARKER_STYLES}
+              geometries={geometries}
+              onClick={handleMarkerClick}
+            />
+            {coords && (
+              <MultiMarker styles={ME_STYLES} geometries={meGeometries} />
+            )}
+          </TMap>
+        ) : (
+          <div style={{
+            position: 'absolute', inset: 0, display: 'flex', alignItems: 'center',
+            justifyContent: 'center', padding: 24, textAlign: 'center',
+            color: C.ink60, fontSize: 13, lineHeight: 1.6,
+          }}>
+            {lang === 'zh'
+              ? '地图未配置：在 frontend/.env.local 设置 VITE_TENCENT_MAP_KEY'
+              : 'Map not configured: set VITE_TENCENT_MAP_KEY in frontend/.env.local'}
+          </div>
+        )}
       </div>
 
       <div style={{
