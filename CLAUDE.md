@@ -75,7 +75,7 @@ data/
   `map[slug]School`。读 hits-内存，写 hits-内存-and-disk。重启不丢数据，因为
   数据本身就是 git 跟踪的文件。
 - **logo 文件**：committed 到仓库（与 JSON 同目录），但后端**不**直接 serve；
-  `logo` 字段仍是 `https://static.ddxy.xiaoyuanzhu.com/images/logo/<slug>.<ext>`
+  `logo` 字段仍是 `https://static.ddxy.xiaoyuanzhu.com/schools/<country>/<slug>.<ext>`
   这种 CDN URL。上传是离线步骤，前端 `<img onError>` 容忍 CDN 暂时 404。
 - **写流程 atomic**：handler 写一个 `data/schools/cn/.<slug>.*.tmp` 然后
   `rename` 到目标，避免半写入文件。
