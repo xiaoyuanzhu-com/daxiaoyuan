@@ -37,12 +37,11 @@ async function request(path, opts = {}) {
 export const fetchCities = () =>
   request('/api/v1/cities').then((d) => d.cities);
 
-// Backend paginates with default size=10. Web frontend currently
-// renders every school for the selected city in one shot, so we ask for
-// the maximum page size (capped server-side at 50). Switch to true
-// pagination if cities ever exceed 50 schools.
+// Backend paginates with default size=10, capped at 500. Web (like wechat)
+// renders the whole city's schools in one shot, so request the cap. Switch
+// to true pagination if any city exceeds 500 schools.
 export const fetchSchools = (cityId) => {
-  const params = ['size=50'];
+  const params = ['size=500'];
   if (cityId) params.push(`city=${encodeURIComponent(cityId)}`);
   return request('/api/v1/schools?' + params.join('&')).then((d) => d.schools);
 };

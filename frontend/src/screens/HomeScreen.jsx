@@ -10,6 +10,7 @@ import { distanceKm } from '../data/distance.js';
 import { STATUS, STATUS_ORDER, FACILITIES } from '../data/status.js';
 import { t } from '../data/i18n.js';
 import { useLang } from '../context/LangContext.jsx';
+import { useCity } from '../context/CityContext.jsx';
 import { useApi } from '../hooks/useApi.js';
 import { C, serif } from '../theme.js';
 
@@ -22,9 +23,7 @@ export default function HomeScreen() {
   const [statusFilter, setStatusFilter] = useState(() => new Set());
   const [facFilter, setFacFilter] = useState(() => new Set());
 
-  // City — for MVP we only support 'bj'. CitiesScreen navigates back to / on pick.
-  const cityId = 'bj';
-  const cityName = '北京';
+  const { cityId, cityName, cityLat, cityLng } = useCity();
 
   // User location (browser geolocation). Fail silently — distance just won't show.
   const [coords, setCoords] = useState(null);
@@ -110,7 +109,7 @@ export default function HomeScreen() {
             display: 'flex', alignItems: 'center', gap: 6,
           }}>
             <div style={{ fontSize: 15, fontWeight: 600, color: C.ink, letterSpacing: lang === 'zh' ? 0.6 : 0 }}>
-              {t('beijing', lang)}
+              {cityName}
             </div>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
               <path d="M6 9l6 6 6-6" stroke={C.ink60} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -192,7 +191,7 @@ export default function HomeScreen() {
       {!loading && !error && (
         <>
           {view === 'map'
-            ? <MapView lang={lang} schools={filtered} cityName={cityName} onOpen={(id) => navigate(`/s/${id}`)} />
+            ? <MapView lang={lang} schools={filtered} cityName={cityName} cityLat={cityLat} cityLng={cityLng} onOpen={(id) => navigate(`/s/${id}`)} />
             : <ListView lang={lang} schools={filtered} cityName={cityName} onOpen={(id) => navigate(`/s/${id}`)} />}
         </>
       )}
@@ -213,9 +212,9 @@ export default function HomeScreen() {
   );
 }
 
-function MapView({ lang, schools, cityName, onOpen }) {
+function MapView({ lang, schools, cityName, cityLat, cityLng, onOpen }) {
   const W = 343, H = 360;
-  const cx = 116.34, cy = 39.96, scale = 1800;
+  const cx = cityLng, cy = cityLat, scale = 1800;
   const proj = (lat, lng) => ({
     x: W / 2 + (lng - cx) * scale,
     y: H / 2 - (lat - cy) * scale,
@@ -301,7 +300,7 @@ function MapView({ lang, schools, cityName, onOpen }) {
           <span style={{ fontSize: 11, color: C.ink40 }}>{schools.length}</span>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {schools.slice(0, 4).map((s) => (
+          {schools.map((s) => (
             <SchoolCard
               key={s.id}
               school={s}
