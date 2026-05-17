@@ -5,8 +5,11 @@ build:
 
 # Data lives at repo-root data/, outside the backend module — point the
 # server at it explicitly so `make run` works from the backend/ subdir.
-run:
-	DDXY_DATA_DIR=$(realpath ../data) go run ./cmd/server
+# `exec` (not `go run`) so the recipe shell is replaced by the binary —
+# otherwise Ctrl+C on `make dev` kills the `go run` wrapper but orphans
+# the compiled server binary, leaking the :8080 port.
+run: build
+	DDXY_DATA_DIR=$(realpath ../data) exec ./bin/ddxy
 
 test:
 	go test ./...
