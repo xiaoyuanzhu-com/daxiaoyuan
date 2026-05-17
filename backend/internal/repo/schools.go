@@ -1,23 +1,107 @@
+// Package repo is the file-backed schools store.
+//
+// On startup the backend walks data/schools/**/*.json and builds an in-memory
+// map[slug]School plus a precomputed search index. Reads are served entirely
+// from memory; writes go to disk (data/schools/<country>/<slug>.json) and
+// update the map atomically. Country is resolved from cityId via the cities
+// table — a school's path on disk mirrors its city's country.
 package repo
 
 import (
 	"context"
-	"database/sql"
 	"encoding/json"
-	"errors"
 	"fmt"
+	"io/fs"
+	"os"
+	"path/filepath"
+	"sort"
 	"strings"
+	"sync"
 
+	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/data"
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/models"
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/search"
 )
 
 type Schools struct {
-	db *sql.DB
+	dataDir     string
+	mu          sync.RWMutex
+	byID        map[string]*models.School
+	searchTexts map[string]string // slug → precomputed lowercase search string
 }
 
-func NewSchools(db *sql.DB) *Schools {
-	return &Schools{db: db}
+// NewSchools opens dataDir and loads every data/schools/**/*.json into memory.
+// Returns an error if dataDir/schools doesn't exist or any file fails to parse.
+func NewSchools(dataDir string) (*Schools, error) {
+	s := &Schools{
+		dataDir:     dataDir,
+		byID:        map[string]*models.School{},
+		searchTexts: map[string]string{},
+	}
+	if err := s.load(); err != nil {
+		return nil, err
+	}
+	return s, nil
+}
+
+func (s *Schools) load() error {
+	schoolsDir := filepath.Join(s.dataDir, "schools")
+	info, err := os.Stat(schoolsDir)
+	if err != nil {
+		if os.IsNotExist(err) {
+			// No schools yet — empty store is valid (first-run case).
+			return nil
+		}
+		return fmt.Errorf("stat schools dir: %w", err)
+	}
+	if !info.IsDir() {
+		return fmt.Errorf("%s is not a directory", schoolsDir)
+	}
+
+	return filepath.WalkDir(schoolsDir, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if d.IsDir() {
+			return nil
+		}
+		if !strings.HasSuffix(d.Name(), ".json") {
+			return nil
+		}
+		b, err := os.ReadFile(path)
+		if err != nil {
+			return fmt.Errorf("read %s: %w", path, err)
+		}
+		var sch models.School
+		if err := json.Unmarshal(b, &sch); err != nil {
+			return fmt.Errorf("parse %s: %w", path, err)
+		}
+		// Defense: filename slug must match the id field — catches accidental
+		// renames where the file was moved but JSON wasn't updated.
+		base := strings.TrimSuffix(d.Name(), ".json")
+		if base != sch.ID {
+			return fmt.Errorf("%s: filename slug %q does not match id %q", path, base, sch.ID)
+		}
+		// Empty facilities map after unmarshal means the JSON didn't include
+		// the field at all — treat as malformed since the API contract requires
+		// all four keys.
+		if sch.Facilities == nil {
+			sch.Facilities = map[string]models.Facility{}
+		}
+		if sch.Others == nil {
+			sch.Others = []models.Other{}
+		}
+		s.byID[sch.ID] = &sch
+		s.searchTexts[sch.ID] = search.BuildText(sch.Name, sch.ID)
+		return nil
+	})
+}
+
+// Len returns the number of loaded schools. Used for startup logging.
+func (s *Schools) Len() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return len(s.byID)
 }
 
 // CityStats holds aggregate counts for one city.
@@ -27,9 +111,8 @@ type CityStats struct {
 }
 
 // ListParams carries the filter + pagination inputs for List.
-// Query is a lowercase substring matched against the precomputed
-// search_text column (which contains name + full pinyin + pinyin
-// initials + id). Page is 1-based.
+// Query is a lowercase substring matched against the precomputed search index
+// (name + full pinyin + pinyin initials + id). Page is 1-based.
 type ListParams struct {
 	CityID   string
 	Query    string
@@ -47,9 +130,9 @@ type ListResult struct {
 }
 
 // List returns one page of full School records matching the filters.
-// Order is `last_update DESC, id ASC` (newest data first, deterministic
+// Order is `lastUpdate DESC, id ASC` (newest data first, deterministic
 // tiebreak). Total is the full match count across all pages.
-func (s *Schools) List(ctx context.Context, p ListParams) (ListResult, error) {
+func (s *Schools) List(_ context.Context, p ListParams) (ListResult, error) {
 	if p.Page < 1 {
 		p.Page = 1
 	}
@@ -57,280 +140,167 @@ func (s *Schools) List(ctx context.Context, p ListParams) (ListResult, error) {
 		p.PageSize = 10
 	}
 
-	where := []string{}
-	args := []any{}
-	if p.CityID != "" {
-		where = append(where, "city_id = ?")
-		args = append(args, p.CityID)
-	}
-	if p.Query != "" {
-		where = append(where, "search_text LIKE ?")
-		args = append(args, "%"+p.Query+"%")
-	}
-	whereSQL := ""
-	if len(where) > 0 {
-		whereSQL = " WHERE " + strings.Join(where, " AND ")
-	}
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 
-	var total int
-	if err := s.db.QueryRowContext(ctx, `SELECT COUNT(*) FROM schools`+whereSQL, args...).Scan(&total); err != nil {
-		return ListResult{}, fmt.Errorf("count schools: %w", err)
-	}
-
-	pageArgs := append(append([]any{}, args...), p.PageSize, (p.Page-1)*p.PageSize)
-	rows, err := s.db.QueryContext(ctx,
-		`SELECT `+detailCols+` FROM schools`+whereSQL+
-			` ORDER BY last_update DESC, id ASC LIMIT ? OFFSET ?`, pageArgs...)
-	if err != nil {
-		return ListResult{}, fmt.Errorf("query schools: %w", err)
-	}
-	defer rows.Close()
-	out := []*models.School{}
-	for rows.Next() {
-		sch, err := scanDetail(rows)
-		if err != nil {
-			return ListResult{}, err
+	matched := make([]*models.School, 0, len(s.byID))
+	for id, sch := range s.byID {
+		if p.CityID != "" && sch.CityID != p.CityID {
+			continue
 		}
-		out = append(out, sch)
+		if p.Query != "" && !strings.Contains(s.searchTexts[id], p.Query) {
+			continue
+		}
+		matched = append(matched, sch)
 	}
-	if err := rows.Err(); err != nil {
-		return ListResult{}, err
+	sort.Slice(matched, func(i, j int) bool {
+		if !matched[i].LastUpdate.Equal(matched[j].LastUpdate) {
+			return matched[i].LastUpdate.After(matched[j].LastUpdate)
+		}
+		return matched[i].ID < matched[j].ID
+	})
+
+	total := len(matched)
+	start := (p.Page - 1) * p.PageSize
+	if start > total {
+		start = total
 	}
+	end := start + p.PageSize
+	if end > total {
+		end = total
+	}
+
 	return ListResult{
-		Schools: out,
+		Schools: matched[start:end],
 		Total:   total,
 		Page:    p.Page,
-		HasMore: p.Page*p.PageSize < total,
+		HasMore: end < total,
 	}, nil
 }
 
-const detailCols = `
-	id, city_id, name, logo, address, lat, lng, status, reservation,
-	library_status, library_reservation,
-	track_status, track_reservation,
-	gym_status, gym_reservation,
-	canteen_status, canteen_reservation,
-	others, last_update`
-
-func (s *Schools) Get(ctx context.Context, id string) (*models.School, error) {
-	row := s.db.QueryRowContext(ctx, `SELECT `+detailCols+` FROM schools WHERE id = ?`, id)
-	sch, err := scanDetail(row)
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, ErrNotFound
-		}
-		return nil, err
+// Get returns the full School record for a slug, or ErrNotFound.
+// The returned pointer aliases the in-memory map entry — callers must not
+// mutate it.
+func (s *Schools) Get(_ context.Context, id string) (*models.School, error) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	sch, ok := s.byID[id]
+	if !ok {
+		return nil, ErrNotFound
 	}
 	return sch, nil
 }
 
-// ListAllDetail returns every school in full detail form (used by dump endpoint).
-func (s *Schools) ListAllDetail(ctx context.Context) ([]*models.School, error) {
-	rows, err := s.db.QueryContext(ctx, `SELECT `+detailCols+` FROM schools ORDER BY id`)
-	if err != nil {
-		return nil, fmt.Errorf("query schools detail: %w", err)
-	}
-	defer rows.Close()
-	out := []*models.School{}
-	for rows.Next() {
-		sch, err := scanDetail(rows)
-		if err != nil {
-			return nil, err
-		}
+// ListAllDetail returns every school in full detail form, ordered by id.
+// Used by the dump endpoint.
+func (s *Schools) ListAllDetail(_ context.Context) ([]*models.School, error) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	out := make([]*models.School, 0, len(s.byID))
+	for _, sch := range s.byID {
 		out = append(out, sch)
 	}
-	return out, rows.Err()
+	sort.Slice(out, func(i, j int) bool { return out[i].ID < out[j].ID })
+	return out, nil
 }
 
-// scanner is satisfied by both *sql.Row and *sql.Rows.
-type scanner interface {
-	Scan(dest ...any) error
-}
-
-func scanDetail(sc scanner) (*models.School, error) {
-	var sch models.School
-	var logo, addr, resv, libRes, trkRes, gymRes, canRes, others sql.NullString
-	var libStat, trkStat, gymStat, canStat string
-
-	if err := sc.Scan(
-		&sch.ID, &sch.CityID, &sch.Name, &logo, &addr, &sch.Lat, &sch.Lng, &sch.Status, &resv,
-		&libStat, &libRes,
-		&trkStat, &trkRes,
-		&gymStat, &gymRes,
-		&canStat, &canRes,
-		&others, &sch.LastUpdate,
-	); err != nil {
-		return nil, err
-	}
-	if logo.Valid {
-		sch.Logo = logo.String
-	}
-	if addr.Valid {
-		sch.Address = addr.String
-	}
-	if resv.Valid {
-		var r models.Reservation
-		if err := json.Unmarshal([]byte(resv.String), &r); err != nil {
-			return nil, fmt.Errorf("decode school.reservation: %w", err)
-		}
-		sch.Reservation = &r
-	}
-	sch.Facilities = map[string]models.Facility{}
-	for _, p := range []struct {
-		key    string
-		status string
-		resv   sql.NullString
-	}{
-		{"library", libStat, libRes},
-		{"track", trkStat, trkRes},
-		{"gym", gymStat, gymRes},
-		{"canteen", canStat, canRes},
-	} {
-		f, err := parseFacility(p.status, p.resv)
-		if err != nil {
-			return nil, err
-		}
-		sch.Facilities[p.key] = f
-	}
-	sch.Others = []models.Other{}
-	if others.Valid {
-		if err := json.Unmarshal([]byte(others.String), &sch.Others); err != nil {
-			return nil, fmt.Errorf("decode school.others: %w", err)
-		}
-	}
-	return &sch, nil
-}
-
-func parseFacility(status string, resv sql.NullString) (models.Facility, error) {
-	f := models.Facility{Status: status}
-	if resv.Valid {
-		var r models.Reservation
-		if err := json.Unmarshal([]byte(resv.String), &r); err != nil {
-			return f, fmt.Errorf("decode facility.reservation: %w", err)
-		}
-		f.Reservation = &r
-	}
-	return f, nil
-}
-
-func (s *Schools) Insert(ctx context.Context, sch *models.School) error {
-	resvJSON, err := marshalNull(sch.Reservation)
-	if err != nil {
-		return err
-	}
-	libRes, err := marshalNull(sch.Facilities["library"].Reservation)
-	if err != nil {
-		return err
-	}
-	trkRes, err := marshalNull(sch.Facilities["track"].Reservation)
-	if err != nil {
-		return err
-	}
-	gymRes, err := marshalNull(sch.Facilities["gym"].Reservation)
-	if err != nil {
-		return err
-	}
-	canRes, err := marshalNull(sch.Facilities["canteen"].Reservation)
-	if err != nil {
-		return err
-	}
-	var othersJSON sql.NullString
-	if len(sch.Others) > 0 {
-		b, err := json.Marshal(sch.Others)
-		if err != nil {
-			return err
-		}
-		othersJSON = sql.NullString{String: string(b), Valid: true}
-	}
-
-	_, err = s.db.ExecContext(ctx, `
-		INSERT OR REPLACE INTO schools (
-			id, city_id, name, logo, address, lat, lng, status, reservation,
-			library_status, library_reservation,
-			track_status, track_reservation,
-			gym_status, gym_reservation,
-			canteen_status, canteen_reservation,
-			others, search_text, last_update
-		) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-		sch.ID, sch.CityID, sch.Name, nullStr(sch.Logo), nullStr(sch.Address), sch.Lat, sch.Lng, sch.Status, resvJSON,
-		sch.Facilities["library"].Status, libRes,
-		sch.Facilities["track"].Status, trkRes,
-		sch.Facilities["gym"].Status, gymRes,
-		sch.Facilities["canteen"].Status, canRes,
-		othersJSON, search.BuildText(sch.Name, sch.ID), sch.LastUpdate.UTC(),
-	)
-	return err
-}
-
-func marshalNull(r *models.Reservation) (sql.NullString, error) {
-	if r == nil {
-		return sql.NullString{}, nil
-	}
-	b, err := json.Marshal(r)
-	if err != nil {
-		return sql.NullString{}, err
-	}
-	return sql.NullString{String: string(b), Valid: true}, nil
-}
-
-func nullStr(v string) sql.NullString {
-	if v == "" {
-		return sql.NullString{}
-	}
-	return sql.NullString{String: v, Valid: true}
-}
-
-// ListByIDs returns full School records for the given slugs, in the order
-// returned by the database. The caller is responsible for reordering.
-func (s *Schools) ListByIDs(ctx context.Context, ids []string) ([]*models.School, error) {
+// ListByIDs returns full School records for the given slugs. Order in the
+// result matches input order; missing slugs are silently skipped (matches
+// the previous SQL behavior).
+func (s *Schools) ListByIDs(_ context.Context, ids []string) ([]*models.School, error) {
 	if len(ids) == 0 {
 		return nil, nil
 	}
-	placeholders := make([]string, len(ids))
-	args := make([]any, len(ids))
-	for i, id := range ids {
-		placeholders[i] = "?"
-		args[i] = id
-	}
-	rows, err := s.db.QueryContext(ctx,
-		`SELECT `+detailCols+` FROM schools WHERE id IN (`+strings.Join(placeholders, ",")+`)`,
-		args...)
-	if err != nil {
-		return nil, fmt.Errorf("query schools by ids: %w", err)
-	}
-	defer rows.Close()
-	out := []*models.School{}
-	for rows.Next() {
-		sch, err := scanDetail(rows)
-		if err != nil {
-			return nil, err
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	out := make([]*models.School, 0, len(ids))
+	for _, id := range ids {
+		if sch, ok := s.byID[id]; ok {
+			out = append(out, sch)
 		}
-		out = append(out, sch)
 	}
-	return out, rows.Err()
+	return out, nil
 }
 
 // CountByCity returns total + open-status counts per city_id present in
-// the schools table.
-func (s *Schools) CountByCity(ctx context.Context) (map[string]CityStats, error) {
-	rows, err := s.db.QueryContext(ctx, `
-		SELECT city_id,
-		       COUNT(*) AS total,
-		       SUM(CASE WHEN status = 'open' THEN 1 ELSE 0 END) AS open
-		FROM schools
-		GROUP BY city_id`)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
+// the store.
+func (s *Schools) CountByCity(_ context.Context) (map[string]CityStats, error) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 	out := map[string]CityStats{}
-	for rows.Next() {
-		var cid string
-		var total, openN int
-		if err := rows.Scan(&cid, &total, &openN); err != nil {
-			return nil, err
+	for _, sch := range s.byID {
+		cs := out[sch.CityID]
+		cs.Total++
+		if sch.Status == "open" {
+			cs.Open++
 		}
-		out[cid] = CityStats{Total: total, Open: openN}
+		out[sch.CityID] = cs
 	}
-	return out, rows.Err()
+	return out, nil
+}
+
+// Insert writes the school to disk and updates the in-memory map. The country
+// directory is resolved from the school's cityId via data.CityByID — caller
+// must ensure cities have been loaded first (handlers already validate cityId
+// against the cities table before calling).
+//
+// On disk format: pretty-printed JSON (2-space indent) so git diffs are
+// readable. File path: data/schools/<country>/<slug>.json.
+func (s *Schools) Insert(_ context.Context, sch *models.School) error {
+	if sch.ID == "" {
+		return fmt.Errorf("school.id is empty")
+	}
+	city, ok := data.CityByID(sch.CityID)
+	if !ok {
+		return fmt.Errorf("unknown cityId: %s", sch.CityID)
+	}
+	country := strings.ToLower(city.Country)
+
+	// Ensure deterministic on-disk shape: empty arrays/maps over nil so the
+	// JSON reads identically across writes.
+	if sch.Others == nil {
+		sch.Others = []models.Other{}
+	}
+	if sch.Facilities == nil {
+		sch.Facilities = map[string]models.Facility{}
+	}
+
+	dir := filepath.Join(s.dataDir, "schools", country)
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		return fmt.Errorf("mkdir %s: %w", dir, err)
+	}
+	path := filepath.Join(dir, sch.ID+".json")
+
+	b, err := json.MarshalIndent(sch, "", "  ")
+	if err != nil {
+		return fmt.Errorf("marshal %s: %w", sch.ID, err)
+	}
+	b = append(b, '\n')
+
+	// Write atomically: temp file in same dir, then rename. Avoids leaving a
+	// half-written file if the process dies mid-write.
+	tmp, err := os.CreateTemp(dir, "."+sch.ID+".*.tmp")
+	if err != nil {
+		return fmt.Errorf("create temp: %w", err)
+	}
+	tmpPath := tmp.Name()
+	if _, err := tmp.Write(b); err != nil {
+		tmp.Close()
+		os.Remove(tmpPath)
+		return fmt.Errorf("write temp: %w", err)
+	}
+	if err := tmp.Close(); err != nil {
+		os.Remove(tmpPath)
+		return fmt.Errorf("close temp: %w", err)
+	}
+	if err := os.Rename(tmpPath, path); err != nil {
+		os.Remove(tmpPath)
+		return fmt.Errorf("rename %s -> %s: %w", tmpPath, path, err)
+	}
+
+	s.mu.Lock()
+	s.byID[sch.ID] = sch
+	s.searchTexts[sch.ID] = search.BuildText(sch.Name, sch.ID)
+	s.mu.Unlock()
+	return nil
 }

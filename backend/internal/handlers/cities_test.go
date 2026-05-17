@@ -10,18 +10,15 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/db"
-	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/repo"
+	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/models"
 )
 
 func TestGETCities_EmptyDB(t *testing.T) {
 	gin.SetMode(gin.TestMode)
-	d, err := db.Open(":memory:")
-	require.NoError(t, err)
-	defer d.Close()
+	repoS := newTestRepo(t)
 
 	r := gin.New()
-	r.GET("/api/v1/cities", Cities(repo.NewSchools(d)))
+	r.GET("/api/v1/cities", Cities(repoS))
 
 	req := httptest.NewRequest(http.MethodGet, "/api/v1/cities", nil)
 	w := httptest.NewRecorder()
@@ -34,7 +31,7 @@ func TestGETCities_EmptyDB(t *testing.T) {
 	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &body))
 	require.Len(t, body.Cities, 8, "should return all 8 cities from cities.json")
 
-	// bj is first and has zero schools when DB is empty.
+	// bj is first and has zero schools when store is empty.
 	bj := body.Cities[0]
 	assert.Equal(t, "bj", bj["id"])
 	assert.Equal(t, "北京", bj["name"])
@@ -44,21 +41,14 @@ func TestGETCities_EmptyDB(t *testing.T) {
 
 func TestGETCities_WithStats(t *testing.T) {
 	gin.SetMode(gin.TestMode)
-	d, err := db.Open(":memory:")
-	require.NoError(t, err)
-	defer d.Close()
-
-	// Insert 2 open schools + 1 appt school in bj.
-	_, err = d.Exec(`INSERT INTO schools (id, city_id, name, lat, lng, status,
-		library_status, track_status, gym_status, canteen_status, last_update)
-		VALUES
-		('a','bj','A',0,0,'open','closed','closed','closed','closed', CURRENT_TIMESTAMP),
-		('b','bj','B',0,0,'open','closed','closed','closed','closed', CURRENT_TIMESTAMP),
-		('c','bj','C',0,0,'appt','closed','closed','closed','closed', CURRENT_TIMESTAMP)`)
-	require.NoError(t, err)
+	repoS := newTestRepo(t,
+		&models.School{ID: "a", CityID: "bj", Name: "A", Status: "open", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "b", CityID: "bj", Name: "B", Status: "open", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "c", CityID: "bj", Name: "C", Status: "appt", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+	)
 
 	r := gin.New()
-	r.GET("/api/v1/cities", Cities(repo.NewSchools(d)))
+	r.GET("/api/v1/cities", Cities(repoS))
 
 	req := httptest.NewRequest(http.MethodGet, "/api/v1/cities", nil)
 	w := httptest.NewRecorder()

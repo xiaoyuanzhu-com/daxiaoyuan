@@ -12,8 +12,7 @@ import (
 )
 
 func TestSchools_List_Empty(t *testing.T) {
-	d := newTestDB(t)
-	r := NewSchools(d)
+	r := newTestRepo(t)
 	res, err := r.List(context.Background(), ListParams{})
 	require.NoError(t, err)
 	assert.Empty(t, res.Schools)
@@ -22,11 +21,10 @@ func TestSchools_List_Empty(t *testing.T) {
 }
 
 func TestSchools_List_AllAndByCity(t *testing.T) {
-	d := newTestDB(t)
-	insertTestSchool(t, d, &models.School{ID: "pku", CityID: "bj", Name: "北京大学", Lat: 39.99, Lng: 116.30, Status: "appt", LastUpdate: mustTime("2026-05-01T00:00:00Z")})
-	insertTestSchool(t, d, &models.School{ID: "fudan", CityID: "sh", Name: "复旦大学", Lat: 31.30, Lng: 121.50, Status: "open", LastUpdate: mustTime("2026-05-02T00:00:00Z")})
-
-	r := NewSchools(d)
+	r := newTestRepo(t,
+		&models.School{ID: "pku", CityID: "bj", Name: "北京大学", Lat: 39.99, Lng: 116.30, Status: "appt", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "fudan", CityID: "sh", Name: "复旦大学", Lat: 31.30, Lng: 121.50, Status: "open", LastUpdate: mustTime("2026-05-02T00:00:00Z")},
+	)
 
 	all, err := r.List(context.Background(), ListParams{})
 	require.NoError(t, err)
@@ -47,14 +45,12 @@ func TestSchools_List_AllAndByCity(t *testing.T) {
 }
 
 func TestSchools_List_FuzzyQuery(t *testing.T) {
-	d := newTestDB(t)
-	insertTestSchool(t, d, &models.School{ID: "pku", CityID: "bj", Name: "北京大学", Status: "appt", LastUpdate: mustTime("2026-05-01T00:00:00Z")})
-	insertTestSchool(t, d, &models.School{ID: "tsinghua", CityID: "bj", Name: "清华大学", Status: "appt", LastUpdate: mustTime("2026-05-02T00:00:00Z")})
-	insertTestSchool(t, d, &models.School{ID: "fudan", CityID: "sh", Name: "复旦大学", Status: "open", LastUpdate: mustTime("2026-05-03T00:00:00Z")})
+	r := newTestRepo(t,
+		&models.School{ID: "pku", CityID: "bj", Name: "北京大学", Status: "appt", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "tsinghua", CityID: "bj", Name: "清华大学", Status: "appt", LastUpdate: mustTime("2026-05-02T00:00:00Z")},
+		&models.School{ID: "fudan", CityID: "sh", Name: "复旦大学", Status: "open", LastUpdate: mustTime("2026-05-03T00:00:00Z")},
+	)
 
-	r := NewSchools(d)
-
-	// Each query form should match the same school.
 	cases := []struct {
 		q    string
 		want string
@@ -76,15 +72,14 @@ func TestSchools_List_FuzzyQuery(t *testing.T) {
 }
 
 func TestSchools_List_Pagination(t *testing.T) {
-	d := newTestDB(t)
+	seeded := make([]*models.School, 12)
 	for i := 0; i < 12; i++ {
-		insertTestSchool(t, d, &models.School{
+		seeded[i] = &models.School{
 			ID: string(rune('a' + i)), CityID: "bj", Name: "x", Status: "open",
-			// Different lastUpdate keeps ordering deterministic.
 			LastUpdate: mustTime("2026-05-01T00:00:00Z").Add(time.Duration(i) * time.Hour),
-		})
+		}
 	}
-	r := NewSchools(d)
+	r := newTestRepo(t, seeded...)
 
 	page1, err := r.List(context.Background(), ListParams{Page: 1, PageSize: 10})
 	require.NoError(t, err)
@@ -99,31 +94,31 @@ func TestSchools_List_Pagination(t *testing.T) {
 }
 
 func TestSchools_Get_NotFound(t *testing.T) {
-	d := newTestDB(t)
-	r := NewSchools(d)
+	r := newTestRepo(t)
 	_, err := r.Get(context.Background(), "missing")
 	assert.ErrorIs(t, err, ErrNotFound)
 }
 
 func TestSchools_Get_FullShape(t *testing.T) {
-	d := newTestDB(t)
-	_, err := d.Exec(`INSERT INTO schools (id, city_id, name, address, lat, lng, status, reservation,
-		library_status, library_reservation,
-		track_status, track_reservation,
-		gym_status, gym_reservation,
-		canteen_status, canteen_reservation,
-		others, last_update)
-		VALUES ('pku','bj','北京大学','北京市海淀区颐和园路 5 号',39.992,116.305,'appt',
-			'{"qrcodeUrl":"https://example.com/qr.png","hint":"关注「参观北大」","link":"https://visit.pku.edu.cn"}',
-			'closed', NULL,
-			'closed', NULL,
-			'closed', NULL,
-			'closed', NULL,
-			'[{"kind":"swim","name":"游泳馆","status":"appt"}]',
-			'2026-05-09T08:30:00Z')`)
-	require.NoError(t, err)
-
-	r := NewSchools(d)
+	r := newTestRepo(t,
+		&models.School{
+			ID: "pku", CityID: "bj", Name: "北京大学", Address: "北京市海淀区颐和园路 5 号",
+			Lat: 39.992, Lng: 116.305, Status: "appt",
+			Reservation: &models.Reservation{
+				QrcodeUrl: "https://example.com/qr.png",
+				Hint:      "关注「参观北大」",
+				Link:      "https://visit.pku.edu.cn",
+			},
+			Facilities: map[string]models.Facility{
+				"library": {Status: "closed"},
+				"track":   {Status: "closed"},
+				"gym":     {Status: "closed"},
+				"canteen": {Status: "closed"},
+			},
+			Others:     []models.Other{{Kind: "swim", Name: "游泳馆", Status: "appt"}},
+			LastUpdate: mustTime("2026-05-09T08:30:00Z"),
+		},
+	)
 	got, err := r.Get(context.Background(), "pku")
 	require.NoError(t, err)
 
@@ -145,8 +140,7 @@ func TestSchools_Get_FullShape(t *testing.T) {
 }
 
 func TestSchools_Insert_RoundTrip(t *testing.T) {
-	d := newTestDB(t)
-	r := NewSchools(d)
+	r := newTestRepo(t)
 
 	in := &models.School{
 		ID: "tsinghua", CityID: "bj", Name: "清华大学", Lat: 40.0, Lng: 116.326, Status: "appt",
@@ -170,13 +164,12 @@ func TestSchools_Insert_RoundTrip(t *testing.T) {
 }
 
 func TestSchools_CountByCity(t *testing.T) {
-	d := newTestDB(t)
-	insertTestSchool(t, d, &models.School{ID: "a", CityID: "bj", Name: "A", Status: "open", LastUpdate: mustTime("2026-05-01T00:00:00Z")})
-	insertTestSchool(t, d, &models.School{ID: "b", CityID: "bj", Name: "B", Status: "open", LastUpdate: mustTime("2026-05-01T00:00:00Z")})
-	insertTestSchool(t, d, &models.School{ID: "c", CityID: "bj", Name: "C", Status: "appt", LastUpdate: mustTime("2026-05-01T00:00:00Z")})
-	insertTestSchool(t, d, &models.School{ID: "d", CityID: "bj", Name: "D", Status: "closed", LastUpdate: mustTime("2026-05-01T00:00:00Z")})
-
-	r := NewSchools(d)
+	r := newTestRepo(t,
+		&models.School{ID: "a", CityID: "bj", Name: "A", Status: "open", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "b", CityID: "bj", Name: "B", Status: "open", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "c", CityID: "bj", Name: "C", Status: "appt", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+		&models.School{ID: "d", CityID: "bj", Name: "D", Status: "closed", LastUpdate: mustTime("2026-05-01T00:00:00Z")},
+	)
 	stats, err := r.CountByCity(context.Background())
 	require.NoError(t, err)
 	assert.Equal(t, 4, stats["bj"].Total)

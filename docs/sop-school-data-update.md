@@ -54,10 +54,11 @@ curl -s http://localhost:8080/api/v1/schools/<id> | python3 -m json.tool
 
 ### 关于 `logo`
 
-1. 去中文 Wikipedia 学校词条 (`https://zh.wikipedia.org/wiki/<学校名>`) 的 infobox 找 `File:<X>_Logo.svg`。
-2. 直链 `https://upload.wikimedia.org/wikipedia/zh/<hash-path>/<X>_Logo.svg` 下载，存到**项目根目录**命名为 `<id>.svg`（如 `cau.svg` / `pku.svg`），等一次性批量上传到 CDN。
+1. 去中文 Wikipedia 学校词条 (`https://zh.wikipedia.org/wiki/<学校名>`) 的 infobox 找校徽文件。**文件名不一定是 `<X>_Logo.svg`**——常见变体：`<X>_Logo.svg` / `<X>_University_Logo.svg` / `<X>_University_Emblem.svg` / `<X>_Crest.svg` / `<X>校徽.svg`。识别方式是看 infobox 中标记为「校徽 / 校标 / logo / emblem」位置的 `File:` 链接，**不要纯粹按文件名 pattern 匹配**。
+2. 下载用 `https://zh.wikipedia.org/wiki/Special:FilePath/<完整文件名.svg>`——服务器会重定向到真实的 hash-path，**不需要自己解析 `upload.wikimedia.org/wikipedia/zh/<hash>/...`**。存到**项目根目录**命名为 `<id>.svg`（如 `cau.svg` / `pku.svg`），等一次性批量上传到 CDN。
 3. `logo` 字段直接写 prospective CDN URL：`https://static.ddxy.xiaoyuanzhu.com/images/logo/<id>.svg`——上传发生前会 404，但前端 `<img onError>` 会优雅隐藏（见 [frontend/src/screens/EditScreen.jsx](../frontend/src/screens/EditScreen.jsx)），影响可接受。
-4. Wikipedia 没有 SVG 时（如英文 Wikipedia 经常只有 PNG）：先去校官网首页 / footer 找；再没有就**留空**并加入"补 logo"清单。**不要为了凑齐字段去用劣质 PNG。**
+4. **License ≠ 文件质量。** Wikipedia 上的校徽多数会被标为 fair-use / non-free（这是版权许可问题），但文件本身经常是干净的矢量。**判断"是否劣质"看内容**：`grep -c '<image' file.svg` 大于 0 = 内嵌位图（劣质，跳过）；只看到 `<path>` / `<polygon>` 等 = 真矢量（可用）。fair-use 标签**不**是跳过理由——我们是公益透明工具，logo 用于标识属合理使用。
+5. Wikipedia 真的没有 SVG 时（无该词条 / infobox 无 logo / 只有位图）：先去校官网首页 / footer 找；再没有就**留空**并加入"补 logo"清单。**不要为了凑齐字段去用劣质 PNG。**
 
 ### 关于 `reservation.qrcodeUrl`
 

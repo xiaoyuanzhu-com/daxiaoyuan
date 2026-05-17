@@ -29,7 +29,7 @@
 
 ## 后端
 
-`backend/` —— Go + Gin + SQLite，部署于 `ddxy.xiaoyuanzhu.com`。
+`backend/` —— Go + Gin，部署于 `ddxy.xiaoyuanzhu.com`。
 
 设计文档：[docs/superpowers/specs/2026-05-12-backend-design.md](docs/superpowers/specs/2026-05-12-backend-design.md)
 
@@ -40,18 +40,47 @@
 - `GET /api/v1/schools/:id` — 学校详情（含 facilities / reservation）
 - `GET /api/v1/dump.json` — 全量导出
 
-JSON 字段：API 层 camelCase（`cityId`, `lastUpdate`），DB 层 snake_case（`city_id`, `last_update`）。
+JSON 字段：API + 磁盘存储统一 camelCase（`cityId`, `lastUpdate`）。
 
 本地起后端：
 
 ```bash
 cd backend
-make run        # :8080 启动；首次会自动建库 + 跑 migration
+make run        # :8080 启动；读取 ../data/ 下所有 JSON 到内存
 ```
 
-DB 是数据真理来源(`backend/ddxy.db`)。新增 / 编辑学校通过前端 UI(`POST` / `PUT
-/api/v1/schools`)。**没有 seed 机制**——避免误跑覆盖已有数据；首次起服务时 DB
-为空，从 UI 添加学校即可。
+数据真理来源是仓库根 `data/` 目录（详见下节）。新增 / 编辑学校通过前端 UI
+(`POST` / `PUT /api/v1/schools`)：handler 同时更新内存 map 并 atomic 写回
+对应 JSON 文件。**没有 seed 机制**——`data/schools/` 已经是源代码的一部分，
+直接读取即可。
+
+## 数据存储（仓库根 `data/`）
+
+```
+data/
+  cities.json                       # 城市列表（reference data）
+  schools/
+    cn/
+      pku.json                      # 一所学校一个 JSON
+      pku.svg                       # 校徽源文件，sibling 放置；CDN 上传后由
+      fudan.json                    #   静态站点 https://static.ddxy.xiaoyuanzhu.com 提供
+      fudan.svg
+      ...
+```
+
+- **slug = 文件名**：`data/schools/<country>/<slug>.json`。`<country>` 是 ISO
+  小写代码，从 cityId → cities.json → country 推导出来，写入时由后端自动选择
+  目录。
+- **没有 DB**：所有学校 JSON 在 server 启动时一次性 load 进
+  `map[slug]School`。读 hits-内存，写 hits-内存-and-disk。重启不丢数据，因为
+  数据本身就是 git 跟踪的文件。
+- **logo 文件**：committed 到仓库（与 JSON 同目录），但后端**不**直接 serve；
+  `logo` 字段仍是 `https://static.ddxy.xiaoyuanzhu.com/images/logo/<slug>.<ext>`
+  这种 CDN URL。上传是离线步骤，前端 `<img onError>` 容忍 CDN 暂时 404。
+- **写流程 atomic**：handler 写一个 `data/schools/cn/.<slug>.*.tmp` 然后
+  `rename` 到目标，避免半写入文件。
+- **配置**：`DDXY_DATA_DIR` 默认 `./data`（cwd 相对，`make run` 用 `../data`
+  绝对路径）。生产部署需要把 `data/` 挂载到容器里。
 
 ## 数据模型核心约定
 

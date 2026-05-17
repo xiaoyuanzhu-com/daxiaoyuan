@@ -1,7 +1,6 @@
 package server
 
 import (
-	"database/sql"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -12,11 +11,9 @@ import (
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/web"
 )
 
-func NewRouter(db *sql.DB, cfg config.Config) *gin.Engine {
+func NewRouter(schools *repo.Schools, cfg config.Config) *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Logger(), gin.Recovery(), cors())
-
-	schools := repo.NewSchools(db)
 
 	v1 := r.Group("/api/v1")
 	v1.GET("/cities", handlers.Cities(schools))

@@ -6,52 +6,49 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/db"
-	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/repo"
-	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/search"
+	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/models"
 )
+
+func mustTime(s string) time.Time {
+	t, err := time.Parse(time.RFC3339, s)
+	if err != nil {
+		panic(err)
+	}
+	return t
+}
 
 func seedTwoSchools(t *testing.T) *gin.Engine {
 	t.Helper()
 	gin.SetMode(gin.TestMode)
-	d, err := db.Open(":memory:")
-	require.NoError(t, err)
-	t.Cleanup(func() { d.Close() })
-
-	_, err = d.Exec(`INSERT INTO schools (id, city_id, name, address, lat, lng, status, reservation,
-		library_status, library_reservation,
-		track_status, track_reservation,
-		gym_status, gym_reservation,
-		canteen_status, canteen_reservation,
-		others, search_text, last_update)
-		VALUES
-		('pku','bj','北京大学','北京市海淀区颐和园路 5 号',39.992,116.305,'appt',
-		 '{"qrcodeUrl":"https://x/qr.png","hint":"h","link":"https://visit.pku.edu.cn"}',
-		 'closed', NULL,
-		 'closed', NULL,
-		 'closed', NULL,
-		 'closed', NULL,
-		 NULL, ?,
-		 '2026-05-09T08:30:00Z'),
-		('fudan','sh','复旦大学',NULL,31.30,121.50,'open',NULL,
-		 'open', NULL,
-		 'open', NULL,
-		 'open', NULL,
-		 'open', NULL,
-		 NULL, ?,
-		 '2026-05-09T00:00:00Z')`,
-		search.BuildText("北京大学", "pku"),
-		search.BuildText("复旦大学", "fudan"),
+	repoS := newTestRepo(t,
+		&models.School{
+			ID: "pku", CityID: "bj", Name: "北京大学", Address: "北京市海淀区颐和园路 5 号",
+			Lat: 39.992, Lng: 116.305, Status: "appt",
+			Reservation: &models.Reservation{
+				QrcodeUrl: "https://x/qr.png", Hint: "h", Link: "https://visit.pku.edu.cn",
+			},
+			LastUpdate: mustTime("2026-05-09T08:30:00Z"),
+		},
+		&models.School{
+			ID: "fudan", CityID: "sh", Name: "复旦大学",
+			Lat: 31.30, Lng: 121.50, Status: "open",
+			Facilities: map[string]models.Facility{
+				"library": {Status: "open"},
+				"track":   {Status: "open"},
+				"gym":     {Status: "open"},
+				"canteen": {Status: "open"},
+			},
+			LastUpdate: mustTime("2026-05-09T00:00:00Z"),
+		},
 	)
-	require.NoError(t, err)
 
 	r := gin.New()
-	repoS := repo.NewSchools(d)
 	r.GET("/api/v1/schools", SchoolsList(repoS))
 	r.POST("/api/v1/schools", SchoolCreate(repoS))
 	r.GET("/api/v1/schools/:id", SchoolDetail(repoS))
@@ -79,7 +76,7 @@ func TestGETSchools_List_All(t *testing.T) {
 	assert.Equal(t, 10, body.Size)
 	assert.Equal(t, 2, body.Total)
 	assert.False(t, body.HasMore)
-	// Order is last_update DESC: pku (2026-05-09) before fudan (2026-05-09T00).
+	// Order is lastUpdate DESC: pku (08:30Z) before fudan (00:00Z).
 	assert.Equal(t, "pku", body.Schools[0]["id"])
 	assert.Equal(t, "fudan", body.Schools[1]["id"])
 	// Full School shape — facilities expand to {status, reservation}, plus

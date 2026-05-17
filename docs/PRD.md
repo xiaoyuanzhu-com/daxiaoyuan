@@ -174,7 +174,10 @@
 - **辅助来源**：抓取学校官网公告、小红书等公开内容做交叉验证
 
 **存储**
-- 学校信息与用户反馈统一存放在中心化后端的 SQLite 数据库中（Go + Gin 服务，部署于 `ddxy.xiaoyuanzhu.com`）
+- 学校信息 committed 在仓库的 `data/schools/<country>/<slug>.json`，启动时由后端
+  全量 load 进内存。后端（Go + Gin，部署于 `ddxy.xiaoyuanzhu.com`）通过 HTTP API
+  提供读写：写操作同时更新内存 map 并 atomic 落盘到对应 JSON。数据本身就是 git
+  跟踪的，PRD §透明 的承诺直接由仓库可见性实现。
 - Web、微信小程序、未来的 iOS/Android 客户端共用同一套 HTTP API
 
 **透明**

@@ -3,8 +3,10 @@
 build:
 	go build -o bin/ddxy ./cmd/server
 
+# Data lives at repo-root data/, outside the backend module — point the
+# server at it explicitly so `make run` works from the backend/ subdir.
 run:
-	go run ./cmd/server
+	DDXY_DATA_DIR=$(realpath ../data) go run ./cmd/server
 
 test:
 	go test ./...
@@ -18,7 +20,5 @@ fmt:
 vet:
 	go vet ./...
 
-# Intentionally does not touch *.db — the SQLite file is the source of truth
-# now that there is no seed mechanism. Delete it manually if you need to.
 clean:
 	rm -rf bin/ ddxy

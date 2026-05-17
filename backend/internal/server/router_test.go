@@ -3,6 +3,8 @@ package server
 import (
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -11,16 +13,31 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/config"
-	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/db"
+	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/data"
+	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/repo"
 )
+
+const testCitiesJSON = `[
+{"id":"bj","name":"北京","country":"CN","code":"110100","lat":39.96,"lng":116.34,"active":true},
+{"id":"sh","name":"上海","country":"CN","code":"310100","lat":31.23,"lng":121.47,"active":false},
+{"id":"gz","name":"广州","country":"CN","code":"440100","lat":23.13,"lng":113.27,"active":false},
+{"id":"sz","name":"深圳","country":"CN","code":"440300","lat":22.54,"lng":114.06,"active":false},
+{"id":"nj","name":"南京","country":"CN","code":"320100","lat":32.06,"lng":118.79,"active":false},
+{"id":"hz","name":"杭州","country":"CN","code":"330100","lat":30.27,"lng":120.15,"active":false},
+{"id":"wh","name":"武汉","country":"CN","code":"420100","lat":30.59,"lng":114.3,"active":false},
+{"id":"cd","name":"成都","country":"CN","code":"510100","lat":30.66,"lng":104.06,"active":false}
+]`
 
 func newTestRouter(t *testing.T, token string) *gin.Engine {
 	t.Helper()
 	gin.SetMode(gin.TestMode)
-	d, err := db.Open(":memory:")
+
+	dir := t.TempDir()
+	require.NoError(t, os.WriteFile(filepath.Join(dir, "cities.json"), []byte(testCitiesJSON), 0o644))
+	require.NoError(t, data.Load(filepath.Join(dir, "cities.json")))
+	schools, err := repo.NewSchools(dir)
 	require.NoError(t, err)
-	t.Cleanup(func() { d.Close() })
-	return NewRouter(d, config.Config{AdminToken: token})
+	return NewRouter(schools, config.Config{AdminToken: token})
 }
 
 func TestRouter_Healthz(t *testing.T) {
@@ -64,9 +81,6 @@ func TestRouter_CORSHeader(t *testing.T) {
 	assert.Contains(t, w.Header().Get("Access-Control-Allow-Headers"), "Authorization")
 }
 
-// Write endpoints are gated by Bearer auth. The table below covers the four
-// states callers can be in (no token configured, missing header, wrong token,
-// correct token) so we never silently regress to "anyone can write".
 func TestRouter_WriteAuth(t *testing.T) {
 	cases := []struct {
 		name       string

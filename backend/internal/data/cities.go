@@ -1,12 +1,10 @@
 package data
 
 import (
-	_ "embed"
 	"encoding/json"
+	"fmt"
+	"os"
 )
-
-//go:embed cities.json
-var citiesJSON []byte
 
 type City struct {
 	ID      string  `json:"id"`
@@ -24,16 +22,28 @@ var (
 	byCode map[string]City
 )
 
-func init() {
-	if err := json.Unmarshal(citiesJSON, &cities); err != nil {
-		panic("failed to parse embedded cities.json: " + err.Error())
+// Load reads cities.json from path and rebuilds the package-level lookups.
+// Safe to call multiple times — replaces previous state. Tests may call this
+// in setup with a fixture path.
+func Load(path string) error {
+	b, err := os.ReadFile(path)
+	if err != nil {
+		return fmt.Errorf("read cities.json (%s): %w", path, err)
 	}
-	byID = make(map[string]City, len(cities))
-	byCode = make(map[string]City, len(cities))
-	for _, c := range cities {
-		byID[c.ID] = c
-		byCode[c.Code] = c
+	var list []City
+	if err := json.Unmarshal(b, &list); err != nil {
+		return fmt.Errorf("parse cities.json: %w", err)
 	}
+	idMap := make(map[string]City, len(list))
+	codeMap := make(map[string]City, len(list))
+	for _, c := range list {
+		idMap[c.ID] = c
+		codeMap[c.Code] = c
+	}
+	cities = list
+	byID = idMap
+	byCode = codeMap
+	return nil
 }
 
 // Cities returns the full city list in declaration order.

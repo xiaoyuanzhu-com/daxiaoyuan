@@ -1,17 +1,27 @@
 # 大大校园 Backend
 
-Go + Gin + SQLite. Serves the `/api/v1/` endpoints described in
+Go + Gin. Serves the `/api/v1/` endpoints described in
 [`../docs/superpowers/specs/2026-05-12-backend-design.md`](../docs/superpowers/specs/2026-05-12-backend-design.md).
+
+## Storage
+
+Data lives at repo-root [`../data/`](../data/) — one JSON file per school
+under `data/schools/<country>/<slug>.json` plus `data/cities.json`. The server
+loads every JSON into memory at startup; reads are served from memory, writes
+(POST / PUT) update the in-memory map and persist to the same file on disk
+(atomic temp+rename). Logo image files live next to their JSON for archival
+and version control; they are not served by this backend — `logo` URLs point
+at the static CDN as before.
 
 ## Quick start
 
 ```bash
-make run           # start server on :8080 (auto-runs migrations on first boot)
+make run           # start server on :8080 (reads ../data/)
 curl localhost:8080/api/v1/cities
 ```
 
-The DB starts empty. Add schools through the frontend (`POST /api/v1/schools`)
-or via curl. There is no seed step — `ddxy.db` is the source of truth.
+Add schools through the frontend (`POST /api/v1/schools`) or via curl. There
+is no seed step — `data/schools/` is the source of truth.
 
 ## Tests
 
@@ -46,5 +56,6 @@ See the repo-root README for the fullstack Docker image (web UI + API).
 | Var | Default | |
 |---|---|---|
 | `DDXY_ADDR` | `:8080` | HTTP listen address |
-| `DDXY_DB_PATH` | `./ddxy.db` | SQLite file path |
+| `DDXY_DATA_DIR` | `./data` | Directory containing `cities.json` and `schools/<country>/*.json` |
 | `DDXY_LOG_LEVEL` | `info` | log level (debug/info/warn/error) |
+| `DDXY_ADMIN_TOKEN` | (unset) | Bearer token required for POST/PUT; if unset, writes return 401 |

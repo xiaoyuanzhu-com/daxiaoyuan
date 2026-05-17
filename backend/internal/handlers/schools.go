@@ -17,7 +17,7 @@ import (
 
 const (
 	defaultPageSize = 10
-	maxPageSize     = 50
+	maxPageSize     = 500
 )
 
 var (

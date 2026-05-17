@@ -10,23 +10,17 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/db"
-	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/repo"
+	"github.com/xiaoyuanzhu-com/dadaxiaoyuan/backend/internal/models"
 )
 
 func TestGETDump_Shape(t *testing.T) {
 	gin.SetMode(gin.TestMode)
-	d, err := db.Open(":memory:")
-	require.NoError(t, err)
-	defer d.Close()
-
-	_, err = d.Exec(`INSERT INTO schools (id, city_id, name, lat, lng, status,
-		library_status, track_status, gym_status, canteen_status, last_update)
-		VALUES ('pku','bj','北京大学',0,0,'appt','closed','closed','closed','closed','2026-05-09T00:00:00Z')`)
-	require.NoError(t, err)
+	repoS := newTestRepo(t,
+		&models.School{ID: "pku", CityID: "bj", Name: "北京大学", Status: "appt", LastUpdate: mustTime("2026-05-09T00:00:00Z")},
+	)
 
 	r := gin.New()
-	r.GET("/api/v1/dump.json", Dump(repo.NewSchools(d)))
+	r.GET("/api/v1/dump.json", Dump(repoS))
 
 	req := httptest.NewRequest(http.MethodGet, "/api/v1/dump.json", nil)
 	w := httptest.NewRecorder()

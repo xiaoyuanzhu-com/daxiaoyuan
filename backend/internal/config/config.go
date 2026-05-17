@@ -4,7 +4,7 @@ import "os"
 
 type Config struct {
 	Addr       string
-	DBPath     string
+	DataDir    string
 	LogLevel   string
 	AdminToken string
 }
@@ -12,7 +12,7 @@ type Config struct {
 func Load() Config {
 	return Config{
 		Addr:       envOr("DDXY_ADDR", ":8080"),
-		DBPath:     envOr("DDXY_DB_PATH", "./ddxy.db"),
+		DataDir:    envOr("DDXY_DATA_DIR", "./data"),
 		LogLevel:   envOr("DDXY_LOG_LEVEL", "info"),
 		AdminToken: os.Getenv("DDXY_ADMIN_TOKEN"),
 	}
