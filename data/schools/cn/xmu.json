@@ -1,0 +1,33 @@
+{
+  "id": "xmu",
+  "cityId": "xm",
+  "name": "厦门大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/xmu.png",
+  "address": "福建省厦门市思明区思明南路 422 号（思明校区）",
+  "lat": 24.434,
+  "lng": 118.097,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

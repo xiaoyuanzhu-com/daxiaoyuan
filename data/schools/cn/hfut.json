@@ -1,0 +1,33 @@
+{
+  "id": "hfut",
+  "cityId": "hf",
+  "name": "合肥工业大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/hfut.png",
+  "address": "安徽省合肥市包河区屯溪路 193 号",
+  "lat": 31.872,
+  "lng": 117.262,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

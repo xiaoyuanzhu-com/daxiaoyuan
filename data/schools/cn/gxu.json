@@ -1,0 +1,33 @@
+{
+  "id": "gxu",
+  "cityId": "nn",
+  "name": "广西大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/gxu.png",
+  "address": "广西南宁市西乡塘区大学东路 100 号",
+  "lat": 22.84,
+  "lng": 108.291,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

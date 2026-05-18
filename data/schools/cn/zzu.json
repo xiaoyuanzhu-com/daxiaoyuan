@@ -1,0 +1,33 @@
+{
+  "id": "zzu",
+  "cityId": "zz",
+  "name": "郑州大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/zzu.png",
+  "address": "河南省郑州市高新区科学大道 100 号（主校区）",
+  "lat": 34.811,
+  "lng": 113.533,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

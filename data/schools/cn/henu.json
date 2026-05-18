@@ -1,0 +1,33 @@
+{
+  "id": "henu",
+  "cityId": "kf",
+  "name": "河南大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/henu.png",
+  "address": "河南省开封市顺河区明伦街 85 号（本部）",
+  "lat": 34.811,
+  "lng": 114.359,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

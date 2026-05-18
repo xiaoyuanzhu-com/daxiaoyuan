@@ -1,0 +1,33 @@
+{
+  "id": "neu",
+  "cityId": "sy",
+  "name": "东北大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/neu.png",
+  "address": "辽宁省沈阳市和平区文化路三号巷 11 号",
+  "lat": 41.806,
+  "lng": 123.43,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

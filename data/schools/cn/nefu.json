@@ -1,0 +1,33 @@
+{
+  "id": "nefu",
+  "cityId": "hrb",
+  "name": "东北林业大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/nefu.png",
+  "address": "黑龙江省哈尔滨市香坊区和兴路 26 号",
+  "lat": 45.722,
+  "lng": 126.643,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

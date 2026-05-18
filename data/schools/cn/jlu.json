@@ -1,0 +1,33 @@
+{
+  "id": "jlu",
+  "cityId": "cc",
+  "name": "吉林大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/jlu.png",
+  "address": "吉林省长春市前进大街 2699 号（前卫南区）",
+  "lat": 43.843,
+  "lng": 125.288,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

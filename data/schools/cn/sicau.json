@@ -1,0 +1,33 @@
+{
+  "id": "sicau",
+  "cityId": "ya",
+  "name": "四川农业大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/sicau.png",
+  "address": "四川省雅安市雨城区新康路 46 号",
+  "lat": 30.001,
+  "lng": 103.013,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

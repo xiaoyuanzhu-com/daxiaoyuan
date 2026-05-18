@@ -1,0 +1,33 @@
+{
+  "id": "gzu",
+  "cityId": "gy",
+  "name": "贵州大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/gzu.png",
+  "address": "贵州省贵阳市花溪区花溪大道南段 2708 号",
+  "lat": 26.426,
+  "lng": 106.668,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

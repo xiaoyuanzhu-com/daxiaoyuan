@@ -1,0 +1,33 @@
+{
+  "id": "fjnu",
+  "cityId": "fz",
+  "name": "福建师范大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/fjnu.png",
+  "address": "福建省福州市闽侯县上街镇科技路 1 号（旗山校区）",
+  "lat": 26.043,
+  "lng": 119.317,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

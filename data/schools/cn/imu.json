@@ -1,0 +1,33 @@
+{
+  "id": "imu",
+  "cityId": "hht",
+  "name": "内蒙古大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/imu.png",
+  "address": "内蒙古呼和浩特市赛罕区大学西街 235 号",
+  "lat": 40.812,
+  "lng": 111.694,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

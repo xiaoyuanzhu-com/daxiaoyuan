@@ -1,0 +1,33 @@
+{
+  "id": "suda",
+  "cityId": "su",
+  "name": "苏州大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/suda.png",
+  "address": "江苏省苏州市姑苏区十梓街 1 号（本部）",
+  "lat": 31.305,
+  "lng": 120.64,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

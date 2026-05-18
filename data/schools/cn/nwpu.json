@@ -1,0 +1,33 @@
+{
+  "id": "nwpu",
+  "cityId": "xa",
+  "name": "西北工业大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/nwpu.png",
+  "address": "陕西省西安市友谊西路 127 号（友谊校区）",
+  "lat": 34.029,
+  "lng": 108.755,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

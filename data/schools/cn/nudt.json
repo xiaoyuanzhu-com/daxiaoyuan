@@ -1,0 +1,33 @@
+{
+  "id": "nudt",
+  "cityId": "cs",
+  "name": "国防科技大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/nudt.png",
+  "address": "湖南省长沙市开福区德雅路 109 号",
+  "lat": 28.219,
+  "lng": 112.992,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

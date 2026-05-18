@@ -1,0 +1,33 @@
+{
+  "id": "snnu",
+  "cityId": "xa",
+  "name": "陕西师范大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/snnu.png",
+  "address": "陕西省西安市长安区西长安街 620 号（长安校区）",
+  "lat": 34.156,
+  "lng": 108.89,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

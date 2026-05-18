@@ -1,0 +1,33 @@
+{
+  "id": "xjtu",
+  "cityId": "xa",
+  "name": "西安交通大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/xjtu.png",
+  "address": "陕西省西安市咸宁西路 28 号（兴庆校区）",
+  "lat": 34.247,
+  "lng": 108.991,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

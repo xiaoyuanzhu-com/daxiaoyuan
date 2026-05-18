@@ -1,0 +1,33 @@
+{
+  "id": "tiangong",
+  "cityId": "tj",
+  "name": "天津工业大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/tiangong.png",
+  "address": "天津市西青区宾水西道 399 号",
+  "lat": 39.094,
+  "lng": 117.084,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

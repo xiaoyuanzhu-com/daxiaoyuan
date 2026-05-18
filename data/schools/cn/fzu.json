@@ -1,0 +1,33 @@
+{
+  "id": "fzu",
+  "cityId": "fz",
+  "name": "福州大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/fzu.png",
+  "address": "福建省福州市闽侯县学园路 2 号（旗山校区）",
+  "lat": 26.062,
+  "lng": 119.196,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

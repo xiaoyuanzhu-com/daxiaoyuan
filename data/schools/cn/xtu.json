@@ -1,0 +1,33 @@
+{
+  "id": "xtu",
+  "cityId": "xt",
+  "name": "湘潭大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/xtu.png",
+  "address": "湖南省湘潭市雨湖区羊牯塘",
+  "lat": 27.857,
+  "lng": 112.916,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

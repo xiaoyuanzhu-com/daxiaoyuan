@@ -1,0 +1,33 @@
+{
+  "id": "hit",
+  "cityId": "hrb",
+  "name": "哈尔滨工业大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/hit.png",
+  "address": "黑龙江省哈尔滨市南岗区西大直街 92 号",
+  "lat": 45.747,
+  "lng": 126.681,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

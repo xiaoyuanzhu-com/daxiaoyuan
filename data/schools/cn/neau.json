@@ -1,0 +1,33 @@
+{
+  "id": "neau",
+  "cityId": "hrb",
+  "name": "东北农业大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/neau.png",
+  "address": "黑龙江省哈尔滨市香坊区长江路 600 号",
+  "lat": 45.74,
+  "lng": 126.722,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

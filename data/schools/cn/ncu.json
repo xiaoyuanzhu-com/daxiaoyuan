@@ -1,0 +1,33 @@
+{
+  "id": "ncu",
+  "cityId": "nc",
+  "name": "南昌大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/ncu.png",
+  "address": "江西省南昌市红谷滩区学府大道 999 号（前湖校区）",
+  "lat": 28.66,
+  "lng": 115.793,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

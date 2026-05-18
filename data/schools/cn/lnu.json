@@ -1,0 +1,33 @@
+{
+  "id": "lnu",
+  "cityId": "sy",
+  "name": "辽宁大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/lnu.png",
+  "address": "辽宁省沈阳市皇姑区崇山中路 66 号（崇山校区）",
+  "lat": 41.846,
+  "lng": 123.412,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

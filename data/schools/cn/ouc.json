@@ -1,0 +1,33 @@
+{
+  "id": "ouc",
+  "cityId": "qd",
+  "name": "中国海洋大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/ouc.png",
+  "address": "山东省青岛市市南区鱼山路 5 号（鱼山校区）",
+  "lat": 36.062,
+  "lng": 120.337,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

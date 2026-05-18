@@ -1,0 +1,33 @@
+{
+  "id": "xidian",
+  "cityId": "xa",
+  "name": "西安电子科技大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/xidian.png",
+  "address": "陕西省西安市雁塔区太白南路 2 号（南校区）",
+  "lat": 34.13,
+  "lng": 108.84,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

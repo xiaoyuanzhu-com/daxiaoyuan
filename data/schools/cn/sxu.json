@@ -1,0 +1,33 @@
+{
+  "id": "sxu",
+  "cityId": "ty",
+  "name": "山西大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/sxu.png",
+  "address": "山西省太原市小店区坞城路 92 号",
+  "lat": 37.787,
+  "lng": 112.58,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}

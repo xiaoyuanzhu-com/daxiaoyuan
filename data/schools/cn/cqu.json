@@ -1,0 +1,33 @@
+{
+  "id": "cqu",
+  "cityId": "cq",
+  "name": "重庆大学",
+  "logo": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/cqu.png",
+  "address": "重庆市沙坪坝区沙正街 174 号（A 区）",
+  "lat": 29.572,
+  "lng": 106.461,
+  "facilities": {
+    "campus": {
+      "status": "closed",
+      "reservation": null
+    },
+    "library": {
+      "status": "closed",
+      "reservation": null
+    },
+    "canteen": {
+      "status": "closed",
+      "reservation": null
+    },
+    "gym": {
+      "status": "closed",
+      "reservation": null
+    },
+    "track": {
+      "status": "closed",
+      "reservation": null
+    }
+  },
+  "others": [],
+  "lastUpdate": "2026-05-17T00:00:00Z"
+}
