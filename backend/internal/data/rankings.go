@@ -58,9 +58,9 @@ var Order211 = []string{
 	"whut", "cug", "ccnu", "hzau", "zuel",
 	"hunnu",
 	// 广东 / 广西 / 海南
-	"jnu", "scnu", "gxu", "hainu",
+	"jnu", "scnu", "gxu", "hainanu",
 	// 重庆 / 四川 / 云南 / 贵州 / 西藏
-	"swu", "swjtu", "swufe", "sicau", "ynu", "gzu", "tibet",
+	"swu", "swjtu", "swufe", "sicau", "ynu", "gzu", "utibet",
 	// 陕西 / 甘肃 / 青海 / 宁夏 / 新疆
 	"xidian", "chd", "snnu", "fmmu",
 	"qhu", "nxu", "xju", "shzu",
@@ -92,8 +92,8 @@ var OrderShuangYiLiu = []string{
 	"suda", "njnu", "njust", "nuaa", "hhu", "jiangnan", "cumt", "njau", "cpu",
 	"hfut", "ahu", "fzu", "ncu", "upc",
 	"zzu", "whut", "cug", "ccnu", "hzau", "zuel", "hunnu",
-	"jnu", "scnu", "gxu", "hainu",
-	"swu", "swjtu", "swufe", "sicau", "ynu", "gzu", "tibet",
+	"jnu", "scnu", "gxu", "hainanu",
+	"swu", "swjtu", "swufe", "sicau", "ynu", "gzu", "utibet",
 	"xidian", "chd", "snnu", "fmmu",
 	"qhu", "nxu", "xju", "shzu",
 	// 非211 一流学科建设高校（2017年首轮新增）
@@ -103,7 +103,7 @@ var OrderShuangYiLiu = []string{
 	"shutcm", "shou", "shmtu",           // 上海专业院校
 	"njucm", "njupt", "nuist", "njfu",   // 南京专业院校
 	"henu", "nbu", "cdut",               // 河南/浙江/四川
-	"tjpu", "tjutcm",                    // 天津专业院校
+	"tiangong", "tjutcm",                    // 天津专业院校
 	"gzucm", "cdutcm", "hljucm",         // 中医药院校
 	"fjnu", "ppsuc",                     // 福建师大 / 公安大学
 	// 2022 年新增（7 所）

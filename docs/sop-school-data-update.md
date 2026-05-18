@@ -54,11 +54,19 @@ curl -s http://localhost:8080/api/v1/schools/<id> | python3 -m json.tool
 
 ### 关于 `logo`
 
-1. 去中文 Wikipedia 学校词条 (`https://zh.wikipedia.org/wiki/<学校名>`) 的 infobox 找校徽文件。**文件名不一定是 `<X>_Logo.svg`**——常见变体：`<X>_Logo.svg` / `<X>_University_Logo.svg` / `<X>_University_Emblem.svg` / `<X>_Crest.svg` / `<X>校徽.svg`。识别方式是看 infobox 中标记为「校徽 / 校标 / logo / emblem」位置的 `File:` 链接，**不要纯粹按文件名 pattern 匹配**。
-2. 下载用 `https://zh.wikipedia.org/wiki/Special:FilePath/<完整文件名.svg>`——服务器会重定向到真实的 hash-path，**不需要自己解析 `upload.wikimedia.org/wikipedia/zh/<hash>/...`**。存到**项目根目录**命名为 `<id>.svg`（如 `cau.svg` / `pku.svg`），等一次性批量上传到 CDN。
-3. `logo` 字段直接写 prospective CDN URL：`https://static.ddxy.xiaoyuanzhu.com/schools/cn/<id>.svg`（CDN 路径与仓库 `data/schools/<country>/` 目录结构一致）——上传发生前会 404，但前端 `<img onError>` 会优雅隐藏（见 [frontend/src/screens/EditScreen.jsx](../frontend/src/screens/EditScreen.jsx)），影响可接受。
-4. **License ≠ 文件质量。** Wikipedia 上的校徽多数会被标为 fair-use / non-free（这是版权许可问题），但文件本身经常是干净的矢量。**判断"是否劣质"看内容**：`grep -c '<image' file.svg` 大于 0 = 内嵌位图（劣质，跳过）；只看到 `<path>` / `<polygon>` 等 = 真矢量（可用）。fair-use 标签**不**是跳过理由——我们是公益透明工具，logo 用于标识属合理使用。
-5. Wikipedia 真的没有 SVG 时（无该词条 / infobox 无 logo / 只有位图）：先去校官网首页 / footer 找；再没有就**留空**并加入"补 logo"清单。**不要为了凑齐字段去用劣质 PNG。**
+**用 [scripts/fetch_logos.py](../scripts/fetch_logos.py) 批量拉取**——单校情况下也用它,避开文件名 pattern 猜测带来的漏抓。脚本逻辑总结如下,以便手动 debug:
+
+1. **从 infobox wikitext 提取文件名**。一次 API 调用拿到 lead 段的 wikitext:
+
+   ```
+   https://zh.wikipedia.org/w/api.php?action=parse&page=<学校中文名>&prop=wikitext&section=0&format=json
+   ```
+
+   在返回的 wikitext 里找形如 `| SealImage = [[File:WHU_Logo_2022Ver.svg|...]]` 或 `| 校徽 = [[File:...]]` 的行。正则:`(SealImage|校徽|校標|校标|徽章|logo|emblem|crest)\s*=\s*\[\[File:([^|\]]+)`。这覆盖年份后缀(`_2022Ver`)、中文文件名、大学专属字段名等所有真实出现的命名。
+2. **下载** 用 `https://zh.wikipedia.org/wiki/Special:FilePath/<完整文件名>` —— 服务器会 302 到真实的 hash-path。存到 `data/schools/cn/<id>.svg`(与 JSON 同目录),等一次性批量上传到 CDN。
+3. **验证文件质量**:`grep -c '<image' file.svg` 大于 0 = 内嵌位图(劣质,删除并跳过);只看到 `<path>` / `<polygon>` 等 = 真矢量(可用)。fair-use license 标签**不**是跳过理由——我们是公益透明工具,logo 用于标识属合理使用。
+4. `logo` 字段直接写 prospective CDN URL:`https://static.ddxy.xiaoyuanzhu.com/schools/cn/<id>.svg`——上传发生前会 404,但前端 `<img onError>` 会优雅隐藏(见 [frontend/src/screens/EditScreen.jsx](../frontend/src/screens/EditScreen.jsx)),影响可接受。
+5. **拿不到时的回退**:infobox 无 logo 字段 → 列举页面所有 image (`prop=images`) 过滤 `Logo|Emblem|Crest|校徽` → 校官网首页 / footer → 留空,加入"补 logo"清单。不要为了凑齐字段用劣质 PNG。
 
 ### 关于 `reservation.qrcodeUrl`
 
