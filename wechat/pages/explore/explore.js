@@ -7,8 +7,8 @@ const TABS = [
   { key: '985',         label: '985'    },
   { key: '211',         label: '211'    },
   { key: 'c9',          label: 'C9'     },
-  { key: 'qs30',        label: 'QS 30'  },
   { key: 'shuangyiliu', label: '双一流' },
+  { key: 'qs30',        label: 'QS 30'  },
 ];
 
 Page({

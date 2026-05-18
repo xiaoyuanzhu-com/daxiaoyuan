@@ -14,8 +14,8 @@ const TABS = [
   { key: '985',         i18n: 'tab985' },
   { key: '211',         i18n: 'tab211' },
   { key: 'c9',          i18n: 'tabC9' },
-  { key: 'qs30',        i18n: 'tabQS30' },
   { key: 'shuangyiliu', i18n: 'tabShuangYiLiu' },
+  { key: 'qs30',        i18n: 'tabQS30' },
 ];
 
 export default function ExploreScreen() {
