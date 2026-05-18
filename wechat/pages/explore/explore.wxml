@@ -34,7 +34,7 @@
     </view>
   </block>
 
-  <!-- School ranking tabs (985 / 211 / c9 / qs30) -->
+  <!-- School ranking tabs (985 / 211 / c9 / shuangyiliu / qs30) -->
   <block wx:for="{{tabs}}" wx:for-item="t" wx:key="key">
     <block wx:if="{{tab === t.key && t.key !== 'cities'}}">
       <view wx:if="{{!rankings[t.key] || rankings[t.key].loading}}" class="status-overlay">
