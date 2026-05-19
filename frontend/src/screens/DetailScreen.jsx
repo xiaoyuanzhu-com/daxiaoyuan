@@ -129,7 +129,7 @@ export default function DetailScreen() {
         <div style={{ background: C.card, borderRadius: 8, border: `1px solid ${C.line}`, overflow: 'hidden' }}>
           {facKeys.map((k, i) => {
             const f = school.facilities[k];
-            const muted = f.status === 'closed' || f.status === 'alumni';
+            const muted = f.status === 'closed';
             return (
               <div key={k} style={{
                 display: 'flex', alignItems: 'center', padding: '12px 14px', gap: 12,

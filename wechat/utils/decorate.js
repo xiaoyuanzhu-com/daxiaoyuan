@@ -15,7 +15,7 @@ function decorateSchool(s, distanceKm) {
   const facilities = FACILITY_ORDER.map((k) => {
     const f = (s.facilities && s.facilities[k]) || { status: 'closed', reservation: null };
     const fst = STATUS[f.status];
-    const muted = f.status === 'closed' || f.status === 'alumni';
+    const muted = f.status === 'closed';
     return {
       key: k,
       label: FACILITIES[k].label,

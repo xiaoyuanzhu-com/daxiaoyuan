@@ -5,7 +5,7 @@ import { C } from '../theme.js';
 export function FacilityChip({ kind, status, lang, dense = false }) {
   const s = STATUS[status];
   const fac = FACILITIES[kind];
-  const muted = status === 'closed' || status === 'alumni';
+  const muted = status === 'closed';
   return (
     <div style={{
       display: 'inline-flex', alignItems: 'center', gap: 5,

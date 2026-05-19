@@ -87,7 +87,7 @@ data/
 ## 数据模型核心约定
 
 - **学校 ID 用 slug**：规则是「学校官网 `https://www.<X>.edu.cn` 中的 `<X>`」（pku / tsinghua / ruc / bnu …）。这保证全局唯一,不需要额外消歧。
-- **status 枚举（4 值）**：`open` / `appt` / `alumni` / `closed`。学校级和设施级共用同一套枚举。
+- **status 枚举（5 值）**：`open` 完全开放 / `appt` 开放预约 / `restricted` 限制预约 / `alumni` 仅限校友 / `closed` 暂不开放。学校级和设施级共用同一套枚举。视觉上 `open`+`appt` 共用绿，`restricted`+`alumni` 共用橙，`closed` 灰。
 - **设施（固定 5 项）**：`campus` / `library` / `track` / `gym` / `canteen`。`campus` 代表整个校园的开放状态(原 root 级 `status` / `reservation`),其余四项为具体设施。客户端渲染时建议把 `campus` 放第一位。长尾设施（游泳馆等）放在 `others` JSON 数组,带 `kind` slug + 中文 `name`。
 - **城市配置静态化**：`backend/internal/data/cities.json`,不在 DB 里。GB/T 2260 adcode 用作跨平台 picker 映射键。
 - **内容默认中文**：学校名、地址、提示文案全部只存中文。英文文案作为前端 i18n 层维护,不入库。

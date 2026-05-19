@@ -30,10 +30,11 @@ const HOT_CITIES = '北京市,武汉市,广州市,上海市,西安市,重庆市,
 
 // Color map for native <map> callouts (which take raw hex, not class names).
 const STATUS_COLOR = {
-  open:   { bg: '#D4E8C8', ink: '#2E5A1C' },
-  appt:   { bg: '#F2C99A', ink: '#7A3A06' },
-  alumni: { bg: '#D9D5CE', ink: '#3A372F' },
-  closed: { bg: '#E8C4B8', ink: '#7A2418' },
+  open:       { bg: '#D4E8C8', ink: '#2E5A1C' },
+  appt:       { bg: '#D4E8C8', ink: '#2E5A1C' },
+  restricted: { bg: '#F2C99A', ink: '#7A3A06' },
+  alumni:     { bg: '#F2C99A', ink: '#7A3A06' },
+  closed:     { bg: '#D9D5CE', ink: '#3A372F' },
 };
 
 Page({

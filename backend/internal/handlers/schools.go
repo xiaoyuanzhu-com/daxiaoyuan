@@ -21,7 +21,7 @@ const (
 )
 
 var (
-	validStatuses = map[string]bool{"open": true, "appt": true, "alumni": true, "closed": true}
+	validStatuses = map[string]bool{"open": true, "appt": true, "restricted": true, "alumni": true, "closed": true}
 	// facilityKeys is the canonical 5-item set. "campus" represents the school
 	// as a whole; the other four are concrete facilities. See CLAUDE.md
 	// §数据模型核心约定.

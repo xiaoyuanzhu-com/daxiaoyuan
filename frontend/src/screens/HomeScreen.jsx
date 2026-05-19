@@ -221,10 +221,11 @@ const dotSvg = (color) =>
   );
 
 const MARKER_STYLES = {
-  open:   { width: 22, height: 22, anchor: { x: 11, y: 11 }, src: dotSvg(STATUS.open.dot) },
-  appt:   { width: 22, height: 22, anchor: { x: 11, y: 11 }, src: dotSvg(STATUS.appt.dot) },
-  alumni: { width: 22, height: 22, anchor: { x: 11, y: 11 }, src: dotSvg(STATUS.alumni.dot) },
-  closed: { width: 22, height: 22, anchor: { x: 11, y: 11 }, src: dotSvg(STATUS.closed.dot) },
+  open:       { width: 22, height: 22, anchor: { x: 11, y: 11 }, src: dotSvg(STATUS.open.dot) },
+  appt:       { width: 22, height: 22, anchor: { x: 11, y: 11 }, src: dotSvg(STATUS.appt.dot) },
+  restricted: { width: 22, height: 22, anchor: { x: 11, y: 11 }, src: dotSvg(STATUS.restricted.dot) },
+  alumni:     { width: 22, height: 22, anchor: { x: 11, y: 11 }, src: dotSvg(STATUS.alumni.dot) },
+  closed:     { width: 22, height: 22, anchor: { x: 11, y: 11 }, src: dotSvg(STATUS.closed.dot) },
 };
 
 const ME_STYLES = {

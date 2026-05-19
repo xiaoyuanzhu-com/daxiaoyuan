@@ -18,16 +18,19 @@ page {
 .c-ink-40     { color: rgba(26,24,21,0.4); }
 
 /* ---------- status palettes (background + text) ---------- */
-.status-open    { background: #D4E8C8; color: #2E5A1C; }
-.status-appt    { background: #F2C99A; color: #7A3A06; }
-.status-alumni  { background: #D9D5CE; color: #3A372F; }
-.status-closed  { background: #E8C4B8; color: #7A2418; }
+/* 3 palettes for 5 states: open/appt share green, restricted/alumni share orange. */
+.status-open        { background: #D4E8C8; color: #2E5A1C; }
+.status-appt        { background: #D4E8C8; color: #2E5A1C; }
+.status-restricted  { background: #F2C99A; color: #7A3A06; }
+.status-alumni      { background: #F2C99A; color: #7A3A06; }
+.status-closed      { background: #D9D5CE; color: #3A372F; }
 
 /* status dots */
-.dot-open    { background: #5BA13C; }
-.dot-appt    { background: #C66A1C; }
-.dot-alumni  { background: #7A7568; }
-.dot-closed  { background: #B43A28; }
+.dot-open        { background: #5BA13C; }
+.dot-appt        { background: #5BA13C; }
+.dot-restricted  { background: #C66A1C; }
+.dot-alumni      { background: #C66A1C; }
+.dot-closed      { background: #7A7568; }
 
 /* ---------- typography helpers ---------- */
 .serif {
