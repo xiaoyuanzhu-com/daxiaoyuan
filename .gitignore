@@ -41,6 +41,7 @@ build/
 # WeChat mini program
 project.private.config.json
 miniprogram_npm/
+wechat/config.js
 
 # Docker
 .dockerignore.tmp
