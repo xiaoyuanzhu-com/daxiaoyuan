@@ -8,7 +8,7 @@
   "lng": 116.326,
   "facilities": {
     "campus": {
-      "status": "appt",
+      "status": "restricted",
       "reservation": {
         "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
         "hint": "关注「清华大学」微信公众号 → 菜单「参观清华」→ 个人参观实名预约（不收费）"
@@ -35,7 +35,7 @@
     {
       "kind": "art-museum",
       "name": "艺术博物馆",
-      "status": "appt",
+      "status": "restricted",
       "reservation": {
         "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
         "hint": "newticket.artmuseum.tsinghua.edu.cn 在线购票预约，独立入口（不与校园参观共用）"

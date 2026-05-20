@@ -8,7 +8,7 @@
   "lng": 116.3586,
   "facilities": {
     "campus": {
-      "status": "appt",
+      "status": "restricted",
       "reservation": {
         "qrcodeUrl": "https://placehold.co/240x240?text=USTB+QR",
         "hint": "关注「北京科技大学」公众号 → 公共服务 → 参观北科大（可提前 7 日预约，凭身份证从西门/南二门/教东门/教北门刷闸入校）"
@@ -19,14 +19,14 @@
       "reservation": null
     },
     "gym": {
-      "status": "appt",
+      "status": "restricted",
       "reservation": {
         "qrcodeUrl": "https://static.ddxy.xiaoyuanzhu.com/images/qr/ustb_gym.jpg",
         "hint": "微信关注「北京科技大学体育馆服务号」（球类项目）/「北京科技大学场馆中心服务号」（游泳馆），非会员可提前 3 天 08:00 预约场地"
       }
     },
     "library": {
-      "status": "appt",
+      "status": "restricted",
       "reservation": {
         "qrcodeUrl": "https://placehold.co/240x240?text=USTB+Lib+QR",
         "hint": "校外读者凭身份证 + 身份证复印件 + 一寸照片到图东楼 101 室咨询处办理读者证（押金 220 元 + 110 元/年），办理电话 010-62332482"

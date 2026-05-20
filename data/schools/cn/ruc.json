@@ -8,7 +8,7 @@
   "lng": 116.319,
   "facilities": {
     "campus": {
-      "status": "appt",
+      "status": "restricted",
       "reservation": {
         "qrcodeUrl": "https://placehold.co/300x300?text=RUC+QR",
         "hint": "访问 www.ruc.edu.cn 首页「参观预约」入口提交申请；具体公众入校政策以校方核验为准"
@@ -23,7 +23,7 @@
       "reservation": null
     },
     "library": {
-      "status": "appt",
+      "status": "restricted",
       "reservation": {
         "qrcodeUrl": "https://placehold.co/300x300?text=RUC+Lib+QR",
         "hint": "校外读者凭本人身份证或单位介绍信到图书馆办公室办理入馆手续；仅限馆内阅览，不可外借"

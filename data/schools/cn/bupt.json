@@ -20,7 +20,7 @@
       "reservation": null
     },
     "library": {
-      "status": "appt",
+      "status": "restricted",
       "reservation": {
         "qrcodeUrl": "https://placehold.co/200x200?text=QR",
         "hint": "校外读者凭本人有效证件到图书馆办公室办理入馆手续（西土城路校区图书馆 4 楼南侧 405 室）"

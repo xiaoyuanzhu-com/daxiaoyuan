@@ -8,7 +8,7 @@
   "lng": 116.348,
   "facilities": {
     "campus": {
-      "status": "appt",
+      "status": "restricted",
       "reservation": {
         "qrcodeUrl": "https://placehold.co/240x240?text=QR",
         "hint": "关注「北京航空航天大学」微信公众号 → 菜单「服务」→「场馆参观」预约入校"
@@ -35,7 +35,7 @@
     {
       "kind": "museum",
       "name": "北京航空航天博物馆",
-      "status": "appt",
+      "status": "restricted",
       "reservation": {
         "qrcodeUrl": "https://placehold.co/240x240?text=QR",
         "hint": "关注「北京航空航天大学」公众号 → 服务 →「场馆参观」预约；开放时间周一至周六 9:00-16:30（周日闭馆），凭有效证件登记参观"

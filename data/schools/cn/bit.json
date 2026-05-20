@@ -16,14 +16,14 @@
       "reservation": null
     },
     "gym": {
-      "status": "appt",
+      "status": "restricted",
       "reservation": {
         "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
         "hint": "良乡校区体育馆面向社会有偿开放，个人项目当天现场预约（先到先得），团体须提前 10 个工作日申请"
       }
     },
     "library": {
-      "status": "appt",
+      "status": "restricted",
       "reservation": {
         "qrcodeUrl": "https://placehold.co/600x600/png?text=QR",
         "hint": "校外读者凭借阅证刷卡入馆；无证读者凭介绍信及本人有效证件通过门卫联系入馆"
