@@ -15,9 +15,9 @@
       }
     },
     "canteen": {
-      "status": "open",
+      "status": "restricted",
       "reservation": {
-        "hint": "部分开放，请搜索最新信息"
+        "hint": "入校即可使用，部分开放，请搜索最新信息"
       }
     },
     "gym": {
@@ -29,7 +29,7 @@
       "reservation": null
     },
     "track": {
-      "status": "open",
+      "status": "restricted",
       "reservation": {
         "hint": "入校即可使用"
       }

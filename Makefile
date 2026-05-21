@@ -1,7 +1,18 @@
+SHELL := /bin/bash
+
 .PHONY: dev dev-backend dev-frontend docker-build docker-run
 
+# Build backend, then run ddxy + vite together. A single bash shell owns both
+# children in its process group, so Ctrl+C (SIGINT to the foreground PGID)
+# reaches everyone; the trap is a safety net that also handles SIGTERM and
+# normal-exit cleanup. `exec` in each subshell strips the wrapper shell so
+# kills land directly on ddxy / npm.
 dev:
-	@$(MAKE) -j2 dev-backend dev-frontend
+	@$(MAKE) -C backend build && \
+	trap 'trap - INT TERM EXIT; kill 0' INT TERM EXIT; \
+	(exec backend/bin/ddxy) & \
+	(cd frontend && exec npm run dev) & \
+	wait
 
 dev-backend:
 	$(MAKE) -C backend run
