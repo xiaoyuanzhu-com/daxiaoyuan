@@ -289,8 +289,8 @@ function MapView({ lang, schools, coords, cityName, cityLat, cityLng, onOpen }) 
             color: C.ink60, fontSize: 13, lineHeight: 1.6,
           }}>
             {lang === 'zh'
-              ? '地图未配置：在 frontend/.env.local 设置 VITE_TENCENT_MAP_KEY'
-              : 'Map not configured: set VITE_TENCENT_MAP_KEY in frontend/.env.local'}
+              ? '地图未配置：在 frontend/.env 设置 VITE_TENCENT_MAP_KEY'
+              : 'Map not configured: set VITE_TENCENT_MAP_KEY in frontend/.env'}
           </div>
         )}
       </div>
