@@ -15,19 +15,30 @@ function decorateSchool(s, distanceKm) {
   const facilities = FACILITY_ORDER.map((k) => {
     const f = (s.facilities && s.facilities[k]) || { status: 'closed', reservation: null };
     const fst = STATUS[f.status];
-    const muted = f.status === 'closed';
     return {
       key: k,
       label: FACILITIES[k].label,
-      short: FACILITIES[k].short,
       status: f.status,
       statusLabel: fst.label,
       bgClass: fst.bgClass,
       dotClass: fst.dotClass,
-      muted,
-      strikethrough: f.status === 'closed',
+      muted: f.status === 'closed',
       reservation: f.reservation || null,
       hasReservation: !!f.reservation,
+    };
+  });
+  const otherItems = (s.others || []).map((o, idx) => {
+    const fst = STATUS[o.status] || STATUS.closed;
+    return {
+      key: `other:${o.kind || idx}`,
+      label: o.name || o.kind || '',
+      status: o.status,
+      statusLabel: fst.label,
+      bgClass: fst.bgClass,
+      dotClass: fst.dotClass,
+      muted: o.status === 'closed',
+      reservation: o.reservation || null,
+      hasReservation: !!o.reservation,
     };
   });
 
@@ -39,7 +50,7 @@ function decorateSchool(s, distanceKm) {
     statusDotClass: st.dotClass,
     statusOrder: st.order,
     initial: s.name.charAt(0),
-    facilitiesList: facilities,
+    facilitiesList: [...facilities, ...otherItems],
     hasReservation: !!campus.reservation,
     distanceKm: typeof distanceKm === 'number' ? distanceKm : null,
     updateLabel: relativeTimeZh(s.lastUpdate),

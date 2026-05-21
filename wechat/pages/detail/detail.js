@@ -43,6 +43,7 @@ Page({
         visible: true,
         title,
         qrcodeUrl: r.qrcodeUrl || '',
+        url: r.url || '',
         hint: r.hint || '',
         link: r.link || '',
         officialAccount: r.officialAccount || '',
@@ -94,6 +95,10 @@ Page({
 
   copyLink() {
     this.copyValue(this.data.modal.link, '链接已复制');
+  },
+
+  copyUrl() {
+    this.copyValue(this.data.modal.url, '网址已复制');
   },
 
   copyOfficialAccount() {

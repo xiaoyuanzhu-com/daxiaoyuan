@@ -30,12 +30,11 @@
     <text class="section-label">设施</text>
     <view class="fac-list card">
       <view wx:for="{{school.facilitiesList}}" wx:key="key" class="fac-row {{index === 0 ? '' : 'has-border'}}">
-        <text class="fac-row-short {{item.bgClass}}">{{item.short}}</text>
-        <text class="fac-row-label {{item.muted ? 'muted' : ''}} {{item.strikethrough ? 'strike' : ''}}">{{item.label}}</text>
+        <text class="fac-row-label {{item.muted ? 'muted' : ''}}">{{item.label}}</text>
         <view wx:if="{{item.hasReservation}}"
-              class="fac-row-cta"
+              class="badge small {{item.bgClass}} fac-row-tap"
               data-key="{{item.key}}"
-              catchtap="openFacilityReservation">去预约</view>
+              catchtap="openFacilityReservation">{{item.statusLabel}}</view>
         <view wx:else class="badge small {{item.bgClass}}">{{item.statusLabel}}</view>
       </view>
     </view>
@@ -54,6 +53,11 @@
              bindtap="saveQrcode"/>
       <text class="modal-hint-small">长按识别二维码 · 点击保存到相册</text>
     </block>
+    <view wx:elif="{{modal.url}}" class="modal-kv">
+      <text class="modal-kv-label">网址</text>
+      <text class="modal-kv-value" selectable="{{true}}">{{modal.url}}</text>
+      <view class="modal-kv-btn" bindtap="copyUrl">复制</view>
+    </view>
     <text wx:if="{{modal.hint}}" class="modal-hint">{{modal.hint}}</text>
     <view wx:if="{{modal.officialAccount}}" class="modal-kv">
       <text class="modal-kv-label">公众号</text>
