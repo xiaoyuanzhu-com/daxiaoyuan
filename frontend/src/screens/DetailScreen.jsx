@@ -1,7 +1,8 @@
-import { Link, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { QRCodeSVG } from 'qrcode.react';
 import { AppHeader } from '../components/AppHeader.jsx';
 import { StatusBadge } from '../components/StatusBadge.jsx';
-import { FacilityIcon } from '../components/FacilityIcon.jsx';
 import { SectionLabel } from '../components/SectionLabel.jsx';
 import { useApi } from '../hooks/useApi.js';
 import { fetchSchool } from '../data/api.js';
@@ -10,6 +11,29 @@ import { t } from '../data/i18n.js';
 import { useLang } from '../context/LangContext.jsx';
 import { C, serif } from '../theme.js';
 
+const FACILITY_ORDER = ['campus', 'library', 'track', 'gym', 'canteen'];
+
+function buildFacilityRows(school, lang) {
+  const main = FACILITY_ORDER.map((k) => {
+    const f = school.facilities?.[k] || { status: 'closed', reservation: null };
+    return {
+      key: k,
+      short: FACILITIES[k].short,
+      label: lang === 'zh' ? FACILITIES[k].zh : FACILITIES[k].en,
+      status: f.status,
+      reservation: f.reservation || null,
+    };
+  });
+  const others = (school.others || []).map((o, i) => ({
+    key: `other:${o.kind || i}`,
+    short: (o.name || '').charAt(0) || '·',
+    label: o.name || o.kind || '',
+    status: o.status,
+    reservation: o.reservation || null,
+  }));
+  return [...main, ...others];
+}
+
 export default function DetailScreen() {
   const { lang } = useLang();
   const { id } = useParams();
@@ -17,6 +41,7 @@ export default function DetailScreen() {
     () => fetchSchool(id),
     [id],
   );
+  const [modal, setModal] = useState(null);
 
   if (loading) {
     return (
@@ -57,60 +82,50 @@ export default function DetailScreen() {
     );
   }
 
-  const campus = school.facilities?.campus || { status: 'closed' };
-  const st = STATUS[campus.status];
   const name = school.name;
-  // Hero already renders the campus state, so list only the non-campus facilities below.
-  const facKeys = Object.keys(school.facilities).filter((k) => k !== 'campus');
 
   return (
-    <div style={{ background: C.paper, minHeight: '100%', paddingBottom: 100 }}>
-      <AppHeader title={name} accent={st.bg} />
+    <div style={{ background: C.paper, minHeight: '100%', paddingBottom: 120 }}>
+      <AppHeader title={name} />
 
-      <div style={{
-        background: st.bg, padding: '4px 20px 24px', position: 'relative', overflow: 'hidden',
-      }}>
+      {/* Hero — matches wechat detail: minimal, logo as transparent decoration */}
+      <div style={{ padding: '12px 20px 28px', position: 'relative', overflow: 'hidden' }}>
         {school.logo ? (
           <img src={school.logo} alt=""
             onError={(e) => { e.currentTarget.style.display = 'none'; }}
             style={{
-              position: 'absolute', right: -10, top: 10, width: 140, height: 140,
+              position: 'absolute', right: -20, top: -20, width: 180, height: 180,
               objectFit: 'contain', opacity: 0.18, pointerEvents: 'none',
             }} />
         ) : (
-          <svg width="180" height="180" viewBox="0 0 180 180" style={{
-            position: 'absolute', right: -40, top: -20, opacity: 0.10,
-          }}>
-            <circle cx="90" cy="90" r="80" fill="none" stroke={st.ink} strokeWidth="1.5" />
-            <circle cx="90" cy="90" r="65" fill="none" stroke={st.ink} strokeWidth="0.8" />
-            <text x="90" y="100" textAnchor="middle" fontSize="60" fontWeight="700" fill={st.ink} fontFamily="serif">
-              {school.name.charAt(0)}
-            </text>
-          </svg>
+          <div style={{
+            position: 'absolute', right: -20, top: -20, width: 180, height: 180,
+            borderRadius: '50%', border: `1.5px solid ${C.ink}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 70, fontWeight: 700, opacity: 0.10, pointerEvents: 'none',
+            fontFamily: serif(lang),
+          }}>{name.charAt(0)}</div>
         )}
+
         {school.address && (
           <div style={{
-            display: 'inline-block', padding: '5px 10px', background: 'rgba(255,255,255,0.5)',
-            borderRadius: 4, fontSize: 11, color: st.ink, fontWeight: 600,
-            letterSpacing: lang === 'zh' ? 0.4 : 0, marginBottom: 10,
+            display: 'inline-block', padding: '3px 8px',
+            background: C.ink08, color: C.ink60,
+            borderRadius: 4, fontSize: 11, fontWeight: 600,
+            letterSpacing: lang === 'zh' ? 0.3 : 0, marginBottom: 12,
           }}>
             {school.address}
           </div>
         )}
+
         <div style={{
-          fontSize: 26, fontWeight: 700, color: st.ink, lineHeight: 1.15,
+          fontSize: 28, fontWeight: 700, color: C.ink, lineHeight: 1.15,
           letterSpacing: lang === 'zh' ? 1 : 0,
           fontFamily: serif(lang),
         }}>{name}</div>
 
-        <div style={{ marginTop: 16 }}>
-          <div style={{
-            fontSize: 30, fontWeight: 700, color: st.ink, letterSpacing: lang === 'zh' ? 0.6 : 0,
-            lineHeight: 1,
-          }}>{lang === 'zh' ? st.zh : st.en}</div>
-        </div>
         <div style={{
-          fontSize: 11, color: st.ink, opacity: 0.65, marginTop: 8,
+          fontSize: 11, color: C.ink60, marginTop: 10,
           display: 'flex', alignItems: 'center', gap: 6,
         }}>
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
@@ -118,36 +133,52 @@ export default function DetailScreen() {
             <path d="M12 7v5l3 2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
           {relativeTime(school.lastUpdate, lang)}
-          <span aria-hidden="true">·</span>
-          <Link to={`/s/${school.id}/edit`} style={{
-            color: st.ink, textDecoration: 'underline', textUnderlineOffset: 2,
-          }}>{lang === 'zh' ? '编辑' : 'Edit'}</Link>
         </div>
       </div>
 
+      {/* Facilities — all 5, campus first, with reservation CTA when bookable */}
       <DetailSection lang={lang} label={t('facilities', lang)}>
-        <div style={{ background: C.card, borderRadius: 8, border: `1px solid ${C.line}`, overflow: 'hidden' }}>
-          {facKeys.map((k, i) => {
-            const f = school.facilities[k];
-            const muted = f.status === 'closed';
+        <div style={{
+          background: C.card, borderRadius: 12, border: `1px solid ${C.line}`,
+          overflow: 'hidden',
+        }}>
+          {buildFacilityRows(school, lang).map((row, i) => {
+            const fst = STATUS[row.status];
+            const muted = row.status === 'closed';
             return (
-              <div key={k} style={{
-                display: 'flex', alignItems: 'center', padding: '12px 14px', gap: 12,
+              <div key={row.key} style={{
+                display: 'flex', alignItems: 'center', padding: '12px 14px', gap: 10,
                 borderTop: i === 0 ? 'none' : `1px solid ${C.line}`,
               }}>
-                <FacilityIcon kind={k} size={18} color={muted ? C.ink40 : C.ink} />
                 <div style={{
                   flex: 1, fontSize: 14, color: muted ? C.ink40 : C.ink,
                   letterSpacing: lang === 'zh' ? 0.3 : 0,
-                  textDecoration: f.status === 'closed' ? 'line-through' : 'none',
-                }}>{lang === 'zh' ? FACILITIES[k].zh : FACILITIES[k].en}</div>
-                <StatusBadge status={f.status} lang={lang} size="sm" />
+                }}>{row.label}</div>
+                {row.reservation ? (
+                  <button type="button"
+                    onClick={() => setModal({
+                      title: lang === 'zh' ? `${row.label}预约` : `${row.label} reservation`,
+                      ...row.reservation,
+                    })}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center',
+                      padding: '3px 8px', fontSize: 11, fontWeight: 600,
+                      letterSpacing: lang === 'zh' ? 0.3 : 0, lineHeight: 1.1,
+                      borderRadius: 4, background: fst.bg, color: fst.ink,
+                      border: 0, cursor: 'pointer', fontFamily: 'inherit',
+                    }}>
+                    {lang === 'zh' ? fst.zh : fst.en}
+                  </button>
+                ) : (
+                  <StatusBadge status={row.status} lang={lang} size="sm" />
+                )}
               </div>
             );
           })}
         </div>
       </DetailSection>
 
+      {modal && <ReservationModal lang={lang} modal={modal} onClose={() => setModal(null)} />}
     </div>
   );
 }
@@ -161,6 +192,129 @@ function DetailSection({ lang, label, children }) {
       {children}
     </div>
   );
+}
+
+function ReservationModal({ lang, modal, onClose }) {
+  const { title, qrcodeUrl, url, hint, link, officialAccount, miniProgram } = modal;
+  const qrTarget = url || link || null;
+  const copy = (value) => {
+    if (!value) return;
+    navigator.clipboard?.writeText(value);
+  };
+
+  return (
+    <div onClick={onClose} style={{
+      position: 'fixed', inset: 0, background: 'rgba(26,24,21,0.55)',
+      zIndex: 100, display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+    }}>
+      <div onClick={(e) => e.stopPropagation()} style={{
+        width: '100%', maxWidth: 480, background: '#fff',
+        borderRadius: '16px 16px 0 0',
+        padding: '24px 24px calc(28px + env(safe-area-inset-bottom))',
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+      }}>
+        <div style={{
+          fontSize: 16, fontWeight: 700, color: C.ink,
+          letterSpacing: lang === 'zh' ? 0.5 : 0, marginBottom: 18,
+        }}>{title}</div>
+
+        {qrcodeUrl ? (
+          <>
+            <img src={qrcodeUrl} alt="" style={{
+              width: 220, height: 220, objectFit: 'contain',
+              background: C.ink08, borderRadius: 8,
+            }} />
+            <div style={{
+              marginTop: 10, fontSize: 12, color: C.ink60,
+              letterSpacing: lang === 'zh' ? 0.4 : 0, textAlign: 'center',
+            }}>
+              {lang === 'zh' ? '长按或右键保存二维码到本地' : 'Long-press or right-click to save'}
+            </div>
+          </>
+        ) : qrTarget ? (
+          <div style={{
+            width: 220, height: 220, background: '#fff', borderRadius: 8,
+            padding: 10, boxSizing: 'border-box',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            border: `1px solid ${C.line}`,
+          }}>
+            <QRCodeSVG value={normalizeUrl(qrTarget)} size={200} level="M" />
+          </div>
+        ) : null}
+
+        {hint && (
+          <div style={{
+            marginTop: 14, fontSize: 13, color: C.ink, lineHeight: 1.55,
+            letterSpacing: lang === 'zh' ? 0.3 : 0, textAlign: 'center',
+          }}>{hint}</div>
+        )}
+
+        {officialAccount && (
+          <ModalKV lang={lang}
+            label={lang === 'zh' ? '公众号' : 'Official account'}
+            value={officialAccount}
+            onCopy={() => copy(officialAccount)} />
+        )}
+        {miniProgram && (
+          <ModalKV lang={lang}
+            label={lang === 'zh' ? '小程序' : 'Mini program'}
+            value={miniProgram}
+            onCopy={() => copy(miniProgram)} />
+        )}
+
+        {link && (
+          <div style={{ marginTop: 20, display: 'flex', gap: 12 }}>
+            <a href={link} target="_blank" rel="noopener noreferrer" style={{
+              padding: '10px 22px', border: `1px solid ${C.ink20}`,
+              borderRadius: 6, fontSize: 13, color: C.ink,
+              textDecoration: 'none', letterSpacing: lang === 'zh' ? 0.3 : 0,
+            }}>{lang === 'zh' ? '打开链接' : 'Open link'}</a>
+            <button type="button" onClick={() => copy(link)} style={{
+              padding: '10px 22px', border: `1px solid ${C.ink20}`,
+              borderRadius: 6, fontSize: 13, color: C.ink, background: 'transparent',
+              cursor: 'pointer', fontFamily: 'inherit',
+              letterSpacing: lang === 'zh' ? 0.3 : 0,
+            }}>{lang === 'zh' ? '复制链接' : 'Copy link'}</button>
+          </div>
+        )}
+
+        <button type="button" onClick={onClose} style={{
+          marginTop: 20, fontSize: 13, color: C.ink60,
+          background: 'transparent', border: 0, cursor: 'pointer',
+          letterSpacing: lang === 'zh' ? 0.3 : 0, fontFamily: 'inherit',
+        }}>{lang === 'zh' ? '关闭' : 'Close'}</button>
+      </div>
+    </div>
+  );
+}
+
+function ModalKV({ lang, label, value, onCopy }) {
+  return (
+    <div style={{
+      marginTop: 14, width: '100%', display: 'flex', alignItems: 'center', gap: 10,
+      padding: '10px 12px', background: 'rgba(26,24,21,0.04)', borderRadius: 8,
+      boxSizing: 'border-box',
+    }}>
+      <div style={{
+        fontSize: 11, color: C.ink60, letterSpacing: 0.3, flexShrink: 0,
+      }}>{label}</div>
+      <div style={{
+        flex: 1, fontSize: 14, color: C.ink, fontWeight: 600,
+        letterSpacing: lang === 'zh' ? 0.3 : 0, wordBreak: 'break-all',
+      }}>{value}</div>
+      <button type="button" onClick={onCopy} style={{
+        padding: '5px 12px', fontSize: 12, fontWeight: 600,
+        letterSpacing: lang === 'zh' ? 0.3 : 0, lineHeight: 1.1,
+        borderRadius: 4, background: C.ink, color: '#fff', border: 0,
+        cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
+      }}>{lang === 'zh' ? '复制' : 'Copy'}</button>
+    </div>
+  );
+}
+
+function normalizeUrl(u) {
+  if (!u) return u;
+  return /^https?:\/\//i.test(u) ? u : `https://${u}`;
 }
 
 function relativeTime(iso, lang) {

@@ -10,11 +10,11 @@ export const STATUS = {
 // represents the whole school; the other four are concrete facilities. See
 // CLAUDE.md §数据模型核心约定.
 export const FACILITIES = {
-  campus:  { zh: '校园',   en: 'Campus',  icon: 'campus' },
-  library: { zh: '图书馆', en: 'Library', icon: 'library' },
-  track:   { zh: '操场',   en: 'Track',   icon: 'track' },
-  gym:     { zh: '体育馆', en: 'Gym',     icon: 'gym' },
-  canteen: { zh: '食堂',   en: 'Canteen', icon: 'canteen' },
+  campus:  { zh: '校园',   en: 'Campus',  short: '校', icon: 'campus' },
+  library: { zh: '图书馆', en: 'Library', short: '图', icon: 'library' },
+  track:   { zh: '操场',   en: 'Track',   short: '场', icon: 'track' },
+  gym:     { zh: '体育馆', en: 'Gym',     short: '馆', icon: 'gym' },
+  canteen: { zh: '食堂',   en: 'Canteen', short: '食', icon: 'canteen' },
 };
 
 export const STATUS_ORDER = ['open', 'appt', 'restricted', 'alumni', 'closed'];

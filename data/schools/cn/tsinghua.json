@@ -15,8 +15,10 @@
       }
     },
     "canteen": {
-      "status": "closed",
-      "reservation": null
+      "status": "open",
+      "reservation": {
+        "hint": "部分开放，请搜索最新信息"
+      }
     },
     "gym": {
       "status": "closed",
@@ -27,26 +29,29 @@
       "reservation": null
     },
     "track": {
-      "status": "closed",
-      "reservation": null
+      "status": "open",
+      "reservation": {
+        "hint": "入校即可使用"
+      }
     }
   },
   "others": [
     {
-      "kind": "creative",
-      "name": "清华印象",
+      "kind": "gift",
+      "name": "清华印象(纪念品)",
       "status": "open",
       "reservation": {
-        "qrcodeUrl": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/tsinghua_creative.png",
+        "qrcodeUrl": "https://static.ddxy.xiaoyuanzhu.com/schools/cn/tsinghua_gift.png",
         "hint": "通过「清华印象」小程序"
       }
     },
     {
       "kind": "art-museum",
       "name": "艺术博物馆",
-      "status": "open",
+      "status": "appt",
       "reservation": {
-        "hint": "newticket.artmuseum.tsinghua.edu.cn 在线购票预约，独立入口（不与校园参观共用）"
+        "url": "https://www.artmuseum.tsinghua.edu.cn/",
+        "hint": "在线购票"
       }
     }
   ],
